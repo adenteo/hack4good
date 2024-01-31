@@ -207,5 +207,6 @@ module.exports = {
   plugins: [
     require("tailwindcss-animate"),
     ...tremor.plugins,
+    require("daisyui"),
   ],
 }
