@@ -32,14 +32,17 @@ import {
 import { useRouter } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
 import Link from 'next/link';
-import { signInSchema } from '@/lib/validators/auth-validator';
+import { signUpSchema } from '@/lib/validators/auth-validator';
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
-  const form = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
+
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
     },
@@ -50,7 +53,7 @@ const SignIn = () => {
     signIn('google');
   }
 
-  function onSubmit(values: z.infer<typeof signInSchema>) {
+  function onSubmit(values: z.infer<typeof signUpSchema>) {
     setIsLoading(true);
     signIn('credentials', { values, redirect: false }).then((res) => {
       if (res?.ok) {
@@ -80,7 +83,7 @@ const SignIn = () => {
     <div className="flex h-screen justify-center items-center">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Sign in</CardTitle>
+          <CardTitle>Sign up</CardTitle>
           <CardDescription>
             Start volunteering in a few simple clicks!
           </CardDescription>
@@ -92,6 +95,32 @@ const SignIn = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-8"
               >
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="First Name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Last Name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="email"
@@ -131,7 +160,7 @@ const SignIn = () => {
                   {isLoading && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Sign In with Email
+                  Sign Up with Email
                 </Button>
               </form>
             </Form>
@@ -183,10 +212,10 @@ const SignIn = () => {
           </div>
         </CardContent>
         <CardFooter className="text-xs">
-          Don't have an account?
+          Already have an account?
           <span className="ml-1 underline font-semibold">
-            <Link className="ml-1 underline font-semibold" href="/sign-up">
-              Sign up
+            <Link className="ml-1 underline font-semibold" href="/sign-in">
+              Sign in
             </Link>
           </span>
         </CardFooter>
