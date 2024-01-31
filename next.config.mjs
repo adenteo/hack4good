@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    domains: ['placekitten.com', 'source.unsplash.com'],
+  },
+};
 
 export default nextConfig;
