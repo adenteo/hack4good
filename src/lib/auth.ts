@@ -3,6 +3,9 @@ import { nanoid } from 'nanoid';
 import { NextAuthOptions, getServerSession } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
+import User from '@/models/User';
+import bcrypt from 'bcrypt';
+import { connectToDB } from './mongoose';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -19,7 +22,7 @@ export const authOptions: NextAuthOptions = {
     Credentials({
       name: 'Credentials',
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'username' },
+        email: { label: 'Email', type: 'email', placeholder: 'email' },
         password: {
           label: 'Password',
           type: 'password',
@@ -27,10 +30,27 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials, req) {
-        // return {
-        //   id: 'fdsfdsfsdf',
-        //   username: credentials?.username,
-        // };
+        console.log('CREDENTIALS');
+        console.log(credentials);
+        await connectToDB();
+        const user = await User.findOne({ email: credentials?.email });
+        if (!user) {
+          console.log('NO USER FOUND');
+          const hashedPassword = await bcrypt.hash(credentials!.password, 10);
+          const createdUser = await User.create({
+            firstName: 'John',
+            lastName: 'Doe',
+            email: credentials?.email,
+            password: hashedPassword,
+          });
+          console.log('CREATED USER');
+          console.log(createdUser);
+        }
+        console.log('RCHED HERE');
+        return {
+          id: 'fdsfdsfsdf',
+          username: credentials?.email,
+        };
         return null;
         // return null;
         // You need to provide your own logic here that takes the credentials

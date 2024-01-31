@@ -52,7 +52,7 @@ const SignIn = () => {
 
   function onSubmit(values: z.infer<typeof signInSchema>) {
     setIsLoading(true);
-    signIn('credentials', { values, redirect: false }).then((res) => {
+    signIn('credentials', { ...values, redirect: false }).then((res) => {
       if (res?.ok) {
         toast({
           className: 'bg-green-500 border-none text-white',

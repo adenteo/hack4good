@@ -19,10 +19,10 @@ const userSchema: Schema<IUser> = new Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  userStatus: { 
-    type: String, 
-    enum: Object.values(UserStatus), 
-    default: UserStatus.Active 
+  userStatus: {
+    type: String,
+    enum: Object.values(UserStatus),
+    default: UserStatus.Active,
   },
   createdAt: { type: Date, default: Date.now },
   title: String,
@@ -40,6 +40,7 @@ userSchema.pre<IUser>('save', async function (next) {
   next();
 });
 
-const User: Model<IUser> = mongoose.model<IUser>('User', userSchema);
+const User: Model<IUser> =
+  mongoose.models.User || mongoose.model<IUser>('User', userSchema);
 
 export default User;
