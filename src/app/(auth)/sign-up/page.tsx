@@ -33,11 +33,14 @@ import { useRouter } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
 import Link from 'next/link';
 import { signUpSchema } from '@/lib/validators/auth-validator';
+import { connectToDB } from '@/lib/mongoose';
+import User from '@/models/User';
+import onSignUp from '@/lib/actions/sign-up';
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
-
+  console.log('hi');
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -53,34 +56,28 @@ const SignIn = () => {
     signIn('google');
   }
 
-  function onSubmit(values: z.infer<typeof signUpSchema>) {
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
     setIsLoading(true);
-    signIn('credentials', { values, redirect: false }).then((res) => {
-      if (res?.ok) {
-        toast({
-          className: 'bg-green-500 border-none text-white',
-          title: 'Successfully logged in!',
-          description: 'You are now logged in.',
-        });
-        setIsLoading(false);
-        router.replace('/');
-        router.refresh();
-      }
-
-      if (res?.error) {
-        setIsLoading(false);
-        toast({
-          variant: 'destructive',
-          title: 'Error logging in.',
-          description: 'Please check your credentials and try again.',
-        });
-        form.reset();
-      }
+    const response = await onSignUp(values);
+    if (response.error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error encountered while signing up.',
+        description: response.error,
+      });
+      setIsLoading(false);
+      return;
+    }
+    toast({
+      className: 'bg-green-500 border-none text-white',
+      title: 'Successfully signed up!',
+      description: 'You are now logged in.',
     });
+    signIn('credentials', { ...values });
   }
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <div className="flex h-screen justify-center items-center my-6 p-6">
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Sign up</CardTitle>
@@ -93,7 +90,7 @@ const SignIn = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-4"
               >
                 <FormField
                   control={form.control}

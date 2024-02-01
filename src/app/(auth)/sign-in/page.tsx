@@ -77,7 +77,7 @@ const SignIn = () => {
   }
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <div className="flex h-screen justify-center items-center p-6">
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Sign in</CardTitle>
@@ -90,7 +90,7 @@ const SignIn = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-4"
               >
                 <FormField
                   control={form.control}

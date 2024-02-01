@@ -7,7 +7,7 @@ import UserAccountButton from './user-account-button';
 export default async function NavBar() {
   const session = await getAuthSession();
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 border-b shadow-md">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

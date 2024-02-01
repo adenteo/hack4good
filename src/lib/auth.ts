@@ -7,6 +7,8 @@ import User from '@/models/User';
 import bcrypt from 'bcrypt';
 import { connectToDB } from './mongoose';
 
+//TODO edit login logic for google. Or consider removing.
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
@@ -30,48 +32,22 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials, req) {
-        console.log('CREDENTIALS');
-        console.log(credentials);
-        await connectToDB();
-        const user = await User.findOne({ email: credentials?.email });
-        if (!user) {
-          console.log('NO USER FOUND');
-          const hashedPassword = await bcrypt.hash(credentials!.password, 10);
-          const createdUser = await User.create({
-            firstName: 'John',
-            lastName: 'Doe',
-            email: credentials?.email,
-            password: hashedPassword,
-          });
-          console.log('CREATED USER');
-          console.log(createdUser);
+        if (!credentials) {
+          return null;
         }
-        console.log('RCHED HERE');
-        return {
-          id: 'fdsfdsfsdf',
-          username: credentials?.email,
-        };
-        return null;
-        // return null;
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
-        // const res = await fetch('/your/endpoint', {
-        //   method: 'POST',
-        //   body: JSON.stringify(credentials),
-        //   headers: { 'Content-Type': 'application/json' },
-        // });
-        // const user = await res.json();
-
-        // // If no error and we have user data, return it
-        // if (res.ok && user) {
-        //   return user;
-        // }
-        // // Return null if user data could not be retrieved
-        // return null;
+        await connectToDB();
+        const user = await User.findOne({ email: credentials.email });
+        if (!user) {
+          return null;
+        }
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password,
+        );
+        if (!isValid) {
+          return null;
+        }
+        return { id: user._id, name: user.firstName, email: user.email };
       },
     }),
   ],
@@ -88,39 +64,25 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      return token;
+      await connectToDB();
+      const dbUser = await User.findOne({
+        where: {
+          email: token.email,
+        },
+      });
+
+      if (!dbUser) {
+        token.id = user!.id;
+        return token;
+      }
+
+      return {
+        id: dbUser.id,
+        name: dbUser.firstName + ' ' + dbUser.lastName,
+        email: dbUser.email,
+        // picture: dbUser.image,
+      };
     },
-    // async jwt({ token, user }) {
-    //   const dbUser = await db.user.findFirst({
-    //     where: {
-    //       email: token.email,
-    //     },
-    //   })
-
-    //   if (!dbUser) {
-    //     token.id = user!.id
-    //     return token
-    //   }
-
-    //   if (!dbUser.username) {
-    //     await db.user.update({
-    //       where: {
-    //         id: dbUser.id,
-    //       },
-    //       data: {
-    //         username: nanoid(10),
-    //       },
-    //     })
-    //   }
-
-    //   return {
-    //     id: dbUser.id,
-    //     name: dbUser.name,
-    //     email: dbUser.email,
-    //     picture: dbUser.image,
-    //     username: dbUser.username,
-    //   }
-    // },
     async redirect({ url, baseUrl }) {
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       return baseUrl;
