@@ -1,30 +1,8 @@
 // src/models/Volunteer.ts
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import {Schema, model, models } from 'mongoose';
 import { Gender, VolunteerStatus, CitizenshipType, EmploymentStatus, DrivingLicence } from './types';
 
-export interface IVolunteer extends Document {
-  user: mongoose.Types.ObjectId; // Inherit user ID
-  volunteerStatus: VolunteerStatus;
-  gender: Gender;
-  updatedAt: Date;
-  citizenshipType: CitizenshipType;
-  emailAddress: string;
-  profilePictureUrl?: string;
-  lastFourDigitsOfNric: string;
-  dateOfBirth: Date;
-  contactNumber: number;
-  address: string;
-  postalCode: string;
-  employmentStatus: EmploymentStatus;
-  occupation: string;
-  drivingLicence?: string;
-  skills?: string;
-  declarations?: string; // Assuming 'Declarations (medical records, criminal history)' is a single field
-  remark?: string;
-  experienceWithPwid?: string;
-}
-
-const volunteerSchema = new Schema<IVolunteer>({
+const volunteerSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   volunteerStatus: { 
     type: String, 
@@ -62,6 +40,6 @@ const volunteerSchema = new Schema<IVolunteer>({
   experienceWithPwid: String,
 });
 
-const Volunteer: Model<IVolunteer> = mongoose.model('Volunteer', volunteerSchema);
+const Volunteer = models.Volunteer ||  model('Volunteer', volunteerSchema);
 
 export default Volunteer;
