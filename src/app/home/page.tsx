@@ -89,13 +89,13 @@ export default function Home() {
         </Select>
       </div>
       <div className=" pb-1 pt-4">
-        <p className="text-xs text-gray-500">Reccomended for you</p>
+        <p className="text-xs text-gray-500 lg:text-sm">Reccomended for you</p>
       </div>
       <div className="flex">
         <ScrollAreaHorizontalDemo activities={dummyActivities} />
       </div>
       <div className="pb-1 pt-4">
-        <p className="text-xs text-gray-500">Upcoming for you</p>
+        <p className="text-xs text-gray-500 lg:text-sm">Upcoming for you</p>
       </div>
       <div className="flex">
         <ScrollAreaHorizontalDemo activities={dummyActivities} />

@@ -13,7 +13,7 @@ type Params = {
 
 export default function ActivityPage({ params: { id } }: Params) {
   const activity = {
-    image: 'https://placekitten.com/302/402', // Placeholder image URL
+    image: 'https://placekitten.com/300/400', // Placeholder image URL
     title: 'Purr Painting',
     date: '02 March 2024',
     numPeopleJoined: 25,
@@ -37,7 +37,7 @@ export default function ActivityPage({ params: { id } }: Params) {
             <Image
               src={activity.image}
               alt={`Image for ${activity.title}`}
-              className="w-full h-[50vh] object-cover rounded-3xl lg:h-[70vh] lg:rounded-xl"
+              className="w-full h-[50vh] object-cover rounded-3xl lg:w-auto lg:h-[55vh] lg:rounded-xl"
               width={300}
               height={200}
             />
