@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
         if (!isValid) {
           return null;
         }
-        return { id: user._id, name: user.firstName, email: user.email };
+        return { id: user.id, name: user.firstName, email: user.email };
       },
     }),
   ],
@@ -63,26 +63,27 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
-    async jwt({ token, user }) {
-      await connectToDB();
-      const dbUser = await User.findOne({
-        where: {
-          email: token.email,
-        },
-      });
-
-      if (!dbUser) {
-        token.id = user!.id;
-        return token;
-      }
-
-      return {
-        id: dbUser.id,
-        name: dbUser.firstName + ' ' + dbUser.lastName,
-        email: dbUser.email,
-        // picture: dbUser.image,
-      };
-    },
+    // async jwt({ token, user }) {
+    //   console.log('JWT CALLBACK');
+    //   console.log(token);
+    //   console.log('USER');
+    //   console.log(user);
+    //   await connectToDB();
+    //   const dbUser = await User.findOne({
+    //     email: user.email,
+    //   });
+    //   if (!dbUser) {
+    //     console.log('CANT FIND USER IN DB');
+    //     token.id = user!.id;
+    //     return token;
+    //   }
+    //   return {
+    //     id: dbUser.id,
+    //     name: dbUser.firstName + ' ' + dbUser.lastName,
+    //     email: dbUser.email,
+    //     // picture: dbUser.image,
+    //   };
+    // },
     async redirect({ url, baseUrl }) {
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       return baseUrl;

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
+import Image from 'next/image';
 
 import {
   DropdownMenu,
@@ -17,12 +18,13 @@ interface UserAccountButtonProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function UserAccountButton({ user }: UserAccountButtonProps) {
+  console.log(user);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src={user.image!} alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>test</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-white" align="end">

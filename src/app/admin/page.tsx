@@ -68,8 +68,8 @@ export default function App() {
     //   <Button type="submit" />
     // </form>
     <div className="p-6">
-      {/* <FormBuilder /> */}
-      <FormRenderer />
+      <FormBuilder />
+      {/* <FormRenderer /> */}
     </div>
   );
 }
