@@ -183,7 +183,7 @@ const SignIn = () => {
           </div>
         </CardContent>
         <CardFooter className="text-xs">
-          Don't have an account?
+          Don&apos;t have an account?
           <span className="ml-1 underline font-semibold">
             <Link className="ml-1 underline font-semibold" href="/sign-up">
               Sign up
