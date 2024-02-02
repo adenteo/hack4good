@@ -1,17 +1,27 @@
-from transformers import BartForSequenceClassification, BartTokenizer, pipeline
-import os
-current_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(current_dir, 'tagger_model')
-tokenizer_path = os.path.join(current_dir, 'tagger_tokenizer')
+#from transformers import BartForSequenceClassification, BartTokenizer, pipeline
+#import os
+#current_dir = os.path.dirname(os.path.abspath(__file__))
+#model_path = os.path.join(current_dir, 'tagger_model')
+#tokenizer_path = os.path.join(current_dir, 'tagger_tokenizer')
+#
+#def load_classifier_from_local():
+#    model = BartForSequenceClassification.from_pretrained(model_path)
+#    tokenizer = BartTokenizer.from_pretrained(tokenizer_path)
+#    classifier = pipeline("zero-shot-classification", model=model, tokenizer=tokenizer)
+#    return classifier
+#
+#def classify_description(description, themes):
+#    classifier = load_classifier_from_local()
+#    output = classifier(description, themes, multi_label=True)
+#    selected_scores = [(label, score) for label, score in zip(output['labels'], output['scores']) if score > 0.6]
+#    selected_scores.sort(key=lambda x: x[1], reverse=True)
+#    return selected_scores[:5]
 
-def load_classifier_from_local():
-    model = BartForSequenceClassification.from_pretrained(model_path)
-    tokenizer = BartTokenizer.from_pretrained(tokenizer_path)
-    classifier = pipeline("zero-shot-classification", model=model, tokenizer=tokenizer)
-    return classifier
+from transformers import pipeline
 
 def classify_description(description, themes):
-    classifier = load_classifier_from_local()
+    classifier = pipeline("zero-shot-classification",
+                      model="facebook/bart-large-mnli")
     output = classifier(description, themes, multi_label=True)
     selected_scores = [(label, score) for label, score in zip(output['labels'], output['scores']) if score > 0.6]
     selected_scores.sort(key=lambda x: x[1], reverse=True)
