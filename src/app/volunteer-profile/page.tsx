@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Flex,
   Metric,
@@ -21,6 +23,7 @@ import {
   CalendarHeart,
   Timer,
 } from 'lucide-react';
+import { ProfileForm } from '@/components/profile-form';
 
 const activities = [
   {
@@ -136,12 +139,15 @@ export default function VolunteerProfile() {
       </div>
 
       <TabGroup defaultIndex={1}>
-        <TabList className="mt-8 lg:flex lg:justify-center" color="black">
+        <TabList
+          className="mt-8 md:flex md:justify-center lg:flex lg:justify-center"
+          color="black"
+        >
           <Tab>Past Events</Tab>
           <Tab>Certificates</Tab>
           <Tab>About Me</Tab>
         </TabList>
-        <div className="h-80 lg:h-96 overflow-y-auto">
+        <div className="h-[60vh] lg:h-96 overflow-y-auto">
           <TabPanels>
             <TabPanel>
               <div className="mt-6">
@@ -210,62 +216,102 @@ export default function VolunteerProfile() {
               </div>
             </TabPanel>
             <TabPanel>
-              <div className="mt-6">
-                <h1>about me</h1>
+              <div className="mt-6 flex flex-col justify-center items-center ">
+                <ProfileForm />
+                {/* <div className="grid w-full max-w-sm items-center gap-1 lg:max-w-lg">
+                  <Label
+                    className="text-gray-500 font-medium text-sm"
+                    htmlFor="firstName"
+                  >
+                    First Name
+                  </Label>
+                  <Input
+                    className="text-sm"
+                    type="firstName"
+                    id="firstName"
+                    placeholder="Amy"
+                  />
+                </div>
+
+                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
+                  <Label
+                    className="text-gray-500 font-medium text-sm"
+                    htmlFor="lastName"
+                  >
+                    Last Name
+                  </Label>
+                  <Input
+                    className="text-sm"
+                    type="lastName"
+                    id="lastName"
+                    placeholder="Tan"
+                  />
+                </div>
+
+                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
+                  <Label
+                    className="text-gray-500 font-medium text-sm"
+                    htmlFor="email"
+                  >
+                    Email
+                  </Label>
+                  <Input
+                    className="text-sm"
+                    type="email"
+                    id="email"
+                    placeholder="amytan@gmail.com"
+                  />
+                </div>
+
+                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
+                  <Label
+                    className="text-gray-500 font-medium text-sm"
+                    htmlFor="phoneNumber"
+                  >
+                    Phone Number
+                  </Label>
+                  <Input
+                    className="text-sm"
+                    type="number"
+                    id="phoneNumber"
+                    placeholder="9126 3728"
+                  />
+                </div>
+
+                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
+                  <Label
+                    className="text-gray-500 font-medium text-sm"
+                    htmlFor="skills"
+                  >
+                    Skills
+                  </Label>
+                  <Input
+                    className="text-sm"
+                    type="skills"
+                    id="skills"
+                    placeholder="Photography, Coding, Graphic Design"
+                  />
+                </div>
+
+                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
+                  <Label
+                    className="text-gray-500 font-medium text-sm"
+                    htmlFor="interests"
+                  >
+                    Interests
+                  </Label>
+                  <Input
+                    className="text-sm"
+                    type="interests"
+                    id="interests"
+                    placeholder="Fashion, Animals"
+                  />
+                </div> */}
               </div>
             </TabPanel>
           </TabPanels>
         </div>
       </TabGroup>
-
-      {/* <Card className="mt-4">
-        <div>
-          <h4 className="pt-4 pb-2 pr-5 pl-5 text-sm font-medium leading-none">
-            Past Activities
-          </h4>
-        </div>
-
-        <div className="flex justify-center">
-          <ScrollArea className="h-32 w-72 rounded-md border">
-            <div className="p-4">
-              {pastActivities.map((pastActivity, index) => (
-                <>
-                  <div key={index} className="text-sm">
-                    {pastActivity}
-                  </div>
-                  <Separator className="my-2" />
-                </>
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
-        <br />
-        <div>
-          <h4 className="pb-2 pr-5 pl-5 text-sm font-medium leading-none">
-            Certificates Obtained
-          </h4>
-        </div>
-        <div className="flex justify-center pb-4">
-          <ScrollArea className="w-72 whitespace-nowrap rounded-md border">
-            <div className="flex w-max space-x-4 p-4">
-              {certificates.map((certificate, index) => (
-                <figure key={index} className="shrink-0">
-                  <div className="overflow-hidden rounded-md">
-                    <Image
-                      src={certificate}
-                      alt={`${index}`}
-                      className="aspect-[3/4] h-fit w-fit object-cover"
-                      width={300}
-                      height={400}
-                    />
-                  </div>
-                </figure>
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        </div>
-      </Card> */}
     </div>
   );
 }
