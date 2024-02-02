@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#ml
+/ml/tagger_model
+/ml/tagger_tokenizer

@@ -1,12 +1,9 @@
 // src/models/Role.ts
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import {Schema, model, models } from 'mongoose';
 import { RoleName } from './types';
 
-export interface IRole extends Document {
-  roleName: RoleName;
-}
 
-const roleSchema: Schema<IRole> = new Schema({
+const roleSchema = new Schema({
   roleName: { 
     type: String, 
     enum: Object.values(RoleName), 
@@ -14,6 +11,6 @@ const roleSchema: Schema<IRole> = new Schema({
   },
 });
 
-const Role: Model<IRole> = mongoose.model<IRole>('Role', roleSchema);
+const Role = models.Role || model('Role', roleSchema);
 
 export default Role;

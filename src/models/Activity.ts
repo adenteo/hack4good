@@ -1,21 +1,8 @@
 // src/models/Activity.ts
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import {Schema, model, models } from 'mongoose';
 
-export interface IActivity extends Document {
-  name: string;
-  address: string;
-  description: string;
-  day: number;
-  startTime: Date;
-  endTime: Date;
-  volunteerCountNeeded: number;
-  pointOfContact: mongoose.Types.ObjectId; // References User ID of an Admin
-  signUpLimit: number;
-  url: string;
-  signUpDeadline: Date;
-}
 
-const activitySchema = new Schema<IActivity>({
+const activitySchema = new Schema({
   name: { type: String, required: true },
   address: { type: String, required: true },
   description: { type: String, required: true },
@@ -29,6 +16,6 @@ const activitySchema = new Schema<IActivity>({
   signUpDeadline: { type: Date, required: true },
 });
 
-const Activity: Model<IActivity> = mongoose.model('Activity', activitySchema);
+const Activity = models.Activity ||  model('Activity', activitySchema);
 
 export default Activity;
