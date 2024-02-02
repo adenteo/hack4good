@@ -29,17 +29,6 @@ const userSchema: Schema<IUser> = new Schema({
   roleId: { type: Schema.Types.ObjectId, ref: 'Role' },
 });
 
-// Password encryption
-userSchema.pre<IUser>('save', async function (next) {
-  // Only encrypt if the password is new or has been modified
-  if (!this.isModified('password')) return next();
-
-  // Generate salt and hash the password
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
-
 const User: Model<IUser> =
   mongoose.models.User || mongoose.model<IUser>('User', userSchema);
 
