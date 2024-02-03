@@ -1,21 +1,8 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-  Flex,
-  Metric,
-  ProgressBar,
-  Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Text,
-} from '@tremor/react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@tremor/react';
 import {
   Pencil,
   PhoneCall,
@@ -91,9 +78,13 @@ export default function VolunteerProfile() {
       <div className="relative">
         <div className="flex justify-between pl-6 pr-6 rounded-b-3xl border bg-black text-white relative z-10 h-52 items-center lg:justify-center">
           <div className="avatar">
-            <div className=" w-24 h-24 rounded-full">
-              <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
+            {/* <div className=" w-24 h-24 rounded-full">
+              <Image
+                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                alt="user"
+                fill
+              />
+            </div> */}
           </div>
           <div className=" pl-8">
             <h1 className="text-lg font-semibold">Amy Tan</h1>

@@ -1,6 +1,3 @@
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { GripVertical, LandPlot } from 'lucide-react';
-import FieldsScrollable from './fields-scrollable';
 import { cn } from '@/lib/utils';
 import FormBuilder from '../../form-builder';
 import { FormField } from '@/types/formTypes';

@@ -1,23 +1,8 @@
 'use client';
 import {
   ResizableHandle,
-  ResizablePanel,
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
-import { Nav } from '../nav';
-import { useState } from 'react';
-import {
-  Archive,
-  ArchiveX,
-  CalendarDaysIcon,
-  Clock3Icon,
-  File,
-  Inbox,
-  Lock,
-  Send,
-  Trash2,
-  User,
-} from 'lucide-react';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import Sidebar from '../sidebar';
 import Content from '../content';

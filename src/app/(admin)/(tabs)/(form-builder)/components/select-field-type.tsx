@@ -20,8 +20,10 @@ export function SelectFieldType() {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Types</SelectLabel>
-          {Object.values(FieldType).map((type) => (
-            <SelectItem value={type}>{type}</SelectItem>
+          {Object.values(FieldType).map((type, index) => (
+            <SelectItem key={index} value={type}>
+              {type}
+            </SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>

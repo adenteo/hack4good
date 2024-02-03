@@ -56,7 +56,11 @@ export const ScrollAreaHorizontalDemo: React.FC<
                       {avatarUrls.map((avatar, index) => (
                         <div key={index} className="avatar">
                           <div className="w-5 border-none lg:w-8">
-                            <img src={avatar} alt={`Avatar ${index + 1}`} />
+                            <Image
+                              src={avatar}
+                              alt={`Avatar ${index + 1}`}
+                              fill
+                            />
                           </div>
                         </div>
                       ))}

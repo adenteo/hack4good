@@ -5,7 +5,6 @@ import { SelectScrollable } from '@/components/select-scrollable';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -18,7 +17,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { Dialog } from '@radix-ui/react-dialog';
-import { Eye, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { createFormFieldSchema } from '@/lib/validators/create-form-field-validator';
@@ -31,7 +30,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { SelectFieldType } from './select-field-type';
 import { Switch } from '@/components/ui/switch';
 import { nanoid } from 'nanoid';
 import { toast } from '@/components/ui/use-toast';

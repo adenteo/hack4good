@@ -2,11 +2,12 @@
 const nextConfig = {
   images: {
     domains: [
-	  'lh3.googleusercontent.com',
+      'lh3.googleusercontent.com',
       'placekitten.com',
       'source.unsplash.com',
       'images.unsplash.com',
       'unsplash.com',
+      'daisyui.com',
     ],
   },
 };

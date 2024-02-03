@@ -4,7 +4,7 @@ import { SelectForm } from './select-form';
 import FieldsScrollable from './fields-scrollable';
 import { Separator } from '@/components/ui/separator';
 import { useEffect, useState } from 'react';
-import { CustomForm, FormField } from '@/types/formTypes';
+import { FormField } from '@/types/formTypes';
 import { getForms } from '@/lib/actions/get-forms';
 import { Button } from '@/components/ui/button';
 

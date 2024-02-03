@@ -73,7 +73,7 @@ export default function ActivityPage({ params: { id } }: Params) {
               {avatarUrls.map((avatar, index) => (
                 <div key={index} className="avatar">
                   <div className="w-10 border-none">
-                    <img src={avatar} alt={`Avatar ${index + 1}`} />
+                    <Image src={avatar} alt={`Avatar ${index + 1}`} fill />
                   </div>
                 </div>
               ))}

@@ -2,8 +2,8 @@
 import { Button } from '@/components/ui/button';
 import { addMonths, subMonths } from 'date-fns';
 import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface TopbarProps {}
 
@@ -22,7 +22,7 @@ const Topbar: React.FC<TopbarProps> = () => {
     }
     const currentDate = new Date();
     setDate(currentDate);
-  }, []);
+  }, [year, month]);
 
   if (!date) return null;
 

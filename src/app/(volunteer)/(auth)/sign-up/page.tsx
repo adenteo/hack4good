@@ -7,9 +7,7 @@ import { useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 
-import { cn } from '@/lib/utils';
 import { FcGoogle } from 'react-icons/fc';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -23,7 +21,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -33,8 +30,6 @@ import { useRouter } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
 import Link from 'next/link';
 import { signUpSchema } from '@/lib/validators/auth-validator';
-import { connectToDB } from '@/lib/mongoose';
-import User from '@/models/User';
 import onSignUp from '@/lib/actions/sign-up';
 
 const SignIn = () => {

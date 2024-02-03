@@ -13,13 +13,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/datepicker';
 import { SelectScrollable } from '@/components/select-scrollable';
-import {
-  Delete,
-  DeleteIcon,
-  GripVertical,
-  LucideTrash2,
-  Trash,
-} from 'lucide-react';
+import { GripVertical, LucideTrash2, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { createForm } from '@/lib/actions/create-form';
 import { z } from 'zod';
@@ -258,8 +252,8 @@ const FormBuilder = ({ formFields, setFormFields }: FormBuilderProps) => {
               )}
             </Droppable>
             <p className="mt-4 text-xs text-slate-500">
-              Continue adding fields here or click 'Save Form' to save your
-              form.
+              Continue adding fields here or click &apos;Save Form&apos; to save
+              your form.
             </p>
             <Button variant={'default'} className="mt-3" type="submit">
               Save Form

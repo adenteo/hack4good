@@ -1,7 +1,6 @@
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -13,14 +12,11 @@ import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signUpSchema as formSchema } from '@/lib/validators/auth-validator';
 import { useState } from 'react';
-import { FieldType, FormField as FormFieldType } from '../../types/formTypes';
+import { FormField as FormFieldType } from '../../types/formTypes';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DatePicker } from '@/components/datepicker';
-import { SelectScrollable } from '@/components/select-scrollable';
 import {
   Popover,
   PopoverContent,
@@ -36,7 +32,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import Link from 'next/link';
 
 function createFormSchema(fields: FormFieldType[]) {
   const schemaObject: { [key: string]: any } = {};

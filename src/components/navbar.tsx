@@ -1,5 +1,4 @@
 import { getAuthSession } from '@/lib/auth';
-import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { buttonVariants } from './ui/button';
 import UserAccountButton from './user-account-button';
