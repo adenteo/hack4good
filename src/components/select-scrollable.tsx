@@ -17,8 +17,10 @@ export function SelectScrollable({ options }: { options: string[] }) {
         <SelectValue placeholder="Select an item" />
       </SelectTrigger>
       <SelectContent>
-        {options.map((option) => (
-          <SelectItem value={option}>{option}</SelectItem>
+        {options.map((option, index) => (
+          <SelectItem key={index} value={option}>
+            {option}
+          </SelectItem>
         ))}
       </SelectContent>
     </Select>

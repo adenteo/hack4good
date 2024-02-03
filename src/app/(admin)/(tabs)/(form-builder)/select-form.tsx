@@ -225,7 +225,12 @@ import {
 //   },
 // ];
 
-export function SelectForm({ forms }: { forms: CustomForm[] }) {
+interface SelectFormProps {
+  forms: CustomForm[];
+  setFormFields: React.Dispatch<React.SetStateAction<FormFieldType[]>>;
+}
+
+export function SelectForm({ forms, setFormFields }: SelectFormProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
 
@@ -248,17 +253,16 @@ export function SelectForm({ forms }: { forms: CustomForm[] }) {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandInput placeholder="Search form..." />
+          <CommandEmpty>No form found.</CommandEmpty>
           <CommandGroup>
             {forms.map((form) => (
               <CommandItem
                 key={form.title}
                 value={form.title}
                 onSelect={(currentValue) => {
-                  setValue(
-                    currentValue == value.toLowerCase() ? '' : currentValue,
-                  );
+                  setValue(currentValue);
+                  setFormFields(form.fields);
                   setOpen(false);
                 }}
               >

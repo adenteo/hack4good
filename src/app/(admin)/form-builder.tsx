@@ -13,8 +13,28 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/datepicker';
 import { SelectScrollable } from '@/components/select-scrollable';
-import { GripVertical } from 'lucide-react';
+import {
+  Delete,
+  DeleteIcon,
+  GripVertical,
+  LucideTrash2,
+  Trash,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { createForm } from '@/lib/actions/create-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 interface FormBuilderProps {
   formFields: FormFieldType[];
@@ -22,6 +42,7 @@ interface FormBuilderProps {
 }
 
 const FormBuilder = ({ formFields, setFormFields }: FormBuilderProps) => {
+  const router = useRouter();
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -32,6 +53,11 @@ const FormBuilder = ({ formFields, setFormFields }: FormBuilderProps) => {
     items.splice(result.destination.index, 0, reorderedItem);
 
     setFormFields(items);
+  };
+
+  const onDelete = (id: string) => {
+    const newFormFields = formFields.filter((field) => field.id !== id);
+    setFormFields(newFormFields);
   };
 
   const renderField = (field: FormFieldType) => {
@@ -76,21 +102,30 @@ const FormBuilder = ({ formFields, setFormFields }: FormBuilderProps) => {
       case 'date':
         return (
           <div className="w-full">
-            <div className="mb-2">{field.label}</div>
+            <div className="mb-2">
+              {field.label}
+              {field.required && <span className="text-red-500">*</span>}
+            </div>
             <DatePicker />
           </div>
         );
       case 'range':
         return (
           <div className="w-full">
-            <div className="mb-2">{field.label}</div>
+            <div className="mb-2">
+              {field.label}
+              {field.required && <span className="text-red-500">*</span>}
+            </div>
             <Input type="range" />
           </div>
         );
       case 'select':
         return (
           <div className="w-full">
-            <div className="mb-2">{field.label}</div>
+            <div className="mb-2">
+              {field.label}
+              {field.required && <span className="text-red-500">*</span>}
+            </div>
             <SelectScrollable options={field.options!} />
           </div>
         );
@@ -98,6 +133,44 @@ const FormBuilder = ({ formFields, setFormFields }: FormBuilderProps) => {
         return <Input />; // Default case if type is not matched
     }
   };
+
+  const createFormSchema = z.object({
+    title: z
+      .string()
+      .min(1, 'Title must be at least 1 character long')
+      .max(20, 'Title must be at most 20 characters long'),
+    description: z.string().optional(),
+  });
+
+  const form = useForm<z.infer<typeof createFormSchema>>({
+    resolver: zodResolver(createFormSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof createFormSchema>) {
+    const response = await createForm(
+      formFields,
+      values.title,
+      values.description ?? '',
+    );
+    console.log(response);
+    if (response.error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error encountered while saving form.',
+      });
+    } else {
+      toast({
+        className: 'bg-green-500 border-none text-white',
+        title: 'Successfully saved form!',
+        description: 'You can now view it in the forms tab.',
+      });
+    }
+    window.location.reload();
+  }
 
   if (formFields.length === 0)
     return (
@@ -109,41 +182,91 @@ const FormBuilder = ({ formFields, setFormFields }: FormBuilderProps) => {
 
   return (
     <div className="my-6">
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="ROOT">
-          {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="space-y-6"
-            >
-              {formFields.map((field, index) => (
-                <Draggable key={field.id} draggableId={field.id} index={index}>
-                  {(provided) => (
-                    <div
-                      {...provided.dragHandleProps}
-                      {...provided.draggableProps}
-                      ref={provided.innerRef}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="flex justify-between mb-5">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-black">
+                    Title<span className="text-red-500">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input placeholder="Title" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-black">Description</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="ROOT">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="space-y-6"
+                >
+                  {formFields.map((field, index) => (
+                    <Draggable
+                      key={field.id}
+                      draggableId={field.id}
+                      index={index}
                     >
-                      <div className="flex items-center border p-3 rounded-md w-[500px]">
-                        <GripVertical className="mr-2" />
-                        {renderField(field)}
-                      </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-        <p className="mt-4 text-xs text-slate-500">
-          Continue adding fields here or click 'Create Form' to save your form.
-        </p>
-        <Button variant={'default'} className="mt-3">
-          Create Form
-        </Button>
-      </DragDropContext>
+                      {(provided) => (
+                        <div
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                        >
+                          <div className="relative flex items-center border p-3 rounded-md w-[500px]">
+                            <GripVertical className="mr-2" />
+                            <Button
+                              className="ml-5 absolute -left-20"
+                              variant={'ghost'}
+                              size={'icon'}
+                              onClick={() => {
+                                onDelete(field.id);
+                              }}
+                            >
+                              <LucideTrash2 className=" text-red-500" />
+                            </Button>
+                            {renderField(field)}
+                          </div>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+            <p className="mt-4 text-xs text-slate-500">
+              Continue adding fields here or click 'Save Form' to save your
+              form.
+            </p>
+            <Button variant={'default'} className="mt-3" type="submit">
+              Save Form
+            </Button>
+          </DragDropContext>
+        </form>
+      </Form>
     </div>
   );
 };

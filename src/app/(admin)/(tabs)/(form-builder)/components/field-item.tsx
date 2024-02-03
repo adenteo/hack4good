@@ -34,6 +34,7 @@ import {
 import { SelectFieldType } from './select-field-type';
 import { Switch } from '@/components/ui/switch';
 import { nanoid } from 'nanoid';
+import { toast } from '@/components/ui/use-toast';
 
 interface FieldItemProps {
   formField: FormFieldType;
@@ -61,6 +62,12 @@ const FieldItem = ({ formField, setFormFields }: FieldItemProps) => {
         options: values.options?.split(';'),
       },
     ]);
+    toast({
+      className: 'bg-green-500 text-white font-semibold border-none',
+      title: 'Field added',
+      description: `The ${values.type} field has been added to the form.`,
+    });
+
     form.reset();
   }
   return (
