@@ -74,6 +74,7 @@ export const authOptions: NextAuthOptions = {
         const role = await Role.findById(user.roleId);
         token.roleId = role?.roleName; // Add roleName to the JWT token
       }
+      console.log(token);
       return token;
     },
     async redirect({ url, baseUrl }) {

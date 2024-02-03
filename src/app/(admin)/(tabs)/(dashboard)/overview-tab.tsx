@@ -26,9 +26,9 @@ const OverviewTab: React.FC<OverviewTabProps> = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-calendar-check"
             >
               <path d="M8 2v4" />
@@ -55,9 +55,9 @@ const OverviewTab: React.FC<OverviewTabProps> = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-users"
             >
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -81,9 +81,9 @@ const OverviewTab: React.FC<OverviewTabProps> = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-user-plus"
             >
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -109,9 +109,9 @@ const OverviewTab: React.FC<OverviewTabProps> = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-hourglass"
             >
               <path d="M5 22h14" />

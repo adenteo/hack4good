@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { CircleUserRound } from 'lucide-react';
 interface UserAccountButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, 'name' | 'image' | 'email'>;
 }
@@ -24,7 +25,9 @@ export default function UserAccountButton({ user }: UserAccountButtonProps) {
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src={user.image!} alt="@shadcn" />
-          <AvatarFallback>test</AvatarFallback>
+          <AvatarFallback>
+            <CircleUserRound size={25} strokeWidth={1} />
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-white" align="end">

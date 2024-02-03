@@ -16,7 +16,9 @@ export default async function onSignUp(values: z.infer<typeof signUpSchema>) {
     };
   }
 
+  console.log('FINDING');
   const defaultRole = await Role.findOne({ roleName: 'Volunteer' });
+  console.log(defaultRole);
   if (!defaultRole) {
     return {
       error: 'Default role not found.',
