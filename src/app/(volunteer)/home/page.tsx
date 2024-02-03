@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 
 import {
@@ -14,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { addRoles } from '@/lib/actions/add-roles';
 
 const dummyActivities: Activity[] = [
   {

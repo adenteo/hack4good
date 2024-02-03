@@ -6,6 +6,7 @@ import {
 import { TooltipProvider } from '@/components/ui/tooltip';
 import Sidebar from '../sidebar';
 import Content from '../content';
+import { Suspense } from 'react';
 
 const Page = () => {
   return (
@@ -21,7 +22,9 @@ const Page = () => {
       >
         <Sidebar />
         <ResizableHandle withHandle />
-        <Content />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Content />
+        </Suspense>
       </ResizablePanelGroup>
     </TooltipProvider>
   );
