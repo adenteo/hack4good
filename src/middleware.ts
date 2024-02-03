@@ -6,11 +6,20 @@ export async function middleware(req: NextRequest) {
   console.log('here');
   const token = await getToken({ req });
   if (!token) {
-    console.log('REDIRECTING');
     return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
   }
+
+  if (req.nextUrl.pathname.startsWith('/admin/')) {
+    const isAdmin = token.isAdmin;
+
+    if (!isAdmin) {
+      return NextResponse.redirect(new URL('/', req.nextUrl)); // Adjust the URL as needed
+    }
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/activities/:path*'],
+  matcher: ['/admin/:path*'],
 };

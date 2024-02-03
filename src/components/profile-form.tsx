@@ -35,13 +35,21 @@ const formSchema = z.object({
 });
 
 export function ProfileForm() {
-  const form = useForm({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      skills: '',
+      interests: '',
+    },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Handle form submission here
-    console.log(data);
+    console.log(values);
   };
 
   return (
