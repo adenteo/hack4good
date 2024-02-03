@@ -17,3 +17,9 @@ export interface FormField {
   options?: string[];
   required?: boolean;
 }
+
+export interface CustomForm {
+  title: string;
+  description: string;
+  fields: FormField[];
+}
