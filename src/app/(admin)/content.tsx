@@ -1,3 +1,4 @@
+'use client';
 import { ResizablePanel } from '@/components/ui/resizable';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Dashboard from './(tabs)/(dashboard)/dashboard-tab';

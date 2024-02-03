@@ -1,3 +1,4 @@
+'use client';
 import { ResizablePanel } from '@/components/ui/resizable';
 import { Clock3Icon, CalendarDaysIcon, User, Lock, Blocks } from 'lucide-react';
 import { Nav } from './nav';

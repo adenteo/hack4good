@@ -10,23 +10,24 @@ import { Suspense } from 'react';
 
 const Page = () => {
   return (
-    <TooltipProvider delayDuration={0}>
-      <ResizablePanelGroup
-        direction="horizontal"
-        className="min-h-screen"
-        onLayout={(sizes: number[]) => {
-          document.cookie = `react-resizable-panels:layout=${JSON.stringify(
-            sizes,
-          )}`;
-        }}
-      >
-        <Sidebar />
-        <ResizableHandle withHandle />
-        <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
+      <TooltipProvider delayDuration={0}>
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="min-h-screen"
+          onLayout={(sizes: number[]) => {
+            document.cookie = `react-resizable-panels:layout=${JSON.stringify(
+              sizes,
+            )}`;
+          }}
+        >
+          <Sidebar />
+          <ResizableHandle withHandle />
+
           <Content />
-        </Suspense>
-      </ResizablePanelGroup>
-    </TooltipProvider>
+        </ResizablePanelGroup>
+      </TooltipProvider>
+    </Suspense>
   );
 };
 
