@@ -15,7 +15,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema as formSchema } from '@/lib/validators/auth-validator';
 import { useState } from 'react';
-import { FormField as FormFieldType } from './types';
+import { FieldType, FormField as FormFieldType } from '../../types/formTypes';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -37,43 +37,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Link from 'next/link';
-
-const initialFields: FormFieldType[] = [
-  {
-    id: '1',
-    label: 'Name',
-    type: 'text',
-    placeholder: 'Enter your name',
-  },
-  {
-    id: '2',
-    label: 'Are you happy?',
-    type: 'radio',
-    options: ['Yes', 'No', 'Maybe'],
-  },
-  {
-    id: '3',
-    label: 'Be contacted for future events',
-    type: 'checkbox',
-  },
-  {
-    id: '4',
-    label: 'When are you free?',
-    type: 'date',
-    placeholder: 'Enter your fsdfd',
-  },
-  {
-    id: '5',
-    label: 'How sad are you?',
-    type: 'range',
-  },
-  {
-    id: '6',
-    label: 'Select something',
-    type: 'select',
-    options: ['Yes', 'No', 'Maybe', 'Yes', 'No', 'Maybe', 'Yes', 'No', 'Maybe'],
-  },
-];
 
 function createFormSchema(fields: FormFieldType[]) {
   const schemaObject: { [key: string]: any } = {};
@@ -149,9 +112,13 @@ function createFormSchema(fields: FormFieldType[]) {
   return z.object(schemaObject);
 }
 
-export default function FormRenderer() {
+export default function FormRenderer({
+  formFields,
+}: {
+  formFields: FormFieldType[];
+}) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const formSchema = createFormSchema(initialFields);
+  const formSchema = createFormSchema(formFields);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     // defaultValues: {
@@ -329,7 +296,7 @@ export default function FormRenderer() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {initialFields.map((field) => (
+        {formFields.map((field) => (
           <div key={field.id}>{renderField(field)}</div>
         ))}
         <Button

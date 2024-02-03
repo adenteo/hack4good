@@ -1,4 +1,3 @@
-// FormBuilder.tsx
 'use client';
 import React, { useState } from 'react';
 import {
@@ -7,7 +6,7 @@ import {
   Draggable,
   DropResult,
 } from '@hello-pangea/dnd';
-import { FormField as FormFieldType } from './types';
+import { FormField as FormFieldType } from '../../types/formTypes';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -15,82 +14,51 @@ import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/datepicker';
 import { SelectScrollable } from '@/components/select-scrollable';
 import { GripVertical } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-const initialFields: FormFieldType[] = [
-  {
-    id: '1',
-    label: 'Name',
-    type: 'text',
-    placeholder: 'Enter your name',
-  },
-  {
-    id: '2',
-    label: 'Are you happy?',
-    type: 'radio',
-    options: ['Yes', 'No', 'Maybe'],
-  },
-  {
-    id: '3',
-    label: 'Be contacted for future events',
-    type: 'checkbox',
-  },
-  {
-    id: '4',
-    label: 'When are you free?',
-    type: 'date',
-    placeholder: 'Enter your fsdfd',
-  },
-  {
-    id: '5',
-    label: 'How sad are you?',
-    type: 'range',
-  },
-  {
-    id: '6',
-    label: 'Select something',
-    type: 'select',
-    options: ['Yes', 'No', 'Maybe', 'Yes', 'No', 'Maybe', 'Yes', 'No', 'Maybe'],
-  },
-];
+interface FormBuilderProps {
+  formFields: FormFieldType[];
+  setFormFields: React.Dispatch<React.SetStateAction<FormFieldType[]>>;
+}
 
-const FormBuilder: React.FC = () => {
-  const [fields, setFields] = useState<FormFieldType[]>(initialFields);
-
+const FormBuilder = ({ formFields, setFormFields }: FormBuilderProps) => {
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
     }
 
-    const items = Array.from(fields);
+    const items = Array.from(formFields);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
-    setFields(items);
+    setFormFields(items);
   };
 
   const renderField = (field: FormFieldType) => {
     switch (field.type) {
       case 'text':
         return (
-          <div>
-            <label>{field.label}</label>
-            <Input
-              className="mt-2"
-              type="text"
-              placeholder={field.placeholder}
-            />
+          <div className="w-full">
+            <label className="mb-2">
+              {field.label}
+              {field.required && <span className="text-red-500">*</span>}
+            </label>
+            <Input type="text" placeholder={field.placeholder} />
           </div>
         );
       case 'radio':
         return (
-          <RadioGroup>
-            {field.options?.map((option, idx) => (
-              <div key={idx} className="flex items-center space-x-2">
-                <RadioGroupItem value={option} id={idx.toString()} />
-                <Label htmlFor={idx.toString()}>{option}</Label>
-              </div>
-            ))}
-          </RadioGroup>
+          <div className="w-full">
+            <div className="mb-2">{field.label}</div>
+            <RadioGroup>
+              {field.options?.map((option, idx) => (
+                <div key={idx} className="flex items-center space-x-2">
+                  <RadioGroupItem value={option} id={idx.toString()} />
+                  <Label htmlFor={idx.toString()}>{option}</Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
         );
       case 'checkbox':
         return (
@@ -101,26 +69,47 @@ const FormBuilder: React.FC = () => {
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               {field.label}
+              {field.required && <span className="text-red-500">*</span>}
             </label>
           </div>
         );
       case 'date':
-        return <DatePicker />;
+        return (
+          <div className="w-full">
+            <div className="mb-2">{field.label}</div>
+            <DatePicker />
+          </div>
+        );
       case 'range':
-        return <Input type="range" />;
+        return (
+          <div className="w-full">
+            <div className="mb-2">{field.label}</div>
+            <Input type="range" />
+          </div>
+        );
       case 'select':
-        return <SelectScrollable />;
+        return (
+          <div className="w-full">
+            <div className="mb-2">{field.label}</div>
+            <SelectScrollable options={field.options!} />
+          </div>
+        );
       default:
         return <Input />; // Default case if type is not matched
     }
   };
 
+  if (formFields.length === 0)
+    return (
+      <div className="text-sm">
+        Select a form to edit or start creating a new form by selecting one of
+        the fields.
+      </div>
+    );
+
   return (
-    <div>
+    <div className="my-6">
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="header">
-          <h1 className="my-6 text-xl font-semibold">Form Preview</h1>
-        </div>
         <Droppable droppableId="ROOT">
           {(provided) => (
             <div
@@ -128,7 +117,7 @@ const FormBuilder: React.FC = () => {
               ref={provided.innerRef}
               className="space-y-6"
             >
-              {fields.map((field, index) => (
+              {formFields.map((field, index) => (
                 <Draggable key={field.id} draggableId={field.id} index={index}>
                   {(provided) => (
                     <div
@@ -136,7 +125,7 @@ const FormBuilder: React.FC = () => {
                       {...provided.draggableProps}
                       ref={provided.innerRef}
                     >
-                      <div className="flex items-center border p-3 rounded-md">
+                      <div className="flex items-center border p-3 rounded-md w-[500px]">
                         <GripVertical className="mr-2" />
                         {renderField(field)}
                       </div>
@@ -148,6 +137,12 @@ const FormBuilder: React.FC = () => {
             </div>
           )}
         </Droppable>
+        <p className="mt-4 text-xs text-slate-500">
+          Continue adding fields here or click 'Create Form' to save your form.
+        </p>
+        <Button variant={'default'} className="mt-3">
+          Create Form
+        </Button>
       </DragDropContext>
     </div>
   );

@@ -1,25 +1,30 @@
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { GripVertical } from 'lucide-react';
+import { GripVertical, LandPlot } from 'lucide-react';
+import FieldsScrollable from './fields-scrollable';
+import { cn } from '@/lib/utils';
+import FormBuilder from '../../form-builder';
+import { FormField } from '@/types/formTypes';
 
-interface FormBuilderAreaProps {}
+interface FormBuilderAreaProps {
+  className?: string;
+  formFields: FormField[];
+  setFormFields: React.Dispatch<React.SetStateAction<FormField[]>>;
+}
 
-const FormBuilderArea: React.FC<FormBuilderAreaProps> = () => {
+const FormBuilderArea: React.FC<FormBuilderAreaProps> = ({
+  className,
+  formFields,
+  setFormFields,
+}) => {
   return (
-    <Card>
-      <CardContent>
-        <div className="flex items-center justify-between">
-          <h1 className="font-semibold text-2xl">Form Builder</h1>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-semibold">Save</span>
-                <GripVertical size={16} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <div
+      className={cn(
+        className,
+        'border flex flex-col justify-center items-center',
+      )}
+    >
+      <FormBuilder setFormFields={setFormFields} formFields={formFields} />
+    </div>
   );
 };
 

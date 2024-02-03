@@ -1,18 +1,18 @@
 // types.ts
-export type FormFieldType =
-  | 'text'
-  | 'number'
-  | 'email'
-  | 'select'
-  | 'checkbox'
-  | 'date'
-  | 'radio'
-  | 'range';
+
+export enum FieldType {
+  Text = 'text',
+  Select = 'select',
+  Checkbox = 'checkbox',
+  Date = 'date',
+  Radio = 'radio',
+  Range = 'range',
+}
 
 export interface FormField {
   id: string;
   label: string;
-  type: FormFieldType;
+  type: FieldType;
   placeholder?: string;
   options?: string[];
   required?: boolean;

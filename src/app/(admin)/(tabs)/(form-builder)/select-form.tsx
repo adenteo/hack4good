@@ -17,212 +17,215 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { CustomForm, FormField as FormFieldType } from '../../types';
+import {
+  CustomForm,
+  FormField as FormFieldType,
+} from '../../../../types/formTypes';
 
-const forms: CustomForm[] = [
-  {
-    title: 'Form 1',
-    description: 'This is the first form',
-    fields: [
-      {
-        id: '1',
-        label: 'Name',
-        type: 'text',
-        placeholder: 'Enter your name',
-      },
-      {
-        id: '2',
-        label: 'Are you happy?',
-        type: 'radio',
-        options: ['Yes', 'No', 'Maybe'],
-      },
-      {
-        id: '3',
-        label: 'Be contacted for future events',
-        type: 'checkbox',
-      },
-      {
-        id: '4',
-        label: 'When are you free?',
-        type: 'date',
-        placeholder: 'Enter your fsdfd',
-      },
-      {
-        id: '5',
-        label: 'How sad are you?',
-        type: 'range',
-      },
-      {
-        id: '6',
-        label: 'Select something',
-        type: 'select',
-        options: [
-          'Yes',
-          'No',
-          'Maybe',
-          'Yes',
-          'No',
-          'Maybe',
-          'Yes',
-          'No',
-          'Maybe',
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Form 2',
-    description: 'This is the first form',
-    fields: [
-      {
-        id: '1',
-        label: 'Name',
-        type: 'text',
-        placeholder: 'Enter your name',
-      },
-      {
-        id: '2',
-        label: 'Are you happy?',
-        type: 'radio',
-        options: ['Yes', 'No', 'Maybe'],
-      },
-      {
-        id: '3',
-        label: 'Be contacted for future events',
-        type: 'checkbox',
-      },
-      {
-        id: '4',
-        label: 'When are you free?',
-        type: 'date',
-        placeholder: 'Enter your fsdfd',
-      },
-      {
-        id: '5',
-        label: 'How sad are you?',
-        type: 'range',
-      },
-      {
-        id: '6',
-        label: 'Select something',
-        type: 'select',
-        options: [
-          'Yes',
-          'No',
-          'Maybe',
-          'Yes',
-          'No',
-          'Maybe',
-          'Yes',
-          'No',
-          'Maybe',
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Form 3',
-    description: 'This is the first form',
-    fields: [
-      {
-        id: '1',
-        label: 'Name',
-        type: 'text',
-        placeholder: 'Enter your name',
-      },
-      {
-        id: '2',
-        label: 'Are you happy?',
-        type: 'radio',
-        options: ['Yes', 'No', 'Maybe'],
-      },
-      {
-        id: '3',
-        label: 'Be contacted for future events',
-        type: 'checkbox',
-      },
-      {
-        id: '4',
-        label: 'When are you free?',
-        type: 'date',
-        placeholder: 'Enter your fsdfd',
-      },
-      {
-        id: '5',
-        label: 'How sad are you?',
-        type: 'range',
-      },
-      {
-        id: '6',
-        label: 'Select something',
-        type: 'select',
-        options: [
-          'Yes',
-          'No',
-          'Maybe',
-          'Yes',
-          'No',
-          'Maybe',
-          'Yes',
-          'No',
-          'Maybe',
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Form 4',
-    description: 'This is the first form',
-    fields: [
-      {
-        id: '1',
-        label: 'Name',
-        type: 'text',
-        placeholder: 'Enter your name',
-      },
-      {
-        id: '2',
-        label: 'Are you happy?',
-        type: 'radio',
-        options: ['Yes', 'No', 'Maybe'],
-      },
-      {
-        id: '3',
-        label: 'Be contacted for future events',
-        type: 'checkbox',
-      },
-      {
-        id: '4',
-        label: 'When are you free?',
-        type: 'date',
-        placeholder: 'Enter your fsdfd',
-      },
-      {
-        id: '5',
-        label: 'How sad are you?',
-        type: 'range',
-      },
-      {
-        id: '6',
-        label: 'Select something',
-        type: 'select',
-        options: [
-          'Yes',
-          'No',
-          'Maybe',
-          'Yes',
-          'No',
-          'Maybe',
-          'Yes',
-          'No',
-          'Maybe',
-        ],
-      },
-    ],
-  },
-];
+// const forms: CustomForm[] = [
+//   {
+//     title: 'Form 1',
+//     description: 'This is the first form',
+//     fields: [
+//       {
+//         id: '1',
+//         label: 'Name',
+//         type: 'text',
+//         placeholder: 'Enter your name',
+//       },
+//       {
+//         id: '2',
+//         label: 'Are you happy?',
+//         type: 'radio',
+//         options: ['Yes', 'No', 'Maybe'],
+//       },
+//       {
+//         id: '3',
+//         label: 'Be contacted for future events',
+//         type: 'checkbox',
+//       },
+//       {
+//         id: '4',
+//         label: 'When are you free?',
+//         type: 'date',
+//         placeholder: 'Enter your fsdfd',
+//       },
+//       {
+//         id: '5',
+//         label: 'How sad are you?',
+//         type: 'range',
+//       },
+//       {
+//         id: '6',
+//         label: 'Select something',
+//         type: 'select',
+//         options: [
+//           'Yes',
+//           'No',
+//           'Maybe',
+//           'Yes',
+//           'No',
+//           'Maybe',
+//           'Yes',
+//           'No',
+//           'Maybe',
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Form 2',
+//     description: 'This is the first form',
+//     fields: [
+//       {
+//         id: '1',
+//         label: 'Name',
+//         type: 'text',
+//         placeholder: 'Enter your name',
+//       },
+//       {
+//         id: '2',
+//         label: 'Are you happy?',
+//         type: 'radio',
+//         options: ['Yes', 'No', 'Maybe'],
+//       },
+//       {
+//         id: '3',
+//         label: 'Be contacted for future events',
+//         type: 'checkbox',
+//       },
+//       {
+//         id: '4',
+//         label: 'When are you free?',
+//         type: 'date',
+//         placeholder: 'Enter your fsdfd',
+//       },
+//       {
+//         id: '5',
+//         label: 'How sad are you?',
+//         type: 'range',
+//       },
+//       {
+//         id: '6',
+//         label: 'Select something',
+//         type: 'select',
+//         options: [
+//           'Yes',
+//           'No',
+//           'Maybe',
+//           'Yes',
+//           'No',
+//           'Maybe',
+//           'Yes',
+//           'No',
+//           'Maybe',
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Form 3',
+//     description: 'This is the first form',
+//     fields: [
+//       {
+//         id: '1',
+//         label: 'Name',
+//         type: 'text',
+//         placeholder: 'Enter your name',
+//       },
+//       {
+//         id: '2',
+//         label: 'Are you happy?',
+//         type: 'radio',
+//         options: ['Yes', 'No', 'Maybe'],
+//       },
+//       {
+//         id: '3',
+//         label: 'Be contacted for future events',
+//         type: 'checkbox',
+//       },
+//       {
+//         id: '4',
+//         label: 'When are you free?',
+//         type: 'date',
+//         placeholder: 'Enter your fsdfd',
+//       },
+//       {
+//         id: '5',
+//         label: 'How sad are you?',
+//         type: 'range',
+//       },
+//       {
+//         id: '6',
+//         label: 'Select something',
+//         type: 'select',
+//         options: [
+//           'Yes',
+//           'No',
+//           'Maybe',
+//           'Yes',
+//           'No',
+//           'Maybe',
+//           'Yes',
+//           'No',
+//           'Maybe',
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Form 4',
+//     description: 'This is the first form',
+//     fields: [
+//       {
+//         id: '1',
+//         label: 'Name',
+//         type: 'text',
+//         placeholder: 'Enter your name',
+//       },
+//       {
+//         id: '2',
+//         label: 'Are you happy?',
+//         type: 'radio',
+//         options: ['Yes', 'No', 'Maybe'],
+//       },
+//       {
+//         id: '3',
+//         label: 'Be contacted for future events',
+//         type: 'checkbox',
+//       },
+//       {
+//         id: '4',
+//         label: 'When are you free?',
+//         type: 'date',
+//         placeholder: 'Enter your fsdfd',
+//       },
+//       {
+//         id: '5',
+//         label: 'How sad are you?',
+//         type: 'range',
+//       },
+//       {
+//         id: '6',
+//         label: 'Select something',
+//         type: 'select',
+//         options: [
+//           'Yes',
+//           'No',
+//           'Maybe',
+//           'Yes',
+//           'No',
+//           'Maybe',
+//           'Yes',
+//           'No',
+//           'Maybe',
+//         ],
+//       },
+//     ],
+//   },
+// ];
 
-export function SelectForm() {
+export function SelectForm({ forms }: { forms: CustomForm[] }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
 
