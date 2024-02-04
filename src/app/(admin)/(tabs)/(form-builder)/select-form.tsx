@@ -21,6 +21,7 @@ import {
   CustomForm,
   FormField as FormFieldType,
 } from '../../../../types/formTypes';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // const forms: CustomForm[] = [
 //   {
@@ -228,11 +229,31 @@ import {
 interface SelectFormProps {
   forms: CustomForm[];
   setFormFields: React.Dispatch<React.SetStateAction<FormFieldType[]>>;
+  setSelectedForm: React.Dispatch<React.SetStateAction<CustomForm | null>>;
 }
 
-export function SelectForm({ forms, setFormFields }: SelectFormProps) {
+export function SelectForm({
+  forms,
+  setFormFields,
+  setSelectedForm,
+}: SelectFormProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
+  const params = useSearchParams();
+  const formParams = params.get('form');
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (formParams) {
+      const matchingForm = forms.find(
+        (form) => form.title.toLowerCase() == formParams.toLowerCase(),
+      );
+      if (!matchingForm) return;
+      setValue(formParams);
+      setSelectedForm(matchingForm);
+      setFormFields(matchingForm.fields);
+    }
+  }, [forms]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -263,7 +284,9 @@ export function SelectForm({ forms, setFormFields }: SelectFormProps) {
                 onSelect={(currentValue) => {
                   setValue(currentValue);
                   setFormFields(form.fields);
+                  setSelectedForm(form);
                   setOpen(false);
+                  router.push(`?tab=form%20builder&form=${form.title}`);
                 }}
               >
                 <Check

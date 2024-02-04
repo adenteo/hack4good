@@ -11,6 +11,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface NavProps {
   isCollapsed: boolean;
@@ -27,9 +28,11 @@ export function Nav({ links, isCollapsed }: NavProps) {
   const tab = searchParams.get('tab');
   const router = useRouter();
 
-  if (!tab) {
-    router.push('?tab=dashboard');
-  }
+  useEffect(() => {
+    if (!tab) {
+      router.push('?tab=dashboard');
+    }
+  }, []);
 
   return (
     <div

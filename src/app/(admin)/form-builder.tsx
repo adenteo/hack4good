@@ -1,12 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DragDropContext,
   Droppable,
   Draggable,
   DropResult,
 } from '@hello-pangea/dnd';
-import { FormField as FormFieldType } from '../../types/formTypes';
+import { CustomForm, FormField as FormFieldType } from '../../types/formTypes';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -28,15 +28,18 @@ import {
 } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { toast } from '@/components/ui/use-toast';
-import { useRouter } from 'next/navigation';
 
 interface FormBuilderProps {
   formFields: FormFieldType[];
   setFormFields: React.Dispatch<React.SetStateAction<FormFieldType[]>>;
+  selectedForm: CustomForm | null;
 }
 
-const FormBuilder = ({ formFields, setFormFields }: FormBuilderProps) => {
-  const router = useRouter();
+const FormBuilder = ({
+  formFields,
+  setFormFields,
+  selectedForm,
+}: FormBuilderProps) => {
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -143,6 +146,13 @@ const FormBuilder = ({ formFields, setFormFields }: FormBuilderProps) => {
       description: '',
     },
   });
+
+  useEffect(() => {
+    if (form) {
+      form.setValue('title', selectedForm?.title ?? '');
+      form.setValue('description', selectedForm?.description ?? '');
+    }
+  }, [selectedForm]);
 
   async function onSubmit(values: z.infer<typeof createFormSchema>) {
     const response = await createForm(

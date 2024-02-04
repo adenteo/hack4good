@@ -1,8 +1,16 @@
 'use client';
 import { ResizablePanel } from '@/components/ui/resizable';
-import { Clock3Icon, CalendarDaysIcon, User, Lock, Blocks } from 'lucide-react';
+import {
+  Clock3Icon,
+  CalendarDaysIcon,
+  User,
+  Lock,
+  Blocks,
+  FileText,
+  Ticket,
+} from 'lucide-react';
 import { Nav } from './nav';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -35,6 +43,12 @@ export default function Sidebar() {
           {
             title: 'Activities',
             label: '',
+            icon: Ticket,
+            variant: 'ghost',
+          },
+          {
+            title: 'Calendar',
+            label: '',
             icon: CalendarDaysIcon,
             variant: 'ghost',
           },
@@ -45,14 +59,19 @@ export default function Sidebar() {
             variant: 'ghost',
           },
           {
-            title: 'Admin',
-            label: '',
-            icon: Lock,
+            title: 'Forms',
+            icon: FileText,
             variant: 'ghost',
           },
           {
             title: 'Form Builder',
             icon: Blocks,
+            variant: 'ghost',
+          },
+          {
+            title: 'Admin',
+            label: '',
+            icon: Lock,
             variant: 'ghost',
           },
         ]}

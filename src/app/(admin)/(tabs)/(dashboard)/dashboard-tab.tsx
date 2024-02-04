@@ -13,12 +13,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  if (!type) {
-    router.push('?tab=dashboard&type=overview');
-  }
-
-  console.log(type);
-
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
