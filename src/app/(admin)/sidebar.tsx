@@ -28,13 +28,13 @@ export default function Sidebar() {
         links={[
           {
             title: 'Dashboard',
-            label: '128',
+            label: '',
             icon: Clock3Icon,
             variant: 'default',
           },
           {
             title: 'Activities',
-            label: '9',
+            label: '',
             icon: CalendarDaysIcon,
             variant: 'ghost',
           },
@@ -46,7 +46,7 @@ export default function Sidebar() {
           },
           {
             title: 'Admin',
-            label: '23',
+            label: '',
             icon: Lock,
             variant: 'ghost',
           },
