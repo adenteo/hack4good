@@ -16,6 +16,7 @@ const activitySchema = new Schema({
   signUpDeadline: { type: Date, required: true }, // haven use
   tags: {type: Array, required: true},
   numHours: {type: Number, required:true},
+  additionalDetails: { type: String, required: true },
 })
 
 const Activity = models.Activity ||  model('Activity', activitySchema);

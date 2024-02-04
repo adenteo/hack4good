@@ -30,16 +30,6 @@ const dummyActivities: Activity[] = [
     description: 'Helping animals in need is your passion? Come join us for ',
   },
   {
-    image: 'https://placekitten.com/301/401', // Placeholder image URL
-    title: 'Meow Meditation',
-    numPeopleJoined: 15,
-    numHours: 2,
-    date: '02 March 2024',
-    tags: ['Charity', 'Food'],
-    description:
-      'When you enter into any new area of science, you almost always find a new discovery hidden within every element that you see',
-  },
-  {
     image: 'https://placekitten.com/302/402', // Placeholder image URL
     title: 'Purr Painting',
     numPeopleJoined: 25,
@@ -89,31 +79,9 @@ const activities = [
   { value: 'food packing', label: 'Food Packing' },
 ];
 
-// const handleSearchChange = (event: { target: { value: any } }) => {
-//   const searchTerm = event.target.value;
-//   onSearch(searchTerm);
-// };
-
 export default function Home() {
   return (
     <div className="min-h-screen p-6">
-      {/* <div className="flex justify-center">
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Activity" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Activities</SelectLabel>
-              {activities.map((activity) => (
-                <SelectItem key={activity.value} value={activity.value}>
-                  {activity.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div> */}
       <div className="rounded-b-3xl border bg-black text-white relative h-32 items-center lg:justify-center">
         <div className="flex justify-between p-6 pb-2 ">
           <div>
@@ -156,7 +124,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
-function onSearch(searchTerm: any) {
-  throw new Error('Function not implemented.');
 }
