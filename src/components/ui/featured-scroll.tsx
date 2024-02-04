@@ -45,10 +45,11 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
                       width={300}
                       height={600}
                     />
+
                     <div className="absolute top-[9.7rem] left-4 right-0 bottom-0 md:top-48 lg:top-60 ">
                       <div className="flex mb-1">
                         {Array.isArray(activity.tags) &&
-                          activity.tags.map((tag, index) => (
+                          activity.tags.slice(0, 3).map((tag, index) => (
                             <div
                               key={index}
                               className="text-[0.6rem] text-white border border-white rounded-md p-1 pl-2 pr-2 mr-2"
@@ -56,6 +57,12 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
                               {tag}
                             </div>
                           ))}
+
+                        {activity.tags.length > 3 && (
+                          <div className="text-[0.6rem] pt-2 text-white">
+                            ...
+                          </div>
+                        )}
                       </div>
 
                       <div>
