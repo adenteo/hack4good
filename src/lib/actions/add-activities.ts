@@ -20,20 +20,20 @@ export async function addActivity(activityData: object) {
   }
 }
 
-const newActivityData = { //example data
-  name: 'Community Cooking Event',
-  address: '123 Main St, Cookville',
-  description: 'Join us as we prepare warm meals for the elderly in our community.',
-  day: 6, 
-  startTime: new Date('2024-04-01T09:00:00'),
-  endTime: new Date('2024-04-01T15:00:00'),
-  volunteerCountNeeded: 10,
-  pointOfContact: 'ObjectIdOfTheUser', // Replace with actual ObjectId
-  signUpLimit: 20,
-  imgUrl: 'urlToTheImageForTheEvent',
-  signUpDeadline: new Date('2024-03-25T23:59:59'),
-  attendees: [],
-};
-
-addActivity(newActivityData)
-  .catch(error => console.error('Error creating activity:', error));
+//const newActivityData = { //example data
+//  name: 'Community Cooking Event',
+//  address: '123 Main St, Cookville',
+//  description: 'Join us as we prepare warm meals for the elderly in our community.',
+//  day: 6, 
+//  startTime: new Date('2024-04-01T09:00:00'),
+//  endTime: new Date('2024-04-01T15:00:00'),
+//  volunteerCountNeeded: 10,
+//  pointOfContact: 'ObjectIdOfTheUser', // Replace with actual ObjectId
+//  signUpLimit: 20,
+//  imgUrl: 'urlToTheImageForTheEvent',
+//  signUpDeadline: new Date('2024-03-25T23:59:59'),
+//  attendees: [],
+//};
+//
+//addActivity(newActivityData)
+//  .catch(error => console.error('Error creating activity:', error));
