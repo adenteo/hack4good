@@ -1,17 +1,19 @@
 import { cn } from '@/lib/utils';
 import FormBuilder from '../../form-builder';
-import { FormField } from '@/types/formTypes';
+import { CustomForm, FormField } from '@/types/formTypes';
 
 interface FormBuilderAreaProps {
   className?: string;
   formFields: FormField[];
   setFormFields: React.Dispatch<React.SetStateAction<FormField[]>>;
+  selectedForm: CustomForm | null;
 }
 
 const FormBuilderArea: React.FC<FormBuilderAreaProps> = ({
   className,
   formFields,
   setFormFields,
+  selectedForm,
 }) => {
   return (
     <div
@@ -20,7 +22,11 @@ const FormBuilderArea: React.FC<FormBuilderAreaProps> = ({
         'border flex flex-col justify-center items-center',
       )}
     >
-      <FormBuilder setFormFields={setFormFields} formFields={formFields} />
+      <FormBuilder
+        setFormFields={setFormFields}
+        selectedForm={selectedForm}
+        formFields={formFields}
+      />
     </div>
   );
 };

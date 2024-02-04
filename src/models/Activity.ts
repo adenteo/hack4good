@@ -14,10 +14,10 @@ const attendeeSchema = new Schema({
 });
 
 const activitySchema = new Schema({
-  name: { type: String, required: true },
-  address: { type: String, required: true },
+  title: { type: String, required: true }, 
+  address: { type: String, required: true }, // haven use
   description: { type: String, required: true },
-  day: { type: Number, required: true },
+  date: { type: Date, required: true },
   startTime: { type: Date, required: true },
   endTime: { type: Date, required: true },
   volunteerCountNeeded: { type: Number, required: true },
@@ -28,6 +28,7 @@ const activitySchema = new Schema({
   activitySignupForm: { type: Schema.Types.ObjectId, ref: 'CustomForm'},
   attendees: [attendeeSchema],
 });
+
 
 const Activity = models.Activity ||  model('Activity', activitySchema);
 

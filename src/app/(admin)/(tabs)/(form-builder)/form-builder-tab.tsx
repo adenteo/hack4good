@@ -4,7 +4,7 @@ import { SelectForm } from './select-form';
 import FieldsScrollable from './fields-scrollable';
 import { Separator } from '@/components/ui/separator';
 import { useEffect, useState } from 'react';
-import { FormField } from '@/types/formTypes';
+import { CustomForm, FormField } from '@/types/formTypes';
 import { getForms } from '@/lib/actions/get-forms';
 import { Button } from '@/components/ui/button';
 
@@ -12,6 +12,7 @@ interface FormBuilderProps {}
 
 const FormBuilder: React.FC<FormBuilderProps> = () => {
   const [formFields, setFormFields] = useState<FormField[]>([]);
+  const [selectedForm, setSelectedForm] = useState<CustomForm | null>(null);
   const [forms, setForms] = useState([]);
 
   useEffect(() => {
@@ -28,7 +29,11 @@ const FormBuilder: React.FC<FormBuilderProps> = () => {
       <div className="flex flex-grow">
         <div className="flex flex-col">
           <h1 className="font-semibold text-2xl mb-4">Form Builder</h1>
-          <SelectForm forms={forms} setFormFields={setFormFields} />
+          <SelectForm
+            forms={forms}
+            setFormFields={setFormFields}
+            setSelectedForm={setSelectedForm}
+          />
           <Button
             variant={'destructive'}
             className="mt-3"
@@ -51,6 +56,7 @@ const FormBuilder: React.FC<FormBuilderProps> = () => {
           </div>
         </div>
         <FormBuilderArea
+          selectedForm={selectedForm}
           formFields={formFields}
           setFormFields={setFormFields}
           className="flex-grow ml-6 rounded-md"

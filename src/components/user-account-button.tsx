@@ -15,7 +15,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { CircleUserRound } from 'lucide-react';
 interface UserAccountButtonProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, 'name' | 'image' | 'email'>;
+  user: Pick<User, 'name' | 'image' | 'email' | 'roleId'>;
 }
 
 export default function UserAccountButton({ user }: UserAccountButtonProps) {
@@ -42,16 +42,20 @@ export default function UserAccountButton({ user }: UserAccountButtonProps) {
           </div>
         </div>
         <DropdownMenuSeparator />
+        {user.roleId === 'Admin' && (
+          <DropdownMenuItem asChild>
+            <Link className="text-red-500" href="/admin">
+              Admin
+            </Link>
+          </DropdownMenuItem>
+        )}
+
         <DropdownMenuItem asChild>
-          <Link href="/">Feed</Link>
+          <Link href="">Create Community</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
-          <Link href="/r/create">Create Community</Link>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem asChild>
-          <Link href="/settings">Settings</Link>
+          <Link href="">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

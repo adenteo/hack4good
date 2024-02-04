@@ -1,10 +1,8 @@
 'use client';
 import React from 'react';
+import { TextInput } from '@tremor/react';
 
-import {
-  Activity,
-  ScrollAreaHorizontalDemo,
-} from '@/components/ui/scroll-horizontal';
+import { ForYouScroll } from '@/components/ui/for-you-scroll';
 
 import {
   Select,
@@ -15,6 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { SearchIcon } from 'lucide-react';
+import { Activity, FeaturedScroll } from '@/components/ui/featured-scroll';
+// import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { addRoles } from '@/lib/actions/add-roles';
 
@@ -25,13 +26,8 @@ const dummyActivities: Activity[] = [
     numPeopleJoined: 20,
     numHours: 3,
     date: '02 March 2024',
-  },
-  {
-    image: 'https://placekitten.com/301/401', // Placeholder image URL
-    title: 'Meow Meditation',
-    numPeopleJoined: 15,
-    numHours: 2,
-    date: '02 March 2024',
+    tags: ['Charity', 'Food', 'Elderly', 'Charity', 'Food', 'Elderly'],
+    description: 'Helping animals in need is your passion? Come join us for ',
   },
   {
     image: 'https://placekitten.com/302/402', // Placeholder image URL
@@ -39,6 +35,9 @@ const dummyActivities: Activity[] = [
     numPeopleJoined: 25,
     numHours: 8,
     date: '02 March 2024',
+    tags: ['Charity', 'Food', 'Elderly'],
+    description:
+      'When you enter into any new area of science, you almost always find a new discovery hidden within every element that you see',
   },
   {
     image: 'https://placekitten.com/300/400', // Placeholder image URL
@@ -46,6 +45,9 @@ const dummyActivities: Activity[] = [
     numPeopleJoined: 20,
     numHours: 5,
     date: '02 March 2024',
+    tags: ['Charity'],
+    description:
+      'When you enter into any new area of science, you almost always find a new discovery hidden within every element that you see',
   },
   {
     image: 'https://placekitten.com/301/401', // Placeholder image URL
@@ -53,6 +55,9 @@ const dummyActivities: Activity[] = [
     numPeopleJoined: 15,
     numHours: 7,
     date: '02 March 2024',
+    tags: ['Charity', 'Food', 'Elderly'],
+    description:
+      'When you enter into any new area of science, you almost always find a new discovery hidden within every element that you see',
   },
   {
     image: 'https://placekitten.com/302/402', // Placeholder image URL
@@ -60,6 +65,9 @@ const dummyActivities: Activity[] = [
     numPeopleJoined: 25,
     numHours: 1,
     date: '02 March 2024',
+    tags: ['Charity', 'Food', 'Elderly'],
+    description:
+      'When you enter into any new area of science, you almost always find a new discovery hidden within every element that you see',
   },
 ];
 
@@ -74,34 +82,45 @@ const activities = [
 export default function Home() {
   return (
     <div className="min-h-screen p-6">
-      <div className="flex justify-center">
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Activity" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Activities</SelectLabel>
-              {activities.map((activity) => (
-                <SelectItem key={activity.value} value={activity.value}>
-                  {activity.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+      <div className="rounded-b-3xl border bg-black text-white relative h-32 items-center lg:justify-center">
+        <div className="flex justify-between p-6 pb-2 ">
+          <div>
+            <h1 className="text-lg font-semibold">Explore</h1>
+            <p className="text-xs">Activities for you</p>
+          </div>
+          <div className="avatar">
+            <div className=" w-10 h-10 rounded-full">
+              <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <TextInput
+            className="bg-black border-none hover:bg-black hover:border-none ml-2 mr-2 w-auto"
+            icon={SearchIcon}
+            placeholder="Search..."
+          />
+        </div>
       </div>
       <div className=" pb-1 pt-4">
-        <p className="text-xs text-gray-500 lg:text-sm">Reccomended for you</p>
+        <p className="text-lg font-semibold text-black">Featured</p>
       </div>
       <div className="flex">
-        <ScrollAreaHorizontalDemo activities={dummyActivities} />
+        <FeaturedScroll activities={dummyActivities} />
       </div>
       <div className="pb-1 pt-4">
-        <p className="text-xs text-gray-500 lg:text-sm">Upcoming for you</p>
+        <p className="text-lg font-semibold text-black">For You</p>
       </div>
       <div className="flex">
-        <ScrollAreaHorizontalDemo activities={dummyActivities} />
+        <ForYouScroll activities={dummyActivities} />
+      </div>
+
+      <div className="pb-1 pt-4">
+        <p className="text-lg font-semibold text-black">Upcoming</p>
+      </div>
+      <div className="flex">
+        <ForYouScroll activities={dummyActivities} />
       </div>
     </div>
   );

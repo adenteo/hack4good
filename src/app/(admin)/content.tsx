@@ -1,17 +1,17 @@
 'use client';
 import { ResizablePanel } from '@/components/ui/resizable';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Dashboard from './(tabs)/(dashboard)/dashboard-tab';
 import Activities from './(tabs)/(activities)/activities-tab';
-import Volunteers from './(tabs)/(volunteers)/volunteers';
+import Volunteers from './(tabs)/(volunteers)/volunteers-tab';
 import Admin from './(tabs)/(admin)/admin-tab';
 import FormBuilder from './(tabs)/(form-builder)/form-builder-tab';
+import FormTabPage from './(tabs)/(forms)/forms-tab';
+import Calendar from './(tabs)/(calendar)/calendar-tab';
 
 export default function Content() {
   const searchParams = useSearchParams();
   const tab = searchParams.get('tab');
-  console.log(tab);
-  const router = useRouter();
 
   const renderTabContent = () => {
     switch (tab) {
@@ -23,16 +23,16 @@ export default function Content() {
         return <Volunteers />;
       case 'admin':
         return <Admin />;
+      case 'calendar':
+        return <Calendar />;
+      case 'forms':
+        return <FormTabPage />;
       case 'form builder':
         return <FormBuilder />;
       default:
         return <Dashboard />;
     }
   };
-
-  if (!tab) {
-    return <Dashboard />;
-  }
 
   return (
     <ResizablePanel defaultSize={85}>

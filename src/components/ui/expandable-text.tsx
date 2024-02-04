@@ -43,7 +43,7 @@ export default function ExpandableText({ text }: { text: string }) {
     <div>
       <p
         ref={contentRef}
-        className="line-clamp-3 overflow-hidden text-sm lg:text-base"
+        className="line-clamp-3 overflow-hidden text-[0.95rem] lg:text-base"
       >
         {text}
       </p>
