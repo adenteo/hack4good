@@ -89,15 +89,6 @@ const formSchema = z.object({
   }),
   dateOfBirth: z.date(),
   residentialStatus: z.string(),
-  //   address: z.object({
-  //     block: z.string(),
-  //     street: z.string(),
-  //     building: z.string(),
-  //     floorUnit: z.string(),
-  //     city: z.string(),
-  //     zipCode: z.string(),
-  //     country: z.string(),
-  //   }),
   availabilities: z
     .array(z.string())
     .refine((value) => value.some((item) => item), {
@@ -157,9 +148,6 @@ export function SignUpForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {/* ... Existing fields ... */}
-
-        {/* Gender (Radio) */}
         <FormField
           control={form.control}
           name="gender"
@@ -188,7 +176,6 @@ export function SignUpForm() {
           )}
         />
 
-        {/* Residential Status (Drop Down) */}
         <FormField
           control={form.control}
           name="residentialStatus"
@@ -221,71 +208,6 @@ export function SignUpForm() {
           )}
         />
 
-        {/* Address */}
-        {/* <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input
-                  className="text-sm"
-                  type="text"
-                  id="block"
-                  placeholder="Block #"
-                  {...field}
-                />
-                <Input
-                  className="text-sm"
-                  type="text"
-                  id="street"
-                  placeholder="Street Name"
-                  {...field}
-                />
-                <Input
-                  className="text-sm"
-                  type="text"
-                  id="building"
-                  placeholder="Building Name"
-                  {...field}
-                />
-                <Input
-                  className="text-sm"
-                  type="text"
-                  id="floorUnit"
-                  placeholder="Floor - Unit Number"
-                  {...field}
-                />
-                <Input
-                  className="text-sm"
-                  type="text"
-                  id="city"
-                  placeholder="City"
-                  {...field}
-                />
-                <Input
-                  className="text-sm"
-                  type="text"
-                  id="zipCode"
-                  placeholder="Zip Code"
-                  {...field}
-                />
-                <Input
-                  className="text-sm"
-                  type="text"
-                  id="country"
-                  placeholder="Country"
-                  {...field}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-
-        {/* Availability for Volunteering (Check Box) */}
         <FormField
           control={form.control}
           name="availabilities"
@@ -293,7 +215,6 @@ export function SignUpForm() {
             <FormItem>
               <div className="">
                 <FormLabel className="">Availability</FormLabel>
-                {/* <FormDescription>Select your availability</FormDescription> */}
               </div>
               {availabilities.map((item) => (
                 <FormField
@@ -332,8 +253,6 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
-
-        {/* Volunteer Areas (Check Box) */}
 
         <FormField
           control={form.control}
@@ -383,16 +302,22 @@ export function SignUpForm() {
           )}
         />
 
-        {/* Skills */}
         <FormField
           control={form.control}
           name="skills"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Skills</FormLabel>
+              <FormLabel>
+                Skills you posses that can benefit the community / less
+                privileged
+              </FormLabel>
+              {/* <FormDescription className="w-auto text-xs">
+                Please list skills you posses that can benefit the community or
+                less privileged groups in Singapore
+              </FormDescription> */}
               <FormControl>
                 <Input
-                  className="text-sm"
+                  className="text-xs"
                   type="text"
                   id="skills"
                   placeholder="Photography, Coding, Graphic Design"
@@ -411,10 +336,12 @@ export function SignUpForm() {
           name="experience"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Describe your previous relevant experience</FormLabel>
+              <FormLabel>
+                Describe your previous relevant experience in those skills
+              </FormLabel>
               <FormControl>
                 <Input
-                  className="text-sm"
+                  className="text-xs"
                   type="text"
                   id="experience"
                   placeholder="Previous experience..."
