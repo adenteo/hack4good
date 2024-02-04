@@ -5,7 +5,7 @@ import { AttendanceStatus } from './types';
 const attendeeSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   role: { type: String, required: true },
-  //TODO: signUpFormDetails: { },
+  signUpFormDetails: { type: Schema.Types.Mixed }, // Flexible field 
   attendanceStatus: { 
     type: String, 
     enum: Object.values(AttendanceStatus), 

@@ -4,10 +4,10 @@ import { connectToDB } from '../mongoose';
 import Activity from '@/models/Activity';
 
 // Function to create an Activity
-export async function addActivity(activityData) {
+export async function addActivity(activityData: object) {
   // Create a new Activity document
   await connectToDB();
-  const existingActivity = await Activity.findOne({ name: activityData.name });
+  const existingActivity = await Activity.findOne({ name: activityData.name});
   if (existingActivity) {
     throw new Error('Activity with the same name already exists.');
   } else {

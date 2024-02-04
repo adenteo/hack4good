@@ -1,4 +1,5 @@
 // src/models/defaultForms.ts
+'use server';
 import { connectToDB } from '../mongoose';
 import CustomForm from '@/models/Form';
 
