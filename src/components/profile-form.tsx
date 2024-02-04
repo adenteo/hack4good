@@ -55,7 +55,7 @@ export function ProfileForm() {
               <FormLabel>First Name</FormLabel>
               <FormControl>
                 <Input
-                  className="text-sm"
+                  className="text-sm w-80 md:w-96 lg:w-96"
                   type="text"
                   id="firstName"
                   placeholder="Amy"

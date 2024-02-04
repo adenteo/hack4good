@@ -117,7 +117,7 @@ export default function VolunteerProfile() {
           </div>
         </div>
         <div className="flex justify-center">
-          <div className="flex justify-between rounded-xl shadow-lg mt-[-1.5rem] bg-white relative z-10 p-4 w-4/5 lg:w-1/2 lg:justify-center">
+          <div className="flex justify-between rounded-xl shadow-lg mt-[-1.5rem] bg-white relative z-20 p-4 w-4/5 lg:w-1/2 lg:justify-center">
             <div className="flex items-center lg:mr-14">
               <CalendarHeart size={20} />
               <div className="ml-1">
@@ -147,166 +147,78 @@ export default function VolunteerProfile() {
           <Tab>Certificates</Tab>
           <Tab>About Me</Tab>
         </TabList>
-        <div className="h-[60vh] lg:h-96 overflow-y-auto">
+        {/* <div className="h-[60vh] lg:h-96 overflow-y-auto"> */}
+        <div className=" overflow-y-auto">
           <TabPanels>
             <TabPanel>
               <div className="mt-6">
-                <ScrollArea>
-                  <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                    {activities.map((activity, index) => (
-                      <figure
-                        key={index}
-                        className="shrink-0 w-full lg:w-64 hover:drop-shadow-md cursor-pointer"
-                      >
-                        <div className="relative overflow-hidden rounded-tl-md rounded-tr-md">
-                          <Image
-                            priority
-                            src={activity.imageUrl}
-                            alt={activity.title}
-                            className="aspect-square h-32 w-full md:h-56 lg:h-64 object-cover"
-                            width={1000}
-                            height={1000}
-                          ></Image>
+                {/* <ScrollArea> */}
+                <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                  {activities.map((activity, index) => (
+                    <figure
+                      key={index}
+                      className="shrink-0 w-full lg:w-64 hover:drop-shadow-md cursor-pointer"
+                    >
+                      <div className="relative overflow-hidden rounded-tl-md rounded-tr-md">
+                        <Image
+                          priority
+                          src={activity.imageUrl}
+                          alt={activity.title}
+                          className="aspect-square h-32 w-full md:h-56 lg:h-64 object-cover"
+                          width={1000}
+                          height={1000}
+                        ></Image>
+                      </div>
+                      <figcaption className="flex flex-col justify-between p-2 text-xs text-muted-foreground bg-gray-100 h-auto whitespace-normal rounded-b-md">
+                        <div className=" items-center ">
+                          <span className="text-gray-600 font-medium text-sm lg:text-lg line-clamp-1">
+                            {activity.title}
+                          </span>
                         </div>
-                        <figcaption className="flex flex-col justify-between p-2 text-xs text-muted-foreground bg-gray-100 h-auto whitespace-normal rounded-b-md">
-                          <div className=" items-center ">
-                            <span className="text-gray-600 font-medium text-sm lg:text-lg line-clamp-1">
-                              {activity.title}
-                            </span>
-                          </div>
 
-                          <div className="flex justify-between">
-                            <p className="mt-1 text-gray-700 line-clamp-3 lg:mb-1 lg:text-sm">
-                              {activity.date}
-                            </p>
-                            <p className="mt-1 text-black font-semibold line-clamp-3 text-[0.85rem]">
-                              {activity.hours}hrs
-                            </p>
-                          </div>
-                        </figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                </ScrollArea>
+                        <div className="flex justify-between">
+                          <p className="mt-1 text-gray-700 line-clamp-3 lg:mb-1 lg:text-sm">
+                            {activity.date}
+                          </p>
+                          <p className="mt-1 text-black font-semibold line-clamp-3 text-[0.85rem]">
+                            {activity.hours}hrs
+                          </p>
+                        </div>
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+                {/* </ScrollArea> */}
               </div>
             </TabPanel>
             <TabPanel>
               <div className="mt-6">
-                <ScrollArea>
-                  <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                    {certificates.map((certificates, index) => (
-                      <figure
-                        key={index}
-                        className="shrink-0 w-full lg:w-64 hover:drop-shadow-md cursor-pointer"
-                      >
-                        <div className="flex justify-center">
-                          <Image
-                            priority
-                            src={certificates}
-                            alt={certificates}
-                            className="h-44 w-full rounded overflow-hidden"
-                            width={1000}
-                            height={1000}
-                          ></Image>
-                        </div>
-                      </figure>
-                    ))}
-                  </div>
-                </ScrollArea>
+                {/* <ScrollArea> */}
+                <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                  {certificates.map((certificates, index) => (
+                    <figure
+                      key={index}
+                      className="shrink-0 w-full lg:w-64 hover:drop-shadow-md cursor-pointer"
+                    >
+                      <div className="flex justify-center">
+                        <Image
+                          priority
+                          src={certificates}
+                          alt={certificates}
+                          className="h-44 w-full rounded overflow-hidden"
+                          width={1000}
+                          height={1000}
+                        ></Image>
+                      </div>
+                    </figure>
+                  ))}
+                </div>
+                {/* </ScrollArea> */}
               </div>
             </TabPanel>
             <TabPanel>
               <div className="mt-6 flex flex-col justify-center items-center ">
                 <ProfileForm />
-                {/* <div className="grid w-full max-w-sm items-center gap-1 lg:max-w-lg">
-                  <Label
-                    className="text-gray-500 font-medium text-sm"
-                    htmlFor="firstName"
-                  >
-                    First Name
-                  </Label>
-                  <Input
-                    className="text-sm"
-                    type="firstName"
-                    id="firstName"
-                    placeholder="Amy"
-                  />
-                </div>
-
-                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
-                  <Label
-                    className="text-gray-500 font-medium text-sm"
-                    htmlFor="lastName"
-                  >
-                    Last Name
-                  </Label>
-                  <Input
-                    className="text-sm"
-                    type="lastName"
-                    id="lastName"
-                    placeholder="Tan"
-                  />
-                </div>
-
-                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
-                  <Label
-                    className="text-gray-500 font-medium text-sm"
-                    htmlFor="email"
-                  >
-                    Email
-                  </Label>
-                  <Input
-                    className="text-sm"
-                    type="email"
-                    id="email"
-                    placeholder="amytan@gmail.com"
-                  />
-                </div>
-
-                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
-                  <Label
-                    className="text-gray-500 font-medium text-sm"
-                    htmlFor="phoneNumber"
-                  >
-                    Phone Number
-                  </Label>
-                  <Input
-                    className="text-sm"
-                    type="number"
-                    id="phoneNumber"
-                    placeholder="9126 3728"
-                  />
-                </div>
-
-                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
-                  <Label
-                    className="text-gray-500 font-medium text-sm"
-                    htmlFor="skills"
-                  >
-                    Skills
-                  </Label>
-                  <Input
-                    className="text-sm"
-                    type="skills"
-                    id="skills"
-                    placeholder="Photography, Coding, Graphic Design"
-                  />
-                </div>
-
-                <div className="grid w-full max-w-sm items-center gap-1 mt-4 lg:max-w-lg">
-                  <Label
-                    className="text-gray-500 font-medium text-sm"
-                    htmlFor="interests"
-                  >
-                    Interests
-                  </Label>
-                  <Input
-                    className="text-sm"
-                    type="interests"
-                    id="interests"
-                    placeholder="Fashion, Animals"
-                  />
-                </div> */}
               </div>
             </TabPanel>
           </TabPanels>
