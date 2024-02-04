@@ -1,11 +1,10 @@
-import { Providers } from '@/app/providers';
-import { nanoid } from 'nanoid';
 import { NextAuthOptions, getServerSession } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import User from '@/models/User';
 import bcrypt from 'bcrypt';
 import { connectToDB } from './mongoose';
+import Role from '@/models/Role';
 
 //TODO edit login logic for google. Or consider removing.
 
@@ -47,7 +46,12 @@ export const authOptions: NextAuthOptions = {
         if (!isValid) {
           return null;
         }
-        return { id: user.id, name: user.firstName, email: user.email };
+        return {
+          id: user.id,
+          name: user.firstName,
+          email: user.email,
+          roleId: user.roleId,
+        };
       },
     }),
   ],
@@ -59,31 +63,20 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.image = token.picture;
         session.user.username = token.username;
+        session.user.roleId = token.roleId;
       }
 
       return session;
     },
-    // async jwt({ token, user }) {
-    //   console.log('JWT CALLBACK');
-    //   console.log(token);
-    //   console.log('USER');
-    //   console.log(user);
-    //   await connectToDB();
-    //   const dbUser = await User.findOne({
-    //     email: user.email,
-    //   });
-    //   if (!dbUser) {
-    //     console.log('CANT FIND USER IN DB');
-    //     token.id = user!.id;
-    //     return token;
-    //   }
-    //   return {
-    //     id: dbUser.id,
-    //     name: dbUser.firstName + ' ' + dbUser.lastName,
-    //     email: dbUser.email,
-    //     // picture: dbUser.image,
-    //   };
-    // },
+    async jwt({ token, user }) {
+      if (user) {
+        // Fetch the role from the database
+        const role = await Role.findById(user.roleId);
+        token.roleId = role?.roleName; // Add roleName to the JWT token
+      }
+      console.log(token);
+      return token;
+    },
     async redirect({ url, baseUrl }) {
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       return baseUrl;

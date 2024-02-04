@@ -5,6 +5,7 @@ import { signUpSchema } from '../validators/auth-validator';
 import { connectToDB } from '../mongoose';
 import User from '@/models/User';
 import bcrypt from 'bcrypt';
+import Role from '@/models/Role';
 
 export default async function onSignUp(values: z.infer<typeof signUpSchema>) {
   await connectToDB();
@@ -14,12 +15,23 @@ export default async function onSignUp(values: z.infer<typeof signUpSchema>) {
       error: 'Email already exists.',
     };
   }
+
+  console.log('FINDING');
+  const defaultRole = await Role.findOne({ roleName: 'Volunteer' });
+  console.log(defaultRole);
+  if (!defaultRole) {
+    return {
+      error: 'Default role not found.',
+    };
+  }
+
   const hashedPassword = await bcrypt.hash(values.password, 10);
   const createdUser = await User.create({
     firstName: values.firstName,
     lastName: values.lastName,
     email: values.email,
     password: hashedPassword,
+    roleId: defaultRole._id,
   });
 
   if (createdUser) {

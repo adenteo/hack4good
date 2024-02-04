@@ -13,8 +13,9 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { CircleUserRound } from 'lucide-react';
 interface UserAccountButtonProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, 'name' | 'image' | 'email'>;
+  user: Pick<User, 'name' | 'image' | 'email' | 'roleId'>;
 }
 
 export default function UserAccountButton({ user }: UserAccountButtonProps) {
@@ -24,7 +25,9 @@ export default function UserAccountButton({ user }: UserAccountButtonProps) {
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src={user.image!} alt="@shadcn" />
-          <AvatarFallback>test</AvatarFallback>
+          <AvatarFallback>
+            <CircleUserRound size={25} strokeWidth={1} />
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-white" align="end">
@@ -39,9 +42,13 @@ export default function UserAccountButton({ user }: UserAccountButtonProps) {
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/">Feed</Link>
-        </DropdownMenuItem>
+        {user.roleId === 'Admin' && (
+          <DropdownMenuItem asChild>
+            <Link className="text-red-500" href="/admin">
+              Admin
+            </Link>
+          </DropdownMenuItem>
+        )}
 
         <DropdownMenuItem asChild>
           <Link href="/r/create">Create Community</Link>
