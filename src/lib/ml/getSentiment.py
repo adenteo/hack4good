@@ -1,16 +1,26 @@
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import json
+import sys
 
 def compute_composite_sentiment(json_data):
     analyzer = SentimentIntensityAnalyzer()
     total_score = 0
     num_sentences = 0
+    
     for sentence in json_data['sentences']:
         vs = analyzer.polarity_scores(sentence)
-        total_score += vs['compound'] 
+        total_score += vs['compound']
         num_sentences += 1
-        composite_score = total_score / num_sentences if num_sentences else 0
+    
+    composite_score = total_score / num_sentences if num_sentences else 0
     return composite_score
+
+if __name__ == '__main__':
+    # Read input JSON from stdin
+    input_json = json.load(sys.stdin)
+    score = compute_composite_sentiment(input_json)
+    # Print the score to stdout
+    print(score)
 
 
 ## Example usage:
