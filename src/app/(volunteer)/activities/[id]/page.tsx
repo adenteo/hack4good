@@ -5,7 +5,6 @@ import ExpandableText from '@/components/ui/expandable-text';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock } from 'lucide-react';
-import { Alert } from '@daisyui/react';
 import {
   Popover,
   PopoverTrigger,
