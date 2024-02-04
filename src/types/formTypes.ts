@@ -1,4 +1,4 @@
-// types.ts
+// formTypes.ts
 
 export enum FieldType {
   Text = 'text',
@@ -6,7 +6,8 @@ export enum FieldType {
   Checkbox = 'checkbox',
   Date = 'date',
   Radio = 'radio',
-  Range = 'range',
+  Range = 'range', 
+  //add integer type
 }
 
 export interface FormField {

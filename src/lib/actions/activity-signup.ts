@@ -1,0 +1,1 @@
+//if user is volunteer and status is approved, then add user to activity.attendees
