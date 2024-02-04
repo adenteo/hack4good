@@ -1,5 +1,5 @@
 import { getForms } from '@/lib/actions/get-forms';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { DataTable } from './components/data-table';
 import { columns } from './components/columns';
 
@@ -16,6 +16,7 @@ const FormTabPage: React.FC<FormTabPageProps> = async () => {
     };
     fetchForms();
   }, []);
+
   return (
     <div className="p-6">
       <h1 className=" text-2xl font-bold">All Forms</h1>

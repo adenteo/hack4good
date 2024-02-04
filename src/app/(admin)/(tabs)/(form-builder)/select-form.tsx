@@ -253,7 +253,7 @@ export function SelectForm({
       setSelectedForm(matchingForm);
       setFormFields(matchingForm.fields);
     }
-  }, [forms]);
+  }, [forms, formParams, setFormFields, setSelectedForm]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

@@ -57,6 +57,7 @@ const FormBuilder: React.FC<FormBuilderProps> = () => {
         </div>
         <FormBuilderArea
           selectedForm={selectedForm}
+          forms={forms}
           formFields={formFields}
           setFormFields={setFormFields}
           className="flex-grow ml-6 rounded-md"

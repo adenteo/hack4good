@@ -7,6 +7,7 @@ interface FormBuilderAreaProps {
   formFields: FormField[];
   setFormFields: React.Dispatch<React.SetStateAction<FormField[]>>;
   selectedForm: CustomForm | null;
+  forms: CustomForm[];
 }
 
 const FormBuilderArea: React.FC<FormBuilderAreaProps> = ({
@@ -14,6 +15,7 @@ const FormBuilderArea: React.FC<FormBuilderAreaProps> = ({
   formFields,
   setFormFields,
   selectedForm,
+  forms,
 }) => {
   return (
     <div
@@ -25,6 +27,7 @@ const FormBuilderArea: React.FC<FormBuilderAreaProps> = ({
       <FormBuilder
         setFormFields={setFormFields}
         selectedForm={selectedForm}
+        forms={forms}
         formFields={formFields}
       />
     </div>

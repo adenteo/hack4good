@@ -28,18 +28,31 @@ import {
 } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { toast } from '@/components/ui/use-toast';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface FormBuilderProps {
   formFields: FormFieldType[];
   setFormFields: React.Dispatch<React.SetStateAction<FormFieldType[]>>;
   selectedForm: CustomForm | null;
+  forms: CustomForm[];
 }
 
 const FormBuilder = ({
   formFields,
   setFormFields,
   selectedForm,
+  forms,
 }: FormBuilderProps) => {
+  const [open, setOpen] = useState(false);
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -148,19 +161,19 @@ const FormBuilder = ({
   });
 
   useEffect(() => {
+    console.log('this is happening');
     if (form) {
       form.setValue('title', selectedForm?.title ?? '');
       form.setValue('description', selectedForm?.description ?? '');
     }
-  }, [selectedForm]);
+  }, [selectedForm, form]);
 
   async function onSubmit(values: z.infer<typeof createFormSchema>) {
     const response = await createForm(
       formFields,
       values.title,
-      values.description ?? '',
+      values.description ?? 'placeholder description',
     );
-    console.log(response);
     if (response.error) {
       toast({
         variant: 'destructive',
@@ -218,7 +231,6 @@ const FormBuilder = ({
               )}
             />
           </div>
-
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="ROOT">
               {(provided) => (
@@ -265,13 +277,51 @@ const FormBuilder = ({
               Continue adding fields here or click &apos;Save Form&apos; to save
               your form.
             </p>
-            <Button variant={'default'} className="mt-3" type="submit">
+            <Button
+              type="button"
+              variant={'default'}
+              className="mt-3"
+              onClick={() => {
+                if (
+                  forms.some(
+                    (existingForm) =>
+                      existingForm.title === form.getValues('title'),
+                  )
+                ) {
+                  setOpen(true);
+                } else {
+                  form.handleSubmit(onSubmit)();
+                }
+              }}
+            >
               Save Form
             </Button>
           </DragDropContext>
         </form>
       </Form>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Existing form exists</AlertDialogTitle>
+            <AlertDialogDescription>
+              A form with the same title already exists. Do you want to
+              overwrite it?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                form.handleSubmit(onSubmit)();
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
+
 export default FormBuilder;

@@ -32,7 +32,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
     if (!tab) {
       router.push('?tab=dashboard');
     }
-  }, []);
+  }, [, router, tab]);
 
   return (
     <div

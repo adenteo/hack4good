@@ -5,7 +5,6 @@ import ExpandableText from '@/components/ui/expandable-text';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock } from 'lucide-react';
-import { Alert } from '@daisyui/react';
 import {
   Popover,
   PopoverTrigger,
@@ -160,11 +159,10 @@ export default function ActivityPage({ params: { id } }: Params) {
                   </PopoverTrigger>
                   <PopoverContent className="w-96 pb-44 pl-4 pr-6">
                     <div className=" bg-white border shadow-md flex flex-col justify-left p-6">
-                      <h1 className="text-2xl font-medium mb-2">
-                        {' '}
+                      <h1 className="text-xl font-medium mb-2">
                         Are you absolutely sure?
                       </h1>
-                      <p className="text-lg text-gray-600">
+                      <p className="text-md text-gray-600">
                         You will withdraw from the activity and will have to
                         sign up again
                       </p>

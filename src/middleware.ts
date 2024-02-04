@@ -3,6 +3,9 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
+  if (req.nextUrl.pathname === '/') {
+    return NextResponse.redirect(new URL('/home', req.nextUrl)); // Adjust the URL as needed
+  }
   const token = await getToken({ req });
   if (!token) {
     return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
@@ -18,5 +21,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

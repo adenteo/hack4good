@@ -24,15 +24,8 @@ const Page = () => {
       >
         <Sidebar />
         <ResizableHandle withHandle />
-        <Suspense
-          fallback={
-            <ResizablePanel defaultSize={85}>
-              <Skeleton className="h-full"></Skeleton>
-            </ResizablePanel>
-          }
-        >
-          <Content />
-        </Suspense>
+
+        <Content />
       </ResizablePanelGroup>
     </TooltipProvider>
   );

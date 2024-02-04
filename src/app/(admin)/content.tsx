@@ -8,6 +8,7 @@ import Admin from './(tabs)/(admin)/admin-tab';
 import FormBuilder from './(tabs)/(form-builder)/form-builder-tab';
 import FormTabPage from './(tabs)/(forms)/forms-tab';
 import Calendar from './(tabs)/(calendar)/calendar-tab';
+import { Suspense } from 'react';
 
 export default function Content() {
   const searchParams = useSearchParams();
@@ -26,7 +27,11 @@ export default function Content() {
       case 'calendar':
         return <Calendar />;
       case 'forms':
-        return <FormTabPage />;
+        return (
+          <Suspense>
+            <FormTabPage />
+          </Suspense>
+        );
       case 'form builder':
         return <FormBuilder />;
       default:

@@ -11,7 +11,10 @@ export async function createForm(
   await connectToDB();
   const existingForm = await CustomForm.findOne({ title: title });
   if (existingForm) {
-    await CustomForm.updateOne({ title: title }, { fields: formFields });
+    await CustomForm.updateOne(
+      { title: title },
+      { fields: formFields, title: title, description: description },
+    );
     return { success: true };
   }
   const form = await CustomForm.create({
