@@ -15,16 +15,17 @@ const attendeeSchema = new Schema({
 
 const activitySchema = new Schema({
   title: { type: String, required: true }, 
-  address: { type: String, required: true }, // haven use
+  address: { type: String, required: true },
   description: { type: String, required: true },
-  additionalDetails: { type: String, required: true },
-  date: { type: Date, required: true }, //mine is a string for front end placeholder
-  startTime: { type: Date, required: true },
+  additionalDetails: { type: String, required: false },
+  // date: { type: Date, required: true },  ---> NOT NEEDED, use startTime
+  startTime: { type: Date, required: true }, // use this as start date for front end
   endTime: { type: Date, required: true },
   numPeopleJoined: { type: Number, required: true },
+  volunteerCountNeeded: { type: Number, required: false },
   numHours: { type: Number, required: true },
   pointOfContact: { type: Schema.Types.ObjectId, ref: 'User'},
-  signUpLimit: { type: Number, required: true },
+  signUpLimit: { type: Number, required: false },
   image: { type: String, required: true },
   signUpDeadline: { type: Date, required: true },
   tags: {type: Array, required:true},
