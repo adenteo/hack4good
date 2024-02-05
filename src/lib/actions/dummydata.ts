@@ -81,9 +81,10 @@ function generateRandomUserData(): UserData {
   }
   
 
-  async function generateAndSaveDummyData() {
+  export async function generateAndSaveDummyData() {
+    console.log('making data');
     await connectToDB(); // Replace with your connection string
-  
+    
     for (let i = 0; i < 10; i++) { // Generate 100 users
       const randomUserData = generateRandomUserData();
       const newUser = new User(randomUserData);
@@ -95,14 +96,12 @@ function generateRandomUserData(): UserData {
         await newVolunteer.save();
       }
     }
-  
-    mongoose.disconnect();
-  }
+}
   
 
 
-  generateAndSaveDummyData().then(() => {
-    console.log('Dummy data generated successfully');
-  }).catch((error) => {
-    console.error('Failed to generate dummy data', error);
-  });
+//   generateAndSaveDummyData().then(() => {
+//     console.log('Dummy data generated successfully');
+//   }).catch((error) => {
+//     console.error('Failed to generate dummy data', error);
+//   });

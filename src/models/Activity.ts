@@ -17,6 +17,7 @@ const activitySchema = new Schema({
   title: { type: String, required: true }, 
   address: { type: String, required: true }, // haven use
   description: { type: String, required: true },
+  additionalDescription: { type: String, required: false },
   date: { type: Date, required: true },
   startTime: { type: Date, required: true },
   endTime: { type: Date, required: true },

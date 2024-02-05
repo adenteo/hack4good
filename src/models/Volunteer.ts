@@ -20,7 +20,6 @@ const volunteerSchema = new Schema({
     enum: Object.values(CitizenshipType),
     required: true
   },
-  emailAddress: { type: String, required: true },
   profilePictureUrl: String,
   lastFourDigitsOfNric: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
