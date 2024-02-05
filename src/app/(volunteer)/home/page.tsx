@@ -93,7 +93,7 @@ export default function Home() {
         addDummyDataToAttendeeList();
       }}>activity</Button>
       <Button onClick={() => {
-        getDocumentsByDateRange(new Date(2023, 6, 1), new Date(2023, 10, 31));
+        getDocumentsByDateRange(new Date(2023, 8, 1), new Date(2024, 0, 30));
       }}>get monthly</Button>
       <div className="rounded-b-3xl border bg-black text-white relative h-32 items-center lg:justify-center">
         <div className="flex justify-between p-6 pb-2 ">

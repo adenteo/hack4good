@@ -1,6 +1,8 @@
+'use server';
 import mongoose, { Document } from 'mongoose';
 import { connectToDB } from '../mongoose';
 import Activity from '@/models/Activity';
+import { startOfMonth, endOfMonth, addMonths, isAfter, isBefore } from 'date-fns';
 
 interface IMonthlyDocuments {
   month: number;
@@ -8,54 +10,47 @@ interface IMonthlyDocuments {
   documents: Document[];
 }
 
-async function getDocumentsByDateRange(startDate: Date, endDate: Date): Promise<IMonthlyDocuments[]> {
-    await connectToDB(); // Assume this connects your database correctly
-
+export async function getDocumentsByDateRange(startDate: Date, endDate: Date): Promise<IMonthlyDocuments[]> {
+    await connectToDB(); 
     let monthlyDocuments: IMonthlyDocuments[] = [];
-    let currentMonth = startDate.getMonth();
-    let currentYear = startDate.getFullYear();
+    let currentMonth = startOfMonth(startDate);
+    let end = endOfMonth(endDate);
 
-    while (currentYear < endDate.getFullYear() || (currentYear === endDate.getFullYear() && currentMonth <= endDate.getMonth())) {
-        // Define start of the month
-        let monthStart = new Date(currentYear, currentMonth, 1);
-
-        // Define end of the month
-        let monthEnd = new Date(currentYear, currentMonth + 1, 1);
-        if (monthEnd > endDate) monthEnd = endDate;
+    while (isBefore(currentMonth, end)) {
+        let nextMonth = addMonths(currentMonth, 1);
+        if (isAfter(nextMonth, end)) {
+            nextMonth = end;
+        }
 
         try {
             const documents = await Activity.find({
-                date: { 
-                    $gte: monthStart,
-                    $lt: monthEnd
+                startTime: { 
+                    $gte: currentMonth,
+                    $lt: nextMonth
                 }
             }).exec();
 
             monthlyDocuments.push({
-                month: currentMonth + 1, // Month (1-12)
-                year: currentYear,
+                month: currentMonth.getMonth() + 1, // Month (1-12)
+                year: currentMonth.getFullYear(),
                 documents
             });
 
-            // Move to the next month
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
+            currentMonth = nextMonth;
         } catch (error) {
-            console.error(`Error fetching documents for month ${currentMonth + 1} of ${currentYear}:`, error);
+            console.error(`Error fetching documents for month ${currentMonth.getMonth() + 1} of ${currentMonth.getFullYear()}:`, error);
             // Depending on your needs, you may decide to throw the error or simply log it and continue
         }
     }
+    console.log('monthlyDocuments', monthlyDocuments);
     return monthlyDocuments;
 }
 
-// Usage example with a specific date range
-getDocumentsByDateRange(new Date(2023, 0, 1), new Date(2023, 11, 31))
-.then(monthlyDocs => {
-    monthlyDocs.forEach(monthData => {
-        console.log(`Documents for ${monthData.month}/${monthData.year}:`, monthData.documents);
-    });
-})
-.catch(err => console.error(err));
+// // Usage example with a specific date range
+// getDocumentsByDateRange(new Date(2023, 0, 1), new Date(2023, 11, 31))
+// .then(monthlyDocs => {
+//     monthlyDocs.forEach(monthData => {
+//         console.log(`Documents for ${monthData.month}/${monthData.year}:`, monthData.documents);
+//     });
+// })
+// .catch(err => console.error(err));
