@@ -4,9 +4,7 @@ import {
   VolunteerStatus,
   CitizenshipType,
   EmploymentStatus,
-  DrivingLicence,
 } from './types';
-
 
 const volunteerSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },

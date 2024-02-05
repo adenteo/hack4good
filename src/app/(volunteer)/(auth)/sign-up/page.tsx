@@ -35,7 +35,6 @@ import onSignUp from '@/lib/actions/sign-up';
 const SignIn = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
-  console.log('hi');
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {

@@ -19,7 +19,10 @@ import { Activity, FeaturedScroll } from '@/components/ui/featured-scroll';
 import { Button } from '@/components/ui/button';
 import { addRoles } from '@/lib/actions/add-roles';
 import { generateAndSaveDummyData } from '@/lib/actions/dummydata';
-import { addDummyDataToAttendeeList, generateAndSaveDummyActivityData } from '@/lib/actions/dummyactivity';
+import {
+  addDummyDataToAttendeeList,
+  generateAndSaveDummyActivityData,
+} from '@/lib/actions/dummyactivity';
 import { getDocumentsByDateRange } from '@/lib/actions/get-monthly-reports';
 
 const dummyActivities: Activity[] = [
@@ -84,8 +87,8 @@ const activities = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen p-6">
-      <Button onClick={() => {
+    <div className="min-h-screen">
+      {/* <Button onClick={() => {
         generateAndSaveDummyData();
       }}>user</Button>
       <Button onClick={() => {
@@ -94,17 +97,12 @@ export default function Home() {
       }}>activity</Button>
       <Button onClick={() => {
         getDocumentsByDateRange(new Date(2023, 6, 1), new Date(2023, 10, 31));
-      }}>get monthly</Button>
-      <div className="rounded-b-3xl border bg-black text-white relative h-32 items-center lg:justify-center">
+      }}>get monthly</Button> */}
+      <div className="rounded-b-3xl bg-black text-white relative h-32 items-center lg:justify-center p-0 m-0">
         <div className="flex justify-between p-6 pb-2 ">
           <div>
             <h1 className="text-lg font-semibold">Explore</h1>
             <p className="text-xs">Activities for you</p>
-          </div>
-          <div className="avatar">
-            <div className=" w-10 h-10 rounded-full">
-              <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
           </div>
         </div>
 
@@ -116,24 +114,25 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className=" pb-1 pt-4">
-        <p className="text-lg font-semibold text-black">Featured</p>
-      </div>
-      <div className="flex">
-        <FeaturedScroll activities={dummyActivities} />
-      </div>
-      <div className="pb-1 pt-4">
-        <p className="text-lg font-semibold text-black">For You</p>
-      </div>
-      <div className="flex">
-        <ForYouScroll activities={dummyActivities} />
-      </div>
-
-      <div className="pb-1 pt-4">
-        <p className="text-lg font-semibold text-black">Upcoming</p>
-      </div>
-      <div className="flex">
-        <ForYouScroll activities={dummyActivities} />
+      <div className="p-6">
+        <div className=" pb-1 pt-4">
+          <p className="text-lg font-semibold text-black">Featured</p>
+        </div>
+        <div className="flex">
+          <FeaturedScroll activities={dummyActivities} />
+        </div>
+        <div className="pb-1 pt-4">
+          <p className="text-lg font-semibold text-black">For You</p>
+        </div>
+        <div className="flex">
+          <ForYouScroll activities={dummyActivities} />
+        </div>
+        <div className="pb-1 pt-4">
+          <p className="text-lg font-semibold text-black">Upcoming</p>
+        </div>
+        <div className="flex">
+          <ForYouScroll activities={dummyActivities} />
+        </div>
       </div>
     </div>
   );
