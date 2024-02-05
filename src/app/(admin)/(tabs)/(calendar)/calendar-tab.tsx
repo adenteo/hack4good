@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { debounce } from 'lodash';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 const Calendar: React.FC = () => {
   const [text, setText] = useState('');
@@ -16,6 +17,7 @@ const Calendar: React.FC = () => {
 
   useEffect(() => {
     const makePostRequest = async () => {
+      if (text.length < 20) return;
       try {
         const response = await fetch('/api/classify', {
           method: 'POST',
@@ -25,8 +27,7 @@ const Calendar: React.FC = () => {
           body: JSON.stringify({ text: text }),
         });
         const data = await response.json();
-        console.log(data);
-        setTags(data.tags);
+        setTags(data.tags.map((tag: string) => tag.toLowerCase()));
       } catch (error) {
         console.error('Error posting data:', error);
       }
