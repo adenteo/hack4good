@@ -118,15 +118,6 @@ export function SignUpForm() {
       phoneNumber: '',
       dateOfBirth: new Date(),
       residentialStatus: '',
-      //   address: {
-      //     block: '',
-      //     street: '',
-      //     building: '',
-      //     floorUnit: '',
-      //     city: '',
-      //     zipCode: '',
-      //     country: '',
-      //   },
       availabilities: [''],
       tags: [''],
 

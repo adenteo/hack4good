@@ -22,7 +22,7 @@ async function checkDefaultActivityForm() {
 }
 const defaultActivityFormFields = [
     {
-      id: 'name',
+      id: 'title',
       label: 'Activity Name',
       type: 'text',
       placeholder: 'Enter the name of the activity',
@@ -43,12 +43,19 @@ const defaultActivityFormFields = [
       required: true,
     },
     {
-      id: 'day',
-      label: 'Day of the Week',
+      id: 'additionalDetails',
+      label: 'Additional Details',
       type: 'text',
-      placeholder: 'Enter the day of the week as a number (0=Sunday, 6=Saturday)',
+      placeholder: 'Any further details about the activity',
       required: true,
     },
+    // {
+    //   id: 'day',
+    //   label: 'Day of the Week',
+    //   type: 'text',
+    //   placeholder: 'Enter the day of the week as a number (0=Sunday, 6=Saturday)',
+    //   required: true,
+    // },
     {
       id: 'startTime',
       label: 'Start Time',
@@ -61,6 +68,13 @@ const defaultActivityFormFields = [
       label: 'End Time',
       type: 'date',
       placeholder: 'Enter the end time for the activity',
+      required: true,
+    },
+    {
+      id: 'numHours',
+      label: 'Duration of activity',
+      type: 'number',
+      placeholder: 'Enter the total duration for the activity',
       required: true,
     },
     {
@@ -78,7 +92,7 @@ const defaultActivityFormFields = [
       required: true,
     },
     {
-      id: 'imgUrl',
+      id: 'image',
       label: 'Image URL',
       type: 'url',
       placeholder: 'Enter the URL for the activity image',
@@ -89,6 +103,20 @@ const defaultActivityFormFields = [
       label: 'Sign-Up Deadline',
       type: 'date',
       placeholder: 'Enter the deadline for signing up for the activity',
+      required: true,
+    },
+    {
+      id: 'tags',
+      label: 'Category of activity',
+      type: 'checkbox',
+      placeholder: 'Select all categories that are related to your activity',
+      required: true,
+    },
+    {
+      id: 'contactUs',
+      label: 'Point of contact',
+      type: 'email',
+      placeholder: 'Please provide your email address for volunteers to contact',
       required: true,
     },
     // point of contact, activity signup form will be added as selectable items?
