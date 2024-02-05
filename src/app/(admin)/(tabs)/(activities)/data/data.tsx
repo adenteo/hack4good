@@ -10,40 +10,25 @@ import {
 } from '@radix-ui/react-icons';
 import { ArrowUpFromDot } from 'lucide-react';
 
-export const labels = [
-  {
-    value: 'bug',
-    label: 'Bug',
-  },
-  {
-    value: 'feature',
-    label: 'Feature',
-  },
-  {
-    value: 'documentation',
-    label: 'Documentation',
-  },
-];
-
 export const statuses = [
   {
-    value: 'upcoming',
+    value: 'Upcoming',
     label: 'Upcoming',
     icon: ArrowUpFromDot,
   },
   {
-    value: 'in progress',
-    label: 'In Progress',
+    value: 'Ongoing',
+    label: 'Ongoing',
     icon: StopwatchIcon,
   },
   {
-    value: 'done',
-    label: 'Done',
+    value: 'Completed',
+    label: 'Completed',
     icon: CheckCircledIcon,
   },
   {
-    value: 'canceled',
-    label: 'Canceled',
+    value: 'Cancelled',
+    label: 'Cancelled',
     icon: CrossCircledIcon,
   },
 ];

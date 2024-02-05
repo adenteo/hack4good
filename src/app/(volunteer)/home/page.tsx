@@ -88,6 +88,14 @@ const activities = [
 export default function Home() {
   return (
     <div className="min-h-screen">
+      <Button
+        onClick={() => {
+          generateAndSaveDummyActivityData();
+          addDummyDataToAttendeeList();
+        }}
+      >
+        activity
+      </Button>
       {/* <Button onClick={() => {
         generateAndSaveDummyData();
       }}>user</Button>

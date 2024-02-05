@@ -27,11 +27,7 @@ export default function Content() {
       case 'calendar':
         return <Calendar />;
       case 'forms':
-        return (
-          <Suspense>
-            <FormTabPage />
-          </Suspense>
-        );
+        return <FormTabPage />;
       case 'form builder':
         return <FormBuilder />;
       default:
