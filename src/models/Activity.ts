@@ -1,6 +1,6 @@
 // src/models/Activity.ts
 import {Schema, model, models } from 'mongoose';
-import { AttendanceStatus } from './types';
+import { AttendanceStatus, volunteerTheme } from './types';
 
 const attendeeSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -27,6 +27,7 @@ const activitySchema = new Schema({
   signUpDeadline: { type: Date, required: true },
   activitySignupForm: { type: Schema.Types.ObjectId, ref: 'CustomForm'},
   attendees: [attendeeSchema],
+  tags: { type: [String], enum: Object.values(volunteerTheme)},
 });
 
 

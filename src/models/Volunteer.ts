@@ -1,6 +1,6 @@
 // src/models/Volunteer.ts
 import {Schema, model, models } from 'mongoose';
-import { Gender, VolunteerStatus, CitizenshipType, EmploymentStatus, DrivingLicence } from './types';
+import { Gender, VolunteerStatus, CitizenshipType, EmploymentStatus} from './types';
 
 const volunteerSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -24,20 +24,19 @@ const volunteerSchema = new Schema({
   profilePictureUrl: String,
   lastFourDigitsOfNric: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
-  contactNumber: Number,
+  contactNumber: String,
   address: String,
   postalCode: String,
   employmentStatus: {
     type: String,
     enum: Object.values(EmploymentStatus),
-    required: true
-  },
+    required: true},
   occupation: String,
-  drivingLicence: String,
+  drivingLicence: { type: Boolean, default: false },
   skills: String,
   declarations: String,
   remark: String,
-  experienceWithPwid: String,
+  pwdTrained: { type: Boolean, default: false },
 });
 
 const Volunteer = models.Volunteer ||  model('Volunteer', volunteerSchema);
