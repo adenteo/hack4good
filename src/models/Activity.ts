@@ -1,6 +1,6 @@
 // src/models/Activity.ts
 import {Schema, model, models } from 'mongoose';
-import { AttendanceStatus } from './types';
+import { AttendanceStatus, volunteerTheme } from './types';
 
 const attendeeSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -18,7 +18,6 @@ const activitySchema = new Schema({
   address: { type: String, required: true },
   description: { type: String, required: true },
   additionalDetails: { type: String, required: false },
-  // date: { type: Date, required: true },  ---> NOT NEEDED, use startTime
   startTime: { type: Date, required: true }, // use this as start date for front end
   endTime: { type: Date, required: true },
   numPeopleJoined: { type: Number, required: true },
@@ -31,6 +30,7 @@ const activitySchema = new Schema({
   tags: {type: Array, required:true},
   activitySignupForm: { type: Schema.Types.ObjectId, ref: 'CustomForm'},
   attendees: [attendeeSchema],
+  tags: { type: [String], enum: Object.values(volunteerTheme)},
 });
 
 

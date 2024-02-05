@@ -37,10 +37,6 @@ Retired = 'Retired',
 Other = 'Other', // Use this with a free text field
 }
 
-export enum DrivingLicence {
-Yes = 'Yes',
-No = 'No',
-}
 
 export enum AttendanceStatus {
     Present = 'Present',

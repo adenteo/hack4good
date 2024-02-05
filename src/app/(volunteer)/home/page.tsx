@@ -18,6 +18,9 @@ import { Activity, FeaturedScroll } from '@/components/ui/featured-scroll';
 // import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { addRoles } from '@/lib/actions/add-roles';
+import { generateAndSaveDummyData } from '@/lib/actions/dummydata';
+import { addDummyDataToAttendeeList, generateAndSaveDummyActivityData } from '@/lib/actions/dummyactivity';
+import { getDocumentsByDateRange } from '@/lib/actions/get-monthly-reports';
 
 const dummyActivities: Activity[] = [
   {
@@ -82,6 +85,16 @@ const activities = [
 export default function Home() {
   return (
     <div className="min-h-screen p-6">
+      <Button onClick={() => {
+        generateAndSaveDummyData();
+      }}>user</Button>
+      <Button onClick={() => {
+        generateAndSaveDummyActivityData();
+        addDummyDataToAttendeeList();
+      }}>activity</Button>
+      <Button onClick={() => {
+        getDocumentsByDateRange(new Date(2023, 6, 1), new Date(2023, 10, 31));
+      }}>get monthly</Button>
       <div className="rounded-b-3xl border bg-black text-white relative h-32 items-center lg:justify-center">
         <div className="flex justify-between p-6 pb-2 ">
           <div>
