@@ -8,6 +8,7 @@ import {
 
 const volunteerSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  fullName: { type: String, required: true },
   volunteerStatus: {
     type: String,
     enum: Object.values(VolunteerStatus),

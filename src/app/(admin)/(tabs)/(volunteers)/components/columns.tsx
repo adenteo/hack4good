@@ -5,12 +5,13 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { labels, priorities, statuses } from '../data/data';
+import { genders, labels, priorities, statuses } from '../data/data';
 import { Task } from '../data/schema';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<any>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -36,40 +37,60 @@ export const columns: ColumnDef<Task>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'id',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Task" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue('id')}</div>,
-    enableSorting: false,
-    enableHiding: false,
+    accessorKey: 'profilePictureUrl',
+    header: ({ column }) => <div>Profile Picture</div>,
+    cell: ({ row }: any) => {
+      return (
+        <div className="flex space-x-2">
+          <Avatar>
+            <AvatarImage src={row.getValue('profilePictureUrl')} alt="img" />
+            <AvatarFallback>user</AvatarFallback>
+          </Avatar>
+        </div>
+      );
+    },
   },
   {
-    accessorKey: 'title',
+    accessorKey: 'fullName',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
-    cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label);
+    cell: ({ row }: any) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue('fullName')}
+          </span>
+        </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: 'dateOfBirth',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Date of Birth" />
+    ),
+    cell: ({ row }: any) => {
+      const date = row.getValue('dateOfBirth');
 
       return (
         <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('title')}
+            {new Date(date).toLocaleDateString()}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: 'status',
+    accessorKey: 'volunteerStatus',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
       const status = statuses.find(
-        (status) => status.value === row.getValue('status'),
+        (status) => status.value === row.getValue('volunteerStatus'),
       );
 
       if (!status) {
@@ -78,10 +99,39 @@ export const columns: ColumnDef<Task>[] = [
 
       return (
         <div className="flex w-[100px] items-center">
-          {status.icon && (
-            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+          {status.label === 'Active' ? (
+            <span className="bg-green-500 rounded-full p-1 px-2 text-xs text-white">
+              {status.label}
+            </span>
+          ) : (
+            <span className="bg-red-500 rounded-full p-1 px-2 text-xs text-white">
+              {status.label}
+            </span>
           )}
-          <span>{status.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: 'gender',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Gender" />
+    ),
+    cell: ({ row }) => {
+      const gender = genders.find(
+        (gender) => gender.value === row.getValue('gender'),
+      );
+
+      if (!gender) {
+        return null;
+      }
+
+      return (
+        <div className="flex items-center">
+          <span>{gender.label}</span>
         </div>
       );
     },

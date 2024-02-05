@@ -28,6 +28,7 @@ import {
 import { DataTablePagination } from '../components/data-table-pagination';
 import { DataTableToolbar } from '../components/data-table-toolbar';
 import { getAllVolunteers } from '@/lib/actions/get-all-volunteers';
+import { getAllAdmins } from '@/lib/actions/get-all-admins';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,13 +46,13 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [data, setData] = React.useState([]);
   React.useEffect(() => {
-    const fetchVolunteers = async () => {
-      const volunteers = await getAllVolunteers();
-      const volunteersJson = JSON.parse(volunteers);
-      console.log(volunteersJson);
-      setData(volunteersJson);
+    const fetchAdmins = async () => {
+      const admins = await getAllAdmins();
+      const adminsJson = JSON.parse(admins);
+      console.log(adminsJson);
+      setData(adminsJson);
     };
-    fetchVolunteers();
+    fetchAdmins();
   }, []);
 
   const table = useReactTable({

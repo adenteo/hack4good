@@ -55,11 +55,6 @@ export const columns: ColumnDef<any>[] = [
       <DataTableColumnHeader column={column} title="Start Date" />
     ),
     cell: ({ row }: any) => {
-      const options = {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      };
       const date: Date = row.getValue('startTime');
 
       return (
@@ -160,27 +155,3 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
-
-const StatusComponent = (status: any) => {
-  let backgroundColor;
-
-  switch (status) {
-    case 'Completed':
-      backgroundColor = 'green';
-      break;
-    case 'Upcoming':
-      backgroundColor = 'blue';
-      break;
-    case 'Ongoing':
-      backgroundColor = 'yellow';
-      break;
-    case 'Cancelled':
-      backgroundColor = 'red';
-      break;
-    default:
-      backgroundColor = 'gray';
-      break;
-  }
-
-  return <span style={{ backgroundColor }}>{status.label}</span>;
-};

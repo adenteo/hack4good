@@ -59,6 +59,12 @@ export default function Sidebar() {
             variant: 'ghost',
           },
           {
+            title: 'Admin',
+            label: '',
+            icon: Lock,
+            variant: 'ghost',
+          },
+          {
             title: 'Forms',
             icon: FileText,
             variant: 'ghost',
@@ -66,12 +72,6 @@ export default function Sidebar() {
           {
             title: 'Form Builder',
             icon: Blocks,
-            variant: 'ghost',
-          },
-          {
-            title: 'Admin',
-            label: '',
-            icon: Lock,
             variant: 'ghost',
           },
         ]}

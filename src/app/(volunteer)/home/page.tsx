@@ -90,12 +90,26 @@ export default function Home() {
     <div className="min-h-screen">
       <Button
         onClick={() => {
+          getDocumentsByDateRange(new Date(2023, 6, 1), new Date(2023, 10, 31));
+        }}
+      >
+        get monthly
+      </Button>
+      <Button
+        onClick={() => {
+          generateAndSaveDummyData();
+        }}
+      >
+        user
+      </Button>
+      {/* <Button
+        onClick={() => {
           generateAndSaveDummyActivityData();
           addDummyDataToAttendeeList();
         }}
       >
         activity
-      </Button>
+      </Button> */}
       {/* <Button onClick={() => {
         generateAndSaveDummyData();
       }}>user</Button>
@@ -103,9 +117,9 @@ export default function Home() {
         generateAndSaveDummyActivityData();
         addDummyDataToAttendeeList();
       }}>activity</Button>
-      <Button onClick={() => {
-        getDocumentsByDateRange(new Date(2023, 6, 1), new Date(2023, 10, 31));
-      }}>get monthly</Button> */}
+    //   <Button onClick={() => {
+    //     getDocumentsByDateRange(new Date(2023, 6, 1), new Date(2023, 10, 31));
+    //   }}>get monthly</Button> */}
       <div className="rounded-b-3xl bg-black text-white relative h-32 items-center lg:justify-center p-0 m-0">
         <div className="flex justify-between p-6 pb-2 ">
           <div>

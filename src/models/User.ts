@@ -1,5 +1,5 @@
 // src/models/User.ts
-import {Schema, model, models } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 import { UserStatus } from './types';
 
 const userSchema = new Schema({
@@ -15,7 +15,11 @@ const userSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   title: String,
   isAdmin: { type: Boolean, default: false },
-  volunteerDetails: { type: Schema.Types.ObjectId, ref: 'Volunteer', required: false },
+  volunteerDetails: {
+    type: Schema.Types.ObjectId,
+    ref: 'Volunteer',
+    required: false,
+  },
 });
 
 const User = models.User || model('User', userSchema);

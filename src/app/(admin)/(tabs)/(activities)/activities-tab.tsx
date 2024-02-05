@@ -1,10 +1,5 @@
 import { DataTable } from './components/data-table';
 import { columns } from './components/columns';
-import { z } from 'zod';
-import { promises as fs } from 'fs';
-import path from 'path';
-import { useEffect, useState } from 'react';
-import { getAllActivities } from '@/lib/actions/get-all-activities';
 
 interface ActivitiesProps {}
 
