@@ -18,7 +18,7 @@ type UserData = {
     isAdmin: boolean;
   };
   
-  type VolunteerData = {
+type VolunteerData = {
     user: mongoose.Types.ObjectId;
     volunteerStatus: VolunteerStatus;
     gender: Gender;
@@ -99,6 +99,8 @@ function generateRandomUserData(): UserData {
     mongoose.disconnect();
   }
   
+
+
   generateAndSaveDummyData().then(() => {
     console.log('Dummy data generated successfully');
   }).catch((error) => {
