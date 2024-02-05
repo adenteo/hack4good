@@ -1,36 +1,42 @@
 // src/models/Volunteer.ts
-import {Schema, model, models } from 'mongoose';
-import { Gender, VolunteerStatus, CitizenshipType, EmploymentStatus, DrivingLicence } from './types';
+import { Schema, model, models } from 'mongoose';
+import {
+  Gender,
+  VolunteerStatus,
+  CitizenshipType,
+  EmploymentStatus,
+  DrivingLicence,
+} from './types';
 
 const volunteerSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  volunteerStatus: { 
-    type: String, 
-    enum: Object.values(VolunteerStatus), 
-    default: VolunteerStatus.Active 
+  volunteerStatus: {
+    type: String,
+    enum: Object.values(VolunteerStatus),
+    default: VolunteerStatus.Active,
   },
   gender: {
     type: String,
     enum: Object.values(Gender),
-    required: true
+    required: true,
   },
   updatedAt: { type: Date, default: Date.now },
   citizenshipType: {
     type: String,
     enum: Object.values(CitizenshipType),
-    required: true
+    required: true,
   },
   emailAddress: { type: String, required: true },
   profilePictureUrl: String,
   lastFourDigitsOfNric: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
-  contactNumber: Number,
+  contactNumber: String,
   address: String,
   postalCode: String,
   employmentStatus: {
     type: String,
     enum: Object.values(EmploymentStatus),
-    required: true
+    required: true,
   },
   occupation: String,
   drivingLicence: String,
@@ -40,6 +46,6 @@ const volunteerSchema = new Schema({
   experienceWithPwid: String,
 });
 
-const Volunteer = models.Volunteer ||  model('Volunteer', volunteerSchema);
+const Volunteer = models.Volunteer || model('Volunteer', volunteerSchema);
 
 export default Volunteer;

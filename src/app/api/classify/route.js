@@ -45,20 +45,19 @@ export async function POST(request) {
     'Charity',
     'Overseas',
   ];
-  const output = await classifier(text, volunteer_themes);
+  const output = await classifier(text, volunteer_themes, { multi_label: true });
   const scores = output.scores;
-  const highestFive = getTopFiveTags(scores, volunteer_themes);
-  return NextResponse.json(highestFive);
+  const labels = output.labels;
+  const scoredLabels = scores
+  .map((score, index) => ({ score, label: labels[index] }))
+  .filter(pair => pair.score > 0.6)
+  .sort((a, b) => b.score - a.score);
+
+// Separate the scores and labels after filtering and sorting
+const highScores = scoredLabels.map(pair => pair.score);
+const highLabels = scoredLabels.map(pair => pair.label);
+
+return NextResponse.json({ scores: highScores, tags: highLabels });
+//   return NextResponse.json({scores: scores.slice(0, 5), tags: tags.slice(0, 5)});
 }
 
-function getTopFiveTags(scores, labels) {
-  let paired = scores.map((number, index) => ({ number, text: labels[index] }));
-  paired.sort((a, b) => b.number - a.number);
-  let highestFivePairs = paired.slice(0, 5);
-  let topFiveScores = highestFivePairs.map((pair) => pair.number);
-  let topFiveTags = highestFivePairs.map((pair) => pair.text);
-  return {
-    tags: topFiveTags,
-    scores: topFiveScores,
-  };
-}

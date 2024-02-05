@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.0",
     "@headlessui/react": "^1.7.18",
     "@headlessui/tailwindcss": "^0.2.0",
     "@hello-pangea/dnd": "^16.5.0",
@@ -60,6 +61,7 @@
     "react-resizable-panels": "^2.0.3",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.7.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
