@@ -2,13 +2,15 @@ import * as React from 'react';
 import Image from 'next/image';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import Link from 'next/link';
+import { getAllActivities } from '@/lib/actions/get-all-activities';
 
 export interface Activity {
   image: string;
   title: string;
-  numPeopleJoined: number;
+  attendees: any[];
   numHours: number;
   description: string;
+  additionalDetails: string;
   date: string;
   tags: string[];
 }
@@ -24,7 +26,7 @@ const avatarUrls = [
 
 export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
   activities,
-}) => {
+}: ScrollAreaHorizontalDemoProps) => {
   return (
     <ScrollArea className="w-full whitespace-nowrap rounded-md border-none">
       <div className="flex w-max space-x-4 md:space-x-6 lg:space-x-16">
@@ -39,7 +41,8 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
                 <div className="overflow-hidden lg:rounded-md">
                   <div className="relative shadow-lg">
                     <Image
-                      src={activity.image}
+                      //   src={activity.image}
+                      src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                       alt={`Image for ${activity.title}`}
                       className="w-full h-72 md:h-80 lg:h-96 rounded-md filter brightness-75"
                       width={300}
@@ -97,7 +100,7 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
                           >
                             <div className="w-5 text-black lg:w-8">
                               <span className="text-[0.65rem] lg:text-xs">
-                                +{activity.numPeopleJoined}
+                                +{activity.attendees.length}
                               </span>
                             </div>
                           </div>

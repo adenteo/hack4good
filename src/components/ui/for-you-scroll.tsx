@@ -6,11 +6,12 @@ import Link from 'next/link';
 export interface Activity {
   image: string;
   title: string;
-  numPeopleJoined: number;
+  attendees: any[];
   numHours: number;
+  description: string;
+  additionalDetails: string;
   date: string;
   tags: string[];
-  description: string;
 }
 
 interface ScrollAreaHorizontalDemoProps {
@@ -38,7 +39,8 @@ export const ForYouScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
               <figure key={index} className="">
                 <div className=" overflow-hidden lg:rounded-md">
                   <Image
-                    src={activity.image}
+                    // src={activity.image}
+                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                     alt={`Image for ${activity.title}`}
                     className=" w-56 h-36 p-2 object-cover rounded-2xl lg:w-[17.5rem] lg:h-44"
                     width={300}
@@ -105,7 +107,7 @@ export const ForYouScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
                       <div className="avatar placeholder" data-theme="light">
                         <div className="w-6 bg-blue-100 text-black lg:w-8">
                           <span className="text-[0.6rem] lg:text-xs">
-                            +{activity.numPeopleJoined}
+                            +{activity.attendees.length}
                           </span>
                         </div>
                       </div>

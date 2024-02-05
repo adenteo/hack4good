@@ -15,20 +15,20 @@ import User from '@/models/User';
 export async function generateAndSaveDummyActivityData() {
   console.log('hi');
   await connectToDB(); // Replace with your connection string
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 100; i++) {
     // Generate 10 activities
     const date = subWeeks(Date.now(), i);
     const activityData = {
       title: faker.lorem.words(3),
       address: faker.location.streetAddress(),
       description: faker.lorem.sentences(2),
-      additionalDescription: faker.lorem.sentences(5),
+      additionalDetails: faker.lorem.sentences(5),
       date: date,
       startTime: date,
       endTime: addHours(date, 2), // Ensure endTime is after startTime
-      volunteerCountNeeded: faker.number.int({ min: 5, max: 20 }),
       signUpLimit: faker.number.int({ min: 20, max: 50 }),
-      imgUrl: 'hi',
+      numHours: faker.number.int({ min: 1, max: 5 }),
+      image: faker.image.url(),
       signUpDeadline: subWeeks(date, 1),
       status: faker.helpers.arrayElement(Object.values(ActivityStatus)),
       attendees: [], // Initially empty
