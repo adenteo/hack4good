@@ -1,5 +1,3 @@
-'use client';
-
 import * as React from 'react';
 import {
   ColumnDef,
@@ -27,15 +25,15 @@ import {
 
 import { DataTablePagination } from '../components/data-table-pagination';
 import { DataTableToolbar } from '../components/data-table-toolbar';
+import { getForms } from '@/lib/actions/get-forms';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -44,6 +42,16 @@ export function DataTable<TData, TValue>({
     [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    const fetchForms = async () => {
+      const forms = await getForms();
+      const formsJson = JSON.parse(forms);
+      console.log(formsJson);
+      setData(formsJson);
+    };
+    fetchForms();
+  }, []);
 
   const table = useReactTable({
     data,
@@ -66,6 +74,14 @@ export function DataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+
+  if (!data.length) {
+    return (
+      <h1>
+        <span className="loading loading-dots loading-lg"></span>
+      </h1>
+    );
+  }
 
   return (
     <div className="space-y-4">

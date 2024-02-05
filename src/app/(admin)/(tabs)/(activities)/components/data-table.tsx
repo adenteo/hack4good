@@ -1,5 +1,4 @@
 'use client';
-
 import * as React from 'react';
 import {
   ColumnDef,
@@ -27,15 +26,14 @@ import {
 
 import { DataTablePagination } from '../components/data-table-pagination';
 import { DataTableToolbar } from '../components/data-table-toolbar';
+import { getAllActivities } from '@/lib/actions/get-all-activities';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -44,6 +42,16 @@ export function DataTable<TData, TValue>({
     [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    const fetchActivities = async () => {
+      const activities = await getAllActivities();
+      const activitiesJson = JSON.parse(activities);
+      console.log(activitiesJson);
+      setData(activitiesJson);
+    };
+    fetchActivities();
+  }, []);
 
   const table = useReactTable({
     data,
@@ -66,6 +74,14 @@ export function DataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+
+  if (!data.length) {
+    return (
+      <h1>
+        <span className="loading loading-dots loading-lg"></span>
+      </h1>
+    );
+  }
 
   return (
     <div className="space-y-4">

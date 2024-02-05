@@ -2,11 +2,12 @@ import { getAuthSession } from '@/lib/auth';
 import Link from 'next/link';
 import { buttonVariants } from './ui/button';
 import UserAccountButton from './user-account-button';
+import { HeartHandshake } from 'lucide-react';
 
 export default async function NavBar() {
   const session = await getAuthSession();
   return (
-    <div className="navbar bg-base-100 border-b shadow-md">
+    <div className="navbar bg-black text-white shadow-md px-1 py-0">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -27,7 +28,7 @@ export default async function NavBar() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-black rounded-box w-52"
           >
             <li>
               <a>Item 1</a>
@@ -49,14 +50,15 @@ export default async function NavBar() {
           </ul>
         </div>
         <Link href="/" className="btn btn-ghost text-xl">
-          Hack4Good
+          <HeartHandshake />
+          Big At Heart
         </Link>
         {/* <a className="btn btn-ghost text-xl">Hack4Good</a> */}
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+      <div className="navbar-center hidden bg-black lg:flex ">
+        <ul className="menu menu-horizontal px-1 text-black">
           <li>
-            <a>Item 1</a>
+            <a className="text-black">Item 1</a>
           </li>
           <li>
             <details>
@@ -76,7 +78,7 @@ export default async function NavBar() {
           </li>
         </ul>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end pr-6">
         {session?.user ? (
           <UserAccountButton user={session.user!} />
         ) : (

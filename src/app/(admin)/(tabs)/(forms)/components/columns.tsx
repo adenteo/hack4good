@@ -6,11 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 
 import { priorities, statuses } from '../data/data';
-import { Task } from '../data/schema';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
+import { CustomForm } from '@/types/formTypes';
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<CustomForm>[] = [
   {
     id: 'select',
     header: ({ table }) => (

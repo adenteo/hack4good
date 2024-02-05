@@ -47,8 +47,10 @@ const Calendar: React.FC = () => {
         onChange={debouncedHandleChange}
       />
       <div className="mt-6">
-        {tags.map((tag) => (
-          <Badge className="mx-2">{tag}</Badge>
+        {tags.map((tag, index) => (
+          <Badge key={index} className="mx-2">
+            {tag}
+          </Badge>
         ))}
       </div>
     </div>

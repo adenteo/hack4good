@@ -6,8 +6,6 @@ import bcrypt from 'bcrypt';
 import { connectToDB } from './mongoose';
 import Role from '@/models/Role';
 
-//TODO edit login logic for google. Or consider removing.
-
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
@@ -50,7 +48,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           name: user.firstName,
           email: user.email,
-          roleId: user.roleId,
+          isAdmin: user.isAdmin,
         };
       },
     }),
@@ -63,7 +61,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.image = token.picture;
         session.user.username = token.username;
-        session.user.roleId = token.roleId;
+        session.user.isAdmin = token.isAdmin;
       }
 
       return session;
@@ -71,10 +69,9 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         // Fetch the role from the database
-        const role = await Role.findById(user.roleId);
-        token.roleId = role?.roleName; // Add roleName to the JWT token
+        const currentUser = await User.findOne({ email: user.email });
+        token.isAdmin = currentUser.isAdmin;
       }
-      console.log(token);
       return token;
     },
     async redirect({ url, baseUrl }) {

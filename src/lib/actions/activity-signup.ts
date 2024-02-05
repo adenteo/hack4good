@@ -10,52 +10,61 @@
 import Activity from '@/models/Activity';
 import User from '@/models/User';
 import { AttendanceStatus } from '@/models/types';
+import { Angry } from 'lucide-react';
 
+export async function signUpForActivity(
+  activityId: string,
+  userId: string,
+  formDetails: object,
+) {
+  const activity = await Activity.findById(activityId);
 
-export async function signUpForActivity(activityId: string, userId: string, formDetails: object) {
-    const activity = await Activity.findById(activityId);
-    if (!activity) {
-        throw new Error('Activity does not exist.');
-    }
-    if (new Date() > activity.signUpDeadline) {
-        throw new Error('The sign-up deadline for this activity has passed.');
-    }
-    if (activity.attendees && activity.attendees.length >= activity.signUpLimit) {
-        throw new Error('The activity is full.');
-    }
-    const isAlreadySignedUp = activity.attendees.some(attendee => attendee.user.toString() === userId);
-    if (isAlreadySignedUp) {
-        throw new Error('User is already signed up for this activity.');
-    }
-  
-    // Check if user is a volunteer and if their status is approved
-    const user = await User.findById(userId);
-    if (!user) {
-        throw new Error('User does not exist.');
-    }
-    if (user.userStatus !== 'Active') {
-        throw new Error('User is banned or inactive. Cannot sign up for activities.');
-    }
-    if (user.roleId.RoleName !== 'Volunteer') {
-        throw new Error('Only volunteers can sign up for activities.');
-    }  
-    // Add user to activity.attendees with the form details
-    const newAttendee = {
-        user: userId,
-        role: 'Volunteer', // Adjust as needed based on your application logic
-        attendanceStatus: AttendanceStatus.Unconfirmed,
-        signUpFormDetails: formDetails,
-    };
-  
-    activity.attendees.push(newAttendee);
-    await activity.save();
-  
-    return {
-      message: 'User successfully signed up for the activity.',
-      activityId: activity._id,
-      userId: userId
-    };
+  if (!activity) {
+    throw new Error('Activity does not exist.');
   }
+  if (new Date() > activity.signUpDeadline) {
+    throw new Error('The sign-up deadline for this activity has passed.');
+  }
+  if (activity.attendees && activity.attendees.length >= activity.signUpLimit) {
+    throw new Error('The activity is full.');
+  }
+  const isAlreadySignedUp = activity.attendees.some(
+    (attendee: any) => attendee.user.toString() === userId,
+  );
+  if (isAlreadySignedUp) {
+    throw new Error('User is already signed up for this activity.');
+  }
+
+  // Check if user is a volunteer and if their status is approved
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error('User does not exist.');
+  }
+  if (user.userStatus !== 'Active') {
+    throw new Error(
+      'User is banned or inactive. Cannot sign up for activities.',
+    );
+  }
+  if (user.roleId.RoleName !== 'Volunteer') {
+    throw new Error('Only volunteers can sign up for activities.');
+  }
+  // Add user to activity.attendees with the form details
+  const newAttendee = {
+    user: userId,
+    role: 'Volunteer', // Adjust as needed based on your application logic
+    attendanceStatus: AttendanceStatus.Unconfirmed,
+    signUpFormDetails: formDetails,
+  };
+
+  activity.attendees.push(newAttendee);
+  await activity.save();
+
+  return {
+    message: 'User successfully signed up for the activity.',
+    activityId: activity._id,
+    userId: userId,
+  };
+}
 
 //// Example usage:
 //const formDetails = {

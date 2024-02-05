@@ -16,22 +16,13 @@ export default async function onSignUp(values: z.infer<typeof signUpSchema>) {
     };
   }
 
-  console.log('FINDING');
-  const defaultRole = await Role.findOne({ roleName: 'Volunteer' });
-  console.log(defaultRole);
-  if (!defaultRole) {
-    return {
-      error: 'Default role not found.',
-    };
-  }
-
   const hashedPassword = await bcrypt.hash(values.password, 10);
   const createdUser = await User.create({
     firstName: values.firstName,
     lastName: values.lastName,
     email: values.email,
     password: hashedPassword,
-    roleId: defaultRole._id,
+    isAdmin: false,
   });
 
   if (createdUser) {
