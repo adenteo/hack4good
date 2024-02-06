@@ -119,7 +119,7 @@ export async function generateAndSaveDummyData() {
   console.log('making data');
   await connectToDB(); // Replace with your connection string
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 500; i++) {
     // Generate 100 users
     const randomUserData = generateRandomUserData();
     const newUser = new User(randomUserData);

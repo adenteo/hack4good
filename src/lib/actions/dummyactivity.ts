@@ -15,7 +15,7 @@ import User from '@/models/User';
 export async function generateAndSaveDummyActivityData() {
   console.log('hi');
   await connectToDB(); // Replace with your connection string
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 250; i++) {
     // Generate 10 activities
     const date = subWeeks(Date.now(), i);
     const activityData = {

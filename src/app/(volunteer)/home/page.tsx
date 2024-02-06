@@ -103,12 +103,12 @@ export default function Home() {
     <div className="min-h-screen">
       <Button
         onClick={async () => {
-          saveActivitiesToCSV(await fetchCompletedActivitiesWithVolunteers(new Date(2023, 0, 1), new Date(2024, 0, 1)), 'activity.csv');
+          saveActivitiesToCSV(await fetchCompletedActivitiesWithVolunteers(new Date(2022, 0, 1), new Date(2024, 1, 1)), 'activity.csv');
         }}
       > 
         get report
       </Button>
-      <Button
+      {/* <Button
         onClick={ () => {
           generateAndSaveDummyData();
         }}>users</Button>
@@ -116,7 +116,7 @@ export default function Home() {
         onClick={ async () => {
           generateAndSaveDummyActivityData();
           await addDummyDataToAttendeeList();
-        }}>activities</Button>
+        }}>activities</Button> */}
       <div className="rounded-b-3xl bg-black text-white relative h-32 items-center lg:justify-center p-0 m-0">
         <div className="flex justify-between p-6 pb-2 ">
           <div>
