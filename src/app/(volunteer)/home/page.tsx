@@ -25,6 +25,7 @@ import {
 } from '@/lib/actions/dummyactivity';
 import { getDocumentsByDateRange } from '@/lib/actions/get-monthly-reports';
 import { getAllActivities } from '@/lib/actions/get-all-activities';
+import { fetchCompletedActivitiesWithVolunteers, saveActivitiesToCSV } from '@/lib/actions/get-reports';
 import { ActivityType, ExtendedActivityType } from '@/models/Activity';
 
 // const dummyActivities: Activity[] = [
@@ -103,8 +104,19 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      <Button
+        onClick={async () => {
+          saveActivitiesToCSV(await fetchCompletedActivitiesWithVolunteers(new Date(2022, 0, 1), new Date(2024, 1, 1)), 'activity.csv');
+        }}
+      > 
+        get report
+      </Button>
       {/* <Button
-        onClick={() => {
+        onClick={ () => {
+          generateAndSaveDummyData();
+        }}>users</Button>
+      <Button
+        onClick={ async () => {
           generateAndSaveDummyActivityData();
           addDummyDataToAttendeeList();
         }}

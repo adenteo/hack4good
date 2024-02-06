@@ -1,5 +1,5 @@
 'use server';
-import mongoose, { Document } from 'mongoose';
+import { Document } from 'mongoose';
 import { connectToDB } from '../mongoose';
 import Activity from '@/models/Activity';
 import { startOfMonth, endOfMonth, addMonths, isAfter } from 'date-fns';

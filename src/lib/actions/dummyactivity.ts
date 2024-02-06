@@ -15,17 +15,17 @@ import User from '@/models/User';
 export async function generateAndSaveDummyActivityData() {
   console.log('hi');
   await connectToDB(); // Replace with your connection string
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 250; i++) {
     // Generate 10 activities
     const date = subWeeks(Date.now(), i);
     const activityData = {
-      title: faker.lorem.words(3),
+      title: faker.word.words(3),
       address: faker.location.streetAddress(),
       description: faker.lorem.sentences(2),
       additionalDetails: faker.lorem.sentences(5),
-      date: date,
       startTime: date,
       endTime: addHours(date, 2), // Ensure endTime is after startTime
+      volunteerCountNeeded: faker.number.int({ min: 5, max: 20 }),
       signUpLimit: faker.number.int({ min: 20, max: 50 }),
       numHours: faker.number.int({ min: 1, max: 5 }),
       image: faker.image.url(),
@@ -33,6 +33,7 @@ export async function generateAndSaveDummyActivityData() {
       status: faker.helpers.arrayElement(Object.values(ActivityStatus)),
       attendees: [], // Initially empty
       tags: [
+        faker.helpers.arrayElement(Object.values(volunteerTheme)),
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
@@ -73,6 +74,7 @@ export async function addDummyDataToAttendeeList() {
     activity.attendees.push(...attendees);
     await activity.save();
   }
+  console.log('Dummy data added to attendee list successfully');
 }
 
 // generateAndSaveDummyActivityData().then(() => {
