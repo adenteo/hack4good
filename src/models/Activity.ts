@@ -23,6 +23,7 @@ const activitySchema = new Schema({
   numHours: { type: Number, required: false },
   pointOfContact: { type: Schema.Types.ObjectId, ref: 'User' },
   signUpLimit: { type: Number, required: false },
+  volunteerCountNeeded: { type: Number, required: true},
   image: { type: String, required: false },
   signUpDeadline: { type: Date, required: true },
   activitySignupForm: { type: Schema.Types.ObjectId, ref: 'CustomForm' },

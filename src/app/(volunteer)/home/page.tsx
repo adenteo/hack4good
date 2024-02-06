@@ -108,13 +108,13 @@ export default function Home() {
       > 
         get report
       </Button>
-      {/* <Button
+      <Button
         onClick={ () => {
           generateAndSaveDummyData();
-        }}>users</Button> */}
+        }}>users</Button>
       <Button
         onClick={ async () => {
-          // generateAndSaveDummyActivityData();
+          generateAndSaveDummyActivityData();
           await addDummyDataToAttendeeList();
         }}>activities</Button>
       <div className="rounded-b-3xl bg-black text-white relative h-32 items-center lg:justify-center p-0 m-0">

@@ -60,13 +60,32 @@ function generateRandomUserData(): UserData {
   };
 }
 
+function generateSGPostalCode(): string {
+  // Array of valid first two digits (01 to 82 excluding 74)
+  const validFirstTwoDigits = Array.from({ length: 82 }, (_, i) => {
+    const prefix = (i + 1).toString().padStart(2, '0');
+    return prefix !== '74' ? prefix : null;
+  }).filter(Boolean);
+
+  // Select a random prefix from the valid first two digits
+  const randomPrefix = validFirstTwoDigits[Math.floor(Math.random() * validFirstTwoDigits.length)];
+
+  // Generate a random number between 0 and 9999 for the last four digits
+  const lastFourDigits = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+
+  // Combine to form a full 6-digit postal code
+  const postalCode = `${randomPrefix}${lastFourDigits}`;
+
+  return postalCode;
+}
+
 // Function to generate random volunteer data
 function generateRandomVolunteerData(
   userId: mongoose.Types.ObjectId,
 ): VolunteerData {
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
-
+  const postalCode = generateSGPostalCode();
   return {
     user: userId,
     fullName: firstName + ' ' + lastName,
@@ -83,7 +102,7 @@ function generateRandomVolunteerData(
     }),
     contactNumber: faker.string.numeric(5),
     address: faker.location.streetAddress(),
-    postalCode: faker.location.zipCode(),
+    postalCode: postalCode,
     employmentStatus: faker.helpers.arrayElement(
       Object.values(EmploymentStatus),
     ),

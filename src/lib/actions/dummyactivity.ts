@@ -25,6 +25,7 @@ export async function generateAndSaveDummyActivityData() {
       additionalDetails: faker.lorem.sentences(5),
       startTime: date,
       endTime: addHours(date, 2), // Ensure endTime is after startTime
+      volunteerCountNeeded: faker.number.int({ min: 5, max: 20 }),
       signUpLimit: faker.number.int({ min: 20, max: 50 }),
       numHours: faker.number.int({ min: 1, max: 5 }),
       image: faker.image.url(),
