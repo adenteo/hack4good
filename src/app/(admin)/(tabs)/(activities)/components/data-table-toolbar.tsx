@@ -10,7 +10,7 @@ import { DataTableViewOptions } from './data-table-view-options';
 import { priorities, statuses } from '../data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import { CopyPlus, FolderPlus } from 'lucide-react';
-// import Link from 'next/link';
+import Link from 'next/link';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
