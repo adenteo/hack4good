@@ -74,9 +74,9 @@ const certificates = [
 
 export default function VolunteerProfile() {
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-screen">
       <div className="relative">
-        <div className="flex justify-between pl-6 pr-6 rounded-b-3xl border bg-black text-white relative z-10 h-52 items-center lg:justify-center">
+        <div className="flex justify-between pl-6 pr-6 rounded-b-3xl bg-black text-white relative z-10 h-52 items-center lg:justify-center">
           <div className="avatar">
             {/* <div className=" w-24 h-24 rounded-full">
               <Image
@@ -131,7 +131,7 @@ export default function VolunteerProfile() {
 
       <TabGroup defaultIndex={1}>
         <TabList
-          className="mt-8 md:flex md:justify-center lg:flex lg:justify-center"
+          className="mt-8 flex justify-center items-center"
           color="black"
         >
           <Tab>Past Events</Tab>
@@ -139,10 +139,10 @@ export default function VolunteerProfile() {
           <Tab>About Me</Tab>
         </TabList>
         {/* <div className="h-[60vh] lg:h-96 overflow-y-auto"> */}
-        <div className=" overflow-y-auto">
+        <div className="overflow-y-auto p-6">
           <TabPanels>
             <TabPanel>
-              <div className="mt-6">
+              <div className="">
                 {/* <ScrollArea> */}
                 <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                   {activities.map((activity, index) => (
@@ -183,7 +183,7 @@ export default function VolunteerProfile() {
               </div>
             </TabPanel>
             <TabPanel>
-              <div className="mt-6">
+              <div className="">
                 {/* <ScrollArea> */}
                 <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
                   {certificates.map((certificates, index) => (
@@ -208,7 +208,7 @@ export default function VolunteerProfile() {
               </div>
             </TabPanel>
             <TabPanel>
-              <div className="mt-6 flex flex-col justify-center items-center ">
+              <div className="flex flex-col justify-center items-center ">
                 <ProfileForm />
               </div>
             </TabPanel>
