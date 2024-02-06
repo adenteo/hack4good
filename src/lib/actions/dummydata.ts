@@ -56,7 +56,7 @@ function generateRandomUserData(): UserData {
     password: faker.internet.password(), // Remember to hash passwords in production
     userStatus: UserStatus.Active,
     title: faker.person.prefix(),
-    isAdmin: Math.random() > 0.9, // 10% chance of being an admin
+    isAdmin: Math.random() > 0.95, // 10% chance of being an admin
   };
 }
 

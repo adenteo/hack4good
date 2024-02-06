@@ -25,6 +25,7 @@ import {
 } from '@/lib/actions/dummyactivity';
 import { getDocumentsByDateRange } from '@/lib/actions/get-monthly-reports';
 import { getAllActivities } from '@/lib/actions/get-all-activities';
+import { fetchCompletedActivitiesWithVolunteers, saveActivitiesToCSV } from '@/lib/actions/get-reports';
 
 // const dummyActivities: Activity[] = [
 //   {
@@ -100,14 +101,22 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* <Button
-        onClick={() => {
-          generateAndSaveDummyActivityData();
-          addDummyDataToAttendeeList();
+      <Button
+        onClick={async () => {
+          saveActivitiesToCSV(await fetchCompletedActivitiesWithVolunteers(new Date(2023, 0, 1), new Date(2024, 0, 1)), 'activity.csv');
         }}
-      >
-        activity
-      </Button> */}
+      > 
+        get report
+      </Button>
+      {/* <Button
+        onClick={ () => {
+          generateAndSaveDummyData();
+        }}>users</Button> */}
+      <Button
+        onClick={ async () => {
+          // generateAndSaveDummyActivityData();
+          await addDummyDataToAttendeeList();
+        }}>activities</Button>
       <div className="rounded-b-3xl bg-black text-white relative h-32 items-center lg:justify-center p-0 m-0">
         <div className="flex justify-between p-6 pb-2 ">
           <div>

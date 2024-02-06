@@ -19,11 +19,10 @@ export async function generateAndSaveDummyActivityData() {
     // Generate 10 activities
     const date = subWeeks(Date.now(), i);
     const activityData = {
-      title: faker.lorem.words(3),
+      title: faker.word.words(3),
       address: faker.location.streetAddress(),
       description: faker.lorem.sentences(2),
       additionalDetails: faker.lorem.sentences(5),
-      date: date,
       startTime: date,
       endTime: addHours(date, 2), // Ensure endTime is after startTime
       signUpLimit: faker.number.int({ min: 20, max: 50 }),
@@ -33,6 +32,7 @@ export async function generateAndSaveDummyActivityData() {
       status: faker.helpers.arrayElement(Object.values(ActivityStatus)),
       attendees: [], // Initially empty
       tags: [
+        faker.helpers.arrayElement(Object.values(volunteerTheme)),
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
@@ -73,6 +73,7 @@ export async function addDummyDataToAttendeeList() {
     activity.attendees.push(...attendees);
     await activity.save();
   }
+  console.log('Dummy data added to attendee list successfully');
 }
 
 // generateAndSaveDummyActivityData().then(() => {
