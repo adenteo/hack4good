@@ -47,7 +47,6 @@ export function DataTable<TData, TValue>({
     const fetchActivities = async () => {
       const activities = await getAllActivities();
       const activitiesJson = JSON.parse(activities);
-      console.log(activitiesJson);
       setData(activitiesJson);
     };
     fetchActivities();

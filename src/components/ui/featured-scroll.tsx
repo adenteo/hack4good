@@ -2,7 +2,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import Link from 'next/link';
-import { getAllActivities } from '@/lib/actions/get-all-activities';
+import { getAllActivitiesPagination } from '@/lib/actions/get-all-activities-pagination';
 import { Button } from './button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ActivityType, ExtendedActivityType } from '@/models/Activity';

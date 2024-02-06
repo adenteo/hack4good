@@ -44,7 +44,7 @@ export function FeedbackForm() {
   // State to manage the selected image file
   const [imageFile, setImageFile] = useState<File | undefined>(undefined);
   const [uploadedImage, setUploadedImage] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [isLabelVisible, setIsLabelVisible] = useState(true);
 

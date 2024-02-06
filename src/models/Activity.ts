@@ -22,7 +22,7 @@ const activitySchema = new Schema({
   endTime: { type: Date, required: true },
   pointOfContact: { type: Schema.Types.ObjectId, ref: 'User' },
   signUpLimit: { type: Number, required: false },
-  volunteerCountNeeded: { type: Number, required: true},
+  volunteerCountNeeded: { type: Number, required: true },
   image: { type: String, required: false },
   signUpDeadline: { type: Date, required: true },
   activitySignupForm: { type: Schema.Types.ObjectId, ref: 'CustomForm' },
@@ -33,9 +33,10 @@ const activitySchema = new Schema({
 type ActivityType = InferSchemaType<typeof activitySchema>;
 
 export interface ExtendedActivityType
-  extends Omit<ActivityType, 'startTime' | 'attendees'> {
+  extends Omit<ActivityType, 'startTime' | 'attendees' | 'activitySignupForm'> {
   startTime: string;
   _id: string;
+  activitySignupForm: string;
   attendees: any[];
 }
 

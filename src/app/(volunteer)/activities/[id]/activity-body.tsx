@@ -165,9 +165,9 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
                 </PopoverContent>
               </Popover>
             ) : (
-              <Link href={`/activities/register?id=${activity._id}`}>
+              <Link href={`/register/${activity._id}`}>
                 <Button
-                  className="bg-gray-800 text-[0.8rem] hover:bg-gray-500"
+                  className="text-[0.8rem]"
                   disabled={!user?.user.isOnboarded}
                 >
                   Register Now

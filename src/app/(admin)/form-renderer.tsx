@@ -1,3 +1,4 @@
+'use client';
 import {
   Form,
   FormControl,
@@ -38,7 +39,6 @@ function createFormSchema(fields: FormFieldType[]) {
 
   fields.forEach((field) => {
     let validation;
-    console.log(field.options);
     switch (field.type) {
       case 'text':
         if (field.required) {
@@ -304,7 +304,7 @@ export default function FormRenderer({
           onClick={form.handleSubmit(onSubmit)}
         >
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Sign Up with Email
+          Sign up to be a Volunteer
         </Button>
       </form>
     </Form>

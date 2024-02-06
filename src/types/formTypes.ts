@@ -24,4 +24,5 @@ export interface CustomForm {
   title: string;
   description: string;
   fields: FormField[];
+  _id: string;
 }
