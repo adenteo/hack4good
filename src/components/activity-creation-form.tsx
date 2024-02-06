@@ -53,6 +53,25 @@ const tags = [
   },
 ] as const;
 
+const forms = [
+  {
+    id: '1',
+    label: 'form1',
+  },
+  {
+    id: '2',
+    label: 'form2',
+  },
+  {
+    id: '3',
+    label: 'form3',
+  },
+  {
+    id: '4',
+    label: 'form4',
+  },
+] as const;
+
 const formSchema = z.object({
   title: z.string().min(1, {
     message: 'Activity Name must be at least 1 character.',
@@ -78,6 +97,7 @@ const formSchema = z.object({
   contactUs: z.string().email({
     message: 'Invalid email address for volunteers to contact.',
   }),
+  customForm: z.string(),
 });
 
 export function ActivityCreationForm() {
@@ -434,6 +454,41 @@ export function ActivityCreationForm() {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="customForm"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-black">
+                Participants Sign Up Form
+                <span className="text-gray-400 text-xs ml-1">(optional)</span>
+              </FormLabel>
+              <FormDescription className="w-auto text-xs">
+                Note: If no forms are selected, you will have to create a custom
+                form later, before this activity can be published
+              </FormDescription>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="text-start pr-6 w-auto font-normal text-sm">
+                    <SelectValue placeholder="Select a Sign Up Form" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    {forms.map((formItem) => (
+                      <SelectItem key={formItem.id} value={formItem.id}>
+                        {formItem.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
               <FormMessage />
             </FormItem>
           )}
