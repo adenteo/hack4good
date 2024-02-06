@@ -146,7 +146,10 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Gender</FormLabel>
               <FormControl>
-                <RadioGroup {...field}>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="Male" id="r1" />
                     <Label htmlFor="r1">Male</Label>
@@ -173,26 +176,26 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Residential Status in Singapore</FormLabel>
-              <FormControl>
-                <Select {...field}>
-                  <SelectTrigger className="w-auto font-medium text-sm">
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="text-start pr-6 w-auto font-medium text-sm">
                     <SelectValue placeholder="Select Residential Status" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="citizen">Singapore Citizen</SelectItem>
-                      <SelectItem value="pr">Singapore PR</SelectItem>
-                      <SelectItem value="ep-pep-dp">
-                        EP / PEP / DP with LOC / WP / S Pass etc.
-                      </SelectItem>
-                      <SelectItem value="dp">DP</SelectItem>
-                      <SelectItem value="ltvp">LTVP</SelectItem>
-                      <SelectItem value="student-pass">Student Pass</SelectItem>
-                      <SelectItem value="visitor-visa">Visitor Visa</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </FormControl>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="citizen">Singapore Citizen</SelectItem>
+                    <SelectItem value="pr">Singapore PR</SelectItem>
+                    <SelectItem value="ep-pep-dp">
+                      EP / PEP / DP with LOC / WP / S Pass etc.
+                    </SelectItem>
+                    <SelectItem value="dp">DP</SelectItem>
+                    <SelectItem value="ltvp">LTVP</SelectItem>
+                    <SelectItem value="student-pass">Student Pass</SelectItem>
+                    <SelectItem value="visitor-visa">Visitor Visa</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
 
               <FormMessage />
             </FormItem>
@@ -302,10 +305,6 @@ export function SignUpForm() {
                 Skills you posses that can benefit the community / less
                 privileged
               </FormLabel>
-              {/* <FormDescription className="w-auto text-xs">
-                Please list skills you posses that can benefit the community or
-                less privileged groups in Singapore
-              </FormDescription> */}
               <FormControl>
                 <Input
                   className="text-xs"
@@ -355,7 +354,10 @@ export function SignUpForm() {
                 I give you permission to contact me via phone/WhatsApp/email.
               </FormLabel>
               <FormControl>
-                <RadioGroup {...field}>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="Yes" id="r1" />
                     <Label htmlFor="r1">Yes</Label>
@@ -378,7 +380,10 @@ export function SignUpForm() {
                 Add me to the Big At Heart volunteers WhatsApp group
               </FormLabel>
               <FormControl>
-                <RadioGroup {...field}>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="Yes" id="r1" />
                     <Label htmlFor="r1">Yes</Label>

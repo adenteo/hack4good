@@ -20,7 +20,6 @@ const activitySchema = new Schema({
   additionalDetails: { type: String, required: false },
   startTime: { type: Date, required: true }, // use this as start date for front end
   endTime: { type: Date, required: true },
-  numHours: { type: Number, required: false },
   pointOfContact: { type: Schema.Types.ObjectId, ref: 'User' },
   signUpLimit: { type: Number, required: false },
   image: { type: String, required: false },
