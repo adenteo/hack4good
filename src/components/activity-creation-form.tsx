@@ -33,6 +33,7 @@ import { CalendarIcon } from 'lucide-react';
 import { Calendar } from './ui/calendar';
 import { cn } from '@/lib/utils';
 import { TimePicker } from './ui/time-picker';
+import { Switch } from '@/components/ui/switch';
 
 const tags = [
   {
@@ -86,6 +87,7 @@ const formSchema = z.object({
   customSignUpForm: z.string(),
   startTime: z.date(),
   endTime: z.date(),
+  featured: z.boolean(),
   volunteerCountNeeded: z.string(),
   signUpLimit: z.string(),
   image: z.string().url({
@@ -112,6 +114,7 @@ export function ActivityCreationForm() {
       signUpLimit: '',
       image: '',
       tags: [''],
+      featured: false,
       contactUs: '',
       customSignUpForm: '',
     },
@@ -141,6 +144,26 @@ export function ActivityCreationForm() {
                 />
               </FormControl>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="featured"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className="space-y-0.5">
+                <FormLabel className="text-black">
+                  Turn on Featured Post feature?
+                </FormLabel>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
             </FormItem>
           )}
         />
