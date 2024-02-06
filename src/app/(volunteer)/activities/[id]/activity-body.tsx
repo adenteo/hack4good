@@ -8,7 +8,7 @@ import { Session } from 'next-auth';
 import Image from 'next/image';
 import ExpandableText from '@/components/ui/expandable-text';
 import { Button } from '@/components/ui/button';
-import { CalendarFold, MapPin } from 'lucide-react';
+import { CalendarFold, Info, MapPin } from 'lucide-react';
 import {
   Popover,
   PopoverTrigger,
@@ -38,7 +38,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
   const formattedDate = format(date, 'MMMM d yyyy');
 
   return (
-    <figure className="sm:p-6 sm:flex">
+    <figure className="sm:p-20 sm:flex">
       {activity.image ? (
         <AspectRatio ratio={4 / 3} className="bg-muted">
           <Image
@@ -52,7 +52,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
         <div>Image not found</div>
       )}
 
-      <figcaption className="px-6 mt-2 pb-6 flex flex-col justify-center items-startc">
+      <figcaption className="px-6 mt-2 pb-6 flex flex-col justify-center items-start sm:px-20">
         <div className="flex justify-center items-center md:justify-center lg:justify-center flex-wrap">
           {Array.isArray(activity.tags) &&
             activity.tags.map((tag, index) => (
@@ -112,7 +112,23 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
           <h1 className="font-semibold text-lg mb-1">Additional Details</h1>
           <ExpandableText text={activity.description} />
         </div>
-
+        {!user?.user.isOnboarded && (
+          <div className="flex items-center justify-center mt-14">
+            <Info className="text-gray-500" />
+            <p className="ml-2 text-xs sm:text-base text-gray-500">
+              You are not a verified volunteer yet. Click{' '}
+              <span
+                onClick={() => {
+                  window.open('/onboarding', '_blank');
+                }}
+                className="underline cursor-pointer"
+              >
+                here
+              </span>{' '}
+              to onboard.
+            </p>
+          </div>
+        )}
         <div className="flex justify-center mt-5">
           <div className="mr-4">
             {isUserAttending ? (
@@ -150,7 +166,10 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
               </Popover>
             ) : (
               <Link href={`/activities/register?id=${activity._id}`}>
-                <Button className="bg-gray-800 text-[0.8rem] hover:bg-gray-500">
+                <Button
+                  className="bg-gray-800 text-[0.8rem] hover:bg-gray-500"
+                  disabled={!user?.user.isOnboarded}
+                >
                   Register Now
                 </Button>
               </Link>

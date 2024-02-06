@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import { ProfileForm } from '@/components/profile-form';
 import { getAuthSession } from '@/lib/auth';
+import { getVolunteerByUserId } from '@/lib/actions/get-volunteer-by-id';
+import { ExtendedVolunteerType } from '@/models/Volunteer';
 
 const activities = [
   {
@@ -79,32 +81,39 @@ export default async function VolunteerProfile() {
   if (!user) {
     return <div>Error getting profile.</div>;
   }
+  const volunteerString = await getVolunteerByUserId(user.user.id);
+  const volunteer: ExtendedVolunteerType = JSON.parse(volunteerString);
+  if (!volunteer) {
+    return <div>Error getting profile.</div>;
+  }
+  console.log(volunteer);
   return (
     <div className="min-h-screen">
       <div className="relative">
-        <div className="flex justify-between pl-6 pr-6 rounded-b-3xl bg-black text-white relative z-10 h-52 items-center lg:justify-center">
+        <div className="flex justify-evenly pl-6 pr-6 rounded-b-3xl bg-[#FC7869] text-white relative z-10 h-52 items-center lg:justify-center">
           <div className="avatar">
-            {/* <div className=" w-24 h-24 rounded-full">
+            <div className="w-24 h-24">
               <Image
+                className="rounded-full"
                 src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                 alt="user"
                 fill
               />
-            </div> */}
+            </div>
           </div>
           <div className=" pl-8">
-            <h1 className="text-lg font-semibold">Amy Tan</h1>
+            <h1 className="text-lg font-semibold">{volunteer.fullName}</h1>
             <p className="text-sm flex mt-[0.2rem]">
               <span className="mt-[0.2rem] mr-1">
                 <PhoneCall size={16} />
               </span>
-              <span className="text-sm">9126 3728</span>
+              <span className="text-sm">{volunteer.contactNumber}</span>
             </p>
             <p className="text-sm flex mt-[0.2rem]">
               <span className="mt-[0.2rem] mr-1">
                 <MailMinus size={16} />
               </span>
-              <span className="text-sm">amytan@gmail.com</span>
+              <span className="text-sm">{volunteer.email}</span>
             </p>
           </div>
           <div className="absolute top-8 right-5 lg:right-20">
@@ -216,7 +225,7 @@ export default async function VolunteerProfile() {
             <TabPanel>
               <div className="flex flex-col justify-center items-center ">
                 {/* need to get volunteer with user id. */}
-                <ProfileForm user={user.user} />
+                <ProfileForm volunteer={volunteer} />
               </div>
             </TabPanel>
           </TabPanels>

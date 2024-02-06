@@ -111,27 +111,30 @@ export default function Home() {
       >
         activity
       </Button> */}
-      <div className="rounded-b-3xl bg-red-100 text-white relative h-32 items-center lg:justify-center p-0 m-0">
-        <div className="flex justify-between p-6 pb-2 ">
+      <div className="rounded-b-3xl bg-[#FC7869] text-white relative items-center lg:justify-center p-0 m-0">
+        <div className="flex justify-between px-6 pb-4">
           <div>
-            <h1 className="text-lg font-semibold text-red-600">Explore</h1>
-            <p className="text-xs text-red-600">Activities for you</p>
+            <h1 className="text-lg sm:text-2xl font-semibold text-white">
+              Explore
+            </h1>
+            <p className="text-xs sm:text-base text-white">
+              Activities for you
+            </p>
           </div>
         </div>
-
-        <div>
+        {/* <div>
           <TextInput
-            className="bg-red-100 border hover:bg-red-200 hover:border-none ml-2 mr-2 w-auto"
+            className="bg-[#FC7869] mx-2 w-auto border-none text-white shadow-none"
             icon={SearchIcon}
             placeholder="Search..."
           />
-        </div>
+        </div> */}
       </div>
       <div className="p-4">
         <div className="pb-1 pt-4">
           <p className="text-lg font-bold text-black">Featured</p>
         </div>
-        <div className="flex">
+        {/* <div className="flex">
           <FeaturedScroll activities={activities} />
         </div>
         <div className="pb-1 pt-4">
@@ -145,7 +148,7 @@ export default function Home() {
         </div>
         <div className="flex">
           <ForYouScroll activities={activities} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

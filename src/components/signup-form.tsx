@@ -1,6 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import type { DatePickerProps } from 'antd';
@@ -29,6 +29,10 @@ import {
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CitizenshipType, Gender } from '@/models/types';
+import { addVolunteer } from '@/lib/actions/add-volunteer';
+import { Session, User } from 'next-auth';
+import { useRouter } from 'next/navigation';
+import { toast } from './ui/use-toast';
 
 const citizenshipDisplayMap: Record<CitizenshipType, string> = {
   [CitizenshipType.Singaporean]: 'Singapore Citizen',
@@ -83,7 +87,7 @@ const tags = [
   },
 ] as const;
 
-const formSchema = z.object({
+export const onboardingFormSchema = z.object({
   firstName: z.string().min(2, {
     message: 'First Name must be at least 2 characters.',
   }),
@@ -113,15 +117,17 @@ const formSchema = z.object({
   addToWhatsAppGroup: z.boolean().default(false).optional(),
 });
 
-export function SignUpForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+export function SignUpForm({ session }: { session: Session }) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const form = useForm<z.infer<typeof onboardingFormSchema>>({
+    resolver: zodResolver(onboardingFormSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
       dateOfBirth: undefined,
-      availabilities: [''],
-      tags: [''],
+      availabilities: [],
+      tags: [],
       skills: '',
       experience: '',
     },
@@ -132,10 +138,19 @@ export function SignUpForm() {
     form.setValue('dateOfBirth', dob, { shouldValidate: true });
   };
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log('hi');
-    // Handle form submission here
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof onboardingFormSchema>) => {
+    setIsLoading(true);
+    const volunteer = await addVolunteer(session.user.id, values);
+    if (volunteer) {
+      window.location.href = '/home';
+    } else {
+      toast({
+        title: 'Error',
+        description: 'An error occurred. Please try again later.',
+        variant: 'destructive',
+      });
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -472,8 +487,14 @@ export function SignUpForm() {
           )}
         />
 
-        <div className="flex justify-center pb-2">
-          <Button type="submit">Submit</Button>
+        <div className="flex justify-center pt-10">
+          <Button type="submit">
+            {isLoading ? (
+              <span className="loading loading-spinner loading-xs"></span>
+            ) : (
+              'Submit'
+            )}
+          </Button>
         </div>
       </form>
     </Form>

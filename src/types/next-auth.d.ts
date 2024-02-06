@@ -8,17 +8,20 @@ declare module 'next-auth/jwt' {
     id: UserId;
     username?: string | null;
     isAdmin: boolean;
+    isOnboarded: boolean;
   }
 }
 
 declare module 'next-auth' {
   interface User {
     isAdmin: boolean;
+    isOnboarded: boolean;
   }
   interface Session {
     user: User & {
       id: UserId;
       isAdmin: boolean;
+      isOnboarded: boolean;
       username?: string | null;
     };
   }
