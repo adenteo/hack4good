@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { SearchIcon } from 'lucide-react';
-import { Activity, FeaturedScroll } from '@/components/ui/featured-scroll';
+import { FeaturedScroll } from '@/components/ui/featured-scroll';
 // import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { addRoles } from '@/lib/actions/add-roles';
@@ -25,6 +25,7 @@ import {
 } from '@/lib/actions/dummyactivity';
 import { getDocumentsByDateRange } from '@/lib/actions/get-monthly-reports';
 import { getAllActivities } from '@/lib/actions/get-all-activities';
+import { ActivityType, ExtendedActivityType } from '@/models/Activity';
 
 // const dummyActivities: Activity[] = [
 //   {
@@ -87,7 +88,9 @@ const activities = [
 ];
 
 export default function Home() {
-  const [activities, setActivities] = React.useState<Activity[]>([]);
+  const [activities, setActivities] = React.useState<ExtendedActivityType[]>(
+    [],
+  );
   React.useEffect(() => {
     const fetchActivities = async () => {
       const activities = await getAllActivities();
@@ -108,37 +111,37 @@ export default function Home() {
       >
         activity
       </Button> */}
-      <div className="rounded-b-3xl bg-black text-white relative h-32 items-center lg:justify-center p-0 m-0">
+      <div className="rounded-b-3xl bg-red-100 text-white relative h-32 items-center lg:justify-center p-0 m-0">
         <div className="flex justify-between p-6 pb-2 ">
           <div>
-            <h1 className="text-lg font-semibold">Explore</h1>
-            <p className="text-xs">Activities for you</p>
+            <h1 className="text-lg font-semibold text-red-600">Explore</h1>
+            <p className="text-xs text-red-600">Activities for you</p>
           </div>
         </div>
 
         <div>
           <TextInput
-            className="bg-black border-none hover:bg-black hover:border-none ml-2 mr-2 w-auto"
+            className="bg-red-100 border hover:bg-red-200 hover:border-none ml-2 mr-2 w-auto"
             icon={SearchIcon}
             placeholder="Search..."
           />
         </div>
       </div>
-      <div className="p-6">
-        <div className=" pb-1 pt-4">
-          <p className="text-lg font-semibold text-black">Featured</p>
+      <div className="p-4">
+        <div className="pb-1 pt-4">
+          <p className="text-lg font-bold text-black">Featured</p>
         </div>
         <div className="flex">
           <FeaturedScroll activities={activities} />
         </div>
         <div className="pb-1 pt-4">
-          <p className="text-lg font-semibold text-black">For You</p>
+          <p className="text-lg font-bold text-black">For You</p>
         </div>
-        <div className="flex">
-          <ForYouScroll activities={activities} />
-        </div>
+
+        <ForYouScroll activities={activities} />
+
         <div className="pb-1 pt-4">
-          <p className="text-lg font-semibold text-black">Upcoming</p>
+          <p className="text-lg font-bold text-black">Upcoming</p>
         </div>
         <div className="flex">
           <ForYouScroll activities={activities} />

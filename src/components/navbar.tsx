@@ -7,7 +7,7 @@ import { HeartHandshake } from 'lucide-react';
 export default async function NavBar() {
   const session = await getAuthSession();
   return (
-    <div className="navbar bg-black text-white shadow-md px-1 py-0">
+    <div className="navbar bg-red-100 text-white shadow-md px-1 py-0">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -28,7 +28,7 @@ export default async function NavBar() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-black rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-red-100 rounded-box w-52"
           >
             <li>
               <a>Item 1</a>
@@ -49,13 +49,13 @@ export default async function NavBar() {
             </li>
           </ul>
         </div>
-        <Link href="/" className="btn btn-ghost text-xl">
+        <Link href="/" className="btn btn-ghost text-xl text-red-600">
           <HeartHandshake />
           Big At Heart
         </Link>
         {/* <a className="btn btn-ghost text-xl">Hack4Good</a> */}
       </div>
-      <div className="navbar-center hidden bg-black lg:flex ">
+      <div className="navbar-center hidden bg-red-100 lg:flex ">
         <ul className="menu menu-horizontal px-1 text-black">
           <li>
             <a className="text-black">Item 1</a>

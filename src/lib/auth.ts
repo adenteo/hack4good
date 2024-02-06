@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         return {
-          id: user.id,
+          id: user._id.toString(),
           name: user.firstName,
           email: user.email,
           isAdmin: user.isAdmin,
@@ -68,9 +68,11 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
-        // Fetch the role from the database
         const currentUser = await User.findOne({ email: user.email });
         token.isAdmin = currentUser.isAdmin;
+        token.email = currentUser.email;
+        token.username = currentUser.firstName + ' ' + currentUser.lastName;
+        token.id = currentUser._id.toString();
       }
       return token;
     },
