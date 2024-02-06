@@ -3,6 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import type { DatePickerProps } from 'antd';
+import { DatePicker } from 'antd';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -26,6 +28,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { CitizenshipType, Gender } from '@/models/types';
+
+const citizenshipDisplayMap: Record<CitizenshipType, string> = {
+  [CitizenshipType.Singaporean]: 'Singapore Citizen',
+  [CitizenshipType.SingaporePermanentResident]: 'Singapore Permanent Resident',
+  [CitizenshipType.LongTermVisitPass]: 'Long Term Visit Pass',
+  [CitizenshipType.EmploymentPass]: 'Employment Pass / S Pass',
+};
 
 const availabilities = [
   {
@@ -74,13 +84,13 @@ const tags = [
 ] as const;
 
 const formSchema = z.object({
-  firstName: z.string().min(1, {
-    message: 'First Name must be at least 1 character.',
+  firstName: z.string().min(2, {
+    message: 'First Name must be at least 2 characters.',
   }),
-  lastName: z.string().min(1, {
-    message: 'Last Name must be at least 1 character.',
+  lastName: z.string().min(2, {
+    message: 'Last Name must be at least 2 characters.',
   }),
-  gender: z.string(),
+  gender: z.nativeEnum(Gender),
   email: z.string().email({
     message: 'Invalid email address.',
   }),
@@ -88,7 +98,7 @@ const formSchema = z.object({
     message: 'Invalid phone number.',
   }),
   dateOfBirth: z.date(),
-  residentialStatus: z.string(),
+  residentialStatus: z.nativeEnum(CitizenshipType),
   availabilities: z
     .array(z.string())
     .refine((value) => value.some((item) => item), {
@@ -99,8 +109,8 @@ const formSchema = z.object({
   }),
   skills: z.string(),
   experience: z.string(),
-  contactPermission: z.string(),
-  addToWhatsAppGroup: z.string(),
+  contactPermission: z.boolean().default(false).optional(),
+  addToWhatsAppGroup: z.boolean().default(false).optional(),
 });
 
 export function SignUpForm() {
@@ -109,21 +119,21 @@ export function SignUpForm() {
     defaultValues: {
       firstName: '',
       lastName: '',
-      gender: '',
-      email: '',
-      phoneNumber: '',
-      dateOfBirth: new Date(),
-      residentialStatus: '',
+      dateOfBirth: undefined,
       availabilities: [''],
       tags: [''],
       skills: '',
       experience: '',
-      contactPermission: '',
-      addToWhatsAppGroup: '',
     },
   });
 
+  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+    const dob = new Date(dateString as string);
+    form.setValue('dateOfBirth', dob, { shouldValidate: true });
+  };
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log('hi');
     // Handle form submission here
     console.log(values);
   };
@@ -131,6 +141,47 @@ export function SignUpForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input
+                  className="text-xs"
+                  type="text"
+                  id="firstName"
+                  placeholder="First Name"
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input
+                  className="text-xs"
+                  type="text"
+                  id="lastName"
+                  placeholder="Last Name"
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="gender"
@@ -151,8 +202,8 @@ export function SignUpForm() {
                     <Label htmlFor="r2">Female</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="Others" id="r3" />
-                    <Label htmlFor="r3">Others</Label>
+                    <RadioGroupItem value="Other" id="r3" />
+                    <Label htmlFor="r3">Other</Label>
                   </div>
                 </RadioGroup>
               </FormControl>
@@ -161,7 +212,60 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="dateOfBirth"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date of Birth</FormLabel>
+              <FormControl>
+                <div>
+                  <DatePicker onChange={onChange} />
+                </div>
+              </FormControl>
 
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Contact Number</FormLabel>
+              <FormControl>
+                <Input
+                  className="text-xs"
+                  type="text"
+                  id="phoneNumber"
+                  placeholder="Contact Number"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  className="text-xs"
+                  type="text"
+                  id="email"
+                  placeholder="Email"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="residentialStatus"
@@ -176,15 +280,13 @@ export function SignUpForm() {
                 </FormControl>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="citizen">Singapore Citizen</SelectItem>
-                    <SelectItem value="pr">Singapore PR</SelectItem>
-                    <SelectItem value="ep-pep-dp">
-                      EP / PEP / DP with LOC / WP / S Pass etc.
-                    </SelectItem>
-                    <SelectItem value="dp">DP</SelectItem>
-                    <SelectItem value="ltvp">LTVP</SelectItem>
-                    <SelectItem value="student-pass">Student Pass</SelectItem>
-                    <SelectItem value="visitor-visa">Visitor Visa</SelectItem>
+                    {Object.entries(citizenshipDisplayMap).map(
+                      ([value, label]) => (
+                        <SelectItem key={value} value={value}>
+                          {label}
+                        </SelectItem>
+                      ),
+                    )}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -294,7 +396,7 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Skills you posses that can benefit the community / less
+                Skills you possess that can benefit the community / less
                 privileged
               </FormLabel>
               <FormControl>
@@ -326,7 +428,7 @@ export function SignUpForm() {
                   className="text-xs"
                   type="text"
                   id="experience"
-                  placeholder="Previous experience..."
+                  placeholder="Describe experience..."
                   {...field}
                 />
               </FormControl>
@@ -335,59 +437,37 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
-
-        {/* Contact Permission (Radio) */}
         <FormField
           control={form.control}
           name="contactPermission"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel className="ml-2">
                 I give you permission to contact me via phone/WhatsApp/email.
               </FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="Yes" id="r1" />
-                    <Label htmlFor="r1">Yes</Label>
-                  </div>
-                </RadioGroup>
-              </FormControl>
-
-              <FormMessage />
             </FormItem>
           )}
         />
-
-        {/* Add to WhatsApp Group (Check Box) */}
         <FormField
           control={form.control}
           name="addToWhatsAppGroup"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel className="ml-2">
                 Add me to the Big At Heart volunteers WhatsApp group
               </FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="Yes" id="r1" />
-                    <Label htmlFor="r1">Yes</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="No" id="r2" />
-                    <Label htmlFor="r2">No</Label>
-                  </div>
-                </RadioGroup>
-              </FormControl>
-
-              <FormMessage />
             </FormItem>
           )}
         />
