@@ -2,62 +2,99 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { ScrollArea } from '@/components/ui/scroll-area';
-
+import { TagColors } from '@/types/colors';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@tremor/react';
+import { faker } from '@faker-js/faker';
 import {
   Pencil,
   PhoneCall,
   MailMinus,
   CalendarHeart,
   Timer,
+  CalendarFold,
+  MessageCircleHeart,
 } from 'lucide-react';
 import { ProfileForm } from '@/components/profile-form';
 import { getAuthSession } from '@/lib/auth';
 import { getVolunteerByUserId } from '@/lib/actions/get-volunteer-by-id';
 import { ExtendedVolunteerType } from '@/models/Volunteer';
+import Link from 'next/link';
+import { format, parseISO } from 'date-fns';
+import { ExtendedActivityType } from '@/models/Activity';
+import { useEffect, useState } from 'react';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Button } from '@/components/ui/button';
+
+interface VolunteerPastEventProps {
+  activities: ExtendedActivityType[];
+}
 
 const activities = [
   {
-    id: 1,
+    _id: 1,
     title: 'Community Cleanup',
     imageUrl: 'https://placekitten.com/300/200',
     date: '2024-02-15',
     hours: 3,
+    description:
+      'This activity is about helping out the community and the poeple all around us',
+    startTime: new Date(),
+    tags: ['charity', 'love', 'care'],
   },
   {
-    id: 2,
+    _id: 2,
     title: 'Animal Shelter Support',
     imageUrl: 'https://placekitten.com/300/201',
     date: '2024-02-20',
     hours: 5,
+    description:
+      'This activity is about helping out the community and the poeple all around us',
+    startTime: new Date(),
+    tags: ['charity', 'love', 'care'],
   },
   {
-    id: 3,
+    _id: 3,
     title: 'Food Drive',
     imageUrl: 'https://placekitten.com/300/202',
     date: '2024-03-05',
     hours: 4,
+    description:
+      'This activity is about helping out the community and the poeple all around us',
+    startTime: new Date(),
+    tags: ['charity', 'love', 'care'],
   },
   {
-    id: 4,
+    _id: 4,
     title: 'Teaching and Tutoring',
     imageUrl: 'https://placekitten.com/300/203',
     date: '2024-03-10',
     hours: 6,
+    description:
+      'This activity is about helping out the community and the poeple all around us',
+    startTime: new Date(),
+    tags: ['charity', 'love', 'care'],
   },
   {
-    id: 5,
+    _id: 5,
     title: 'Elderly Care',
     imageUrl: 'https://placekitten.com/300/204',
     date: '2024-03-18',
     hours: 3,
+    description:
+      'This activity is about helping out the community and the poeple all around us',
+    startTime: new Date(),
+    tags: ['charity', 'love', 'care'],
   },
   {
-    id: 6,
+    _id: 6,
     title: 'Environmental Conservation',
     imageUrl: 'https://placekitten.com/300/205',
     date: '2024-04-02',
     hours: 5,
+    description:
+      'This activity is about helping out the community and the poeple all around us',
+    startTime: new Date(),
+    tags: ['charity', 'love', 'care'],
   },
 ];
 
@@ -77,12 +114,47 @@ const certificates = [
 ];
 
 export default async function VolunteerProfile() {
+  // export const VolunteerProfile: React.FC<VolunteerPastEventProps> = ({
+  //   activities,
+  // }) => {
+  // export default async function VolunteerProfile({ activities }) {
+
   const user = await getAuthSession();
   if (!user) {
     return <div>Error getting profile.</div>;
   }
   const volunteerString = await getVolunteerByUserId(user.user.id);
   const volunteer: ExtendedVolunteerType = JSON.parse(volunteerString);
+
+  // const [volunteer, setVolunteer] = useState<ExtendedVolunteerType | null>(
+  //   null
+  // );
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const user = await getAuthSession();
+  //       if (!user) {
+  //         throw new Error('Error getting profile.');
+  //       }
+
+  //       const volunteerString = await getVolunteerByUserId(user.user.id);
+  //       const parsedVolunteer: ExtendedVolunteerType =
+  //         JSON.parse(volunteerString);
+  //       if (!parsedVolunteer) {
+  //         throw new Error('Error getting profile.');
+  //       }
+
+  //       setVolunteer(parsedVolunteer);
+  //     } catch (error) {
+  //       console.error(error);
+  //       // Handle the error (e.g., show an error message)
+  //     }
+  //   };
+
+  //   fetchData(); // Call the asynchronous function
+  // }, [activities]);
+
   if (!volunteer) {
     return <div>Error getting profile.</div>;
   }
@@ -159,40 +231,67 @@ export default async function VolunteerProfile() {
             <TabPanel>
               <div className="">
                 {/* <ScrollArea> */}
-                <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                  {activities.map((activity, index) => (
-                    <figure
-                      key={index}
-                      className="shrink-0 w-full lg:w-64 hover:drop-shadow-md cursor-pointer"
-                    >
-                      <div className="relative overflow-hidden rounded-tl-md rounded-tr-md">
-                        <Image
-                          priority
-                          src={activity.imageUrl}
-                          alt={activity.title}
-                          className="aspect-square h-32 w-full md:h-56 lg:h-64 object-cover"
-                          width={1000}
-                          height={1000}
-                        ></Image>
-                      </div>
-                      <figcaption className="flex flex-col justify-between p-2 text-xs text-muted-foreground bg-gray-100 h-auto whitespace-normal rounded-b-md">
-                        <div className=" items-center ">
-                          <span className="text-gray-600 font-medium text-sm lg:text-lg line-clamp-1">
-                            {activity.title}
-                          </span>
-                        </div>
+                <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                  {activities.map((activity, index) => {
+                    const date = parseISO(activity.startTime.toISOString());
+                    const formattedDate = format(date, 'MMMM d yyyy');
+                    return (
+                      <Link
+                        className="p-2"
+                        key={index}
+                        href={`/activities/${encodeURIComponent(activity._id)}`}
+                        passHref
+                      >
+                        <button
+                          key={index}
+                          className="border rounded-2xl shadow-md"
+                        >
+                          <figure key={index} className="w-[280px]">
+                            <div className="overflow-hidden rounded-t-md mb-2">
+                              <AspectRatio ratio={16 / 9} className="bg-muted">
+                                <Image
+                                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                                  alt={`Image for ${activity.title}`}
+                                  fill
+                                  className="rounded-t-md object-cover"
+                                />
+                              </AspectRatio>
+                            </div>
+                            <figcaption className="px-2">
+                              <div className="flex justify-between items-center mt-4">
+                                <div className="text-left">
+                                  <div className="flex justify-start items-center">
+                                    <CalendarFold size={15} />
+                                    <p className="text-xs font-semibold ml-1">
+                                      {formattedDate}
+                                    </p>
+                                  </div>
+                                  <p className="font-semibold text-foreground text-lg mt-1">
+                                    {activity.title}
+                                  </p>
+                                </div>
+                              </div>
+                              <p className="text-gray-600 text-xs font-light overflow-hidden text-ellipsis text-start">
+                                {activity.description}
+                              </p>
 
-                        <div className="flex justify-between">
-                          <p className="mt-1 text-gray-700 line-clamp-3 lg:mb-1 lg:text-sm">
-                            {activity.date}
-                          </p>
-                          <p className="mt-1 text-black font-semibold line-clamp-3 text-[0.85rem]">
-                            {activity.hours}hrs
-                          </p>
-                        </div>
-                      </figcaption>
-                    </figure>
-                  ))}
+                              <div className="flex space-x-2 mt-2 mb-4">
+                                <Link href="/feedback-form">
+                                  <Button
+                                    variant="outline"
+                                    className="h-7 px-2 lg:px-3 text-xs"
+                                  >
+                                    Add Feedback
+                                    <MessageCircleHeart className="ml-1 h-4 w-4" />
+                                  </Button>
+                                </Link>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </button>
+                      </Link>
+                    );
+                  })}
                 </div>
                 {/* </ScrollArea> */}
               </div>

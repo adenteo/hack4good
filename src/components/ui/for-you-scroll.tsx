@@ -79,7 +79,7 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({ activities }) => {
                           <div
                             key={index}
                             className={`text-[0.6rem] text-black rounded-md p-1 px-2 font-semibold my-1 ${faker.helpers.enumValue(
-                              TagColors,
+                              TagColors
                             )}`}
                           >
                             {tag}
