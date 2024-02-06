@@ -355,7 +355,7 @@ export function ActivityCreationForm() {
               {isLabelVisible && (
                 <label
                   className="w-full h-32 rounded-md border-4 border-dotted flex flex-col justify-center items-center cursor-pointer"
-                  htmlFor="productPhoto"
+                  htmlFor="image"
                 >
                   <PlusCircle className="text-slate-200 h-8 w-8" />
                   <div className="text-xs my-2 text-slate-500">
@@ -375,7 +375,7 @@ export function ActivityCreationForm() {
                     </button>
                     <img
                       src={uploadedImage}
-                      alt="product image"
+                      alt="image"
                       className="w-full h-[40vh] object-contain"
                     />
                   </div>
