@@ -97,7 +97,6 @@ const formSchema = z.object({
   contactUs: z.string().email({
     message: 'Invalid email address for volunteers to contact.',
   }),
-  customForm: z.string(),
 });
 
 export function ActivityCreationForm() {
@@ -474,7 +473,7 @@ export function ActivityCreationForm() {
               </FormDescription>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="text-start pr-6 w-auto font-normal text-sm">
+                  <SelectTrigger className="text-start pr-6 w-auto font-normal text-[0.8rem]">
                     <SelectValue placeholder="Select a Sign Up Form" />
                   </SelectTrigger>
                 </FormControl>
