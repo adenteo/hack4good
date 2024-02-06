@@ -6,7 +6,8 @@ export enum FieldType {
   Checkbox = 'checkbox',
   Date = 'date',
   Radio = 'radio',
-  Range = 'range', 
+  Range = 'range',
+  Multicheckbox = 'multicheckbox',
   //add integer type
 }
 

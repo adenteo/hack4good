@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverClose,
 } from '@radix-ui/react-popover';
+import Link from 'next/link';
 
 interface ActivityBodyProps {
   activity: ExtendedActivityType;
@@ -36,13 +37,6 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
   const date = parseISO(activity.startTime);
   const formattedDate = format(date, 'MMMM d yyyy');
 
-  const handleRegisterNow = () => {
-    alert('Successfully registered!');
-  };
-
-  const handleWithdraw = () => {
-    alert('You have been withdrawn.');
-  };
   return (
     <figure className="sm:p-6 sm:flex">
       {activity.image ? (
@@ -51,7 +45,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
             src={activity.image}
             alt={`Image for ${activity.title}`}
             fill
-            className="rounded-b-2xl object-cover"
+            className="rounded-b-2xl sm:rounded-2xl object-cover"
           />
         </AspectRatio>
       ) : (
@@ -64,7 +58,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
             activity.tags.map((tag, index) => (
               <div
                 key={index}
-                className={`text-xs text-black rounded-md p-1 px-4 font-semibold mx-2 my-1 sm:text-xl ${faker.helpers.enumValue(
+                className={`text-xs text-black rounded-md p-1 px-4 font-semibold mx-2 my-1 sm:text-lg ${faker.helpers.enumValue(
                   TagColors,
                 )}`}
               >
@@ -144,24 +138,22 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
                         </Button>
                       </PopoverClose>
                       <PopoverClose asChild>
-                        <Button
-                          className="bg-red-500 text-[0.9rem] ml-4 hover:bg-red-900"
-                          onClick={handleWithdraw}
-                        >
-                          Yes, Withdraw
-                        </Button>
+                        <Link href={'/'}>
+                          <Button className="bg-red-500 text-[0.9rem] ml-4 hover:bg-red-900">
+                            Yes, Withdraw
+                          </Button>
+                        </Link>
                       </PopoverClose>
                     </div>
                   </div>
                 </PopoverContent>
               </Popover>
             ) : (
-              <Button
-                className="bg-gray-800 text-[0.8rem] hover:bg-gray-500"
-                onClick={handleRegisterNow}
-              >
-                Register Now
-              </Button>
+              <Link href={`/activities/register?id=${activity._id}`}>
+                <Button className="bg-gray-800 text-[0.8rem] hover:bg-gray-500">
+                  Register Now
+                </Button>
+              </Link>
             )}
           </div>
 

@@ -31,19 +31,23 @@ const fields: FormFieldType[] = [
   },
   {
     id: '4',
+    label: 'What areas are you interested in?',
+    type: FieldType.Multicheckbox,
+  },
+  {
+    id: '5',
     label: 'Select a date',
     type: FieldType.Date,
   },
   {
-    id: '5',
+    id: '6',
     label: 'How satisfied are you?',
     type: FieldType.Range,
   },
   {
-    id: '6',
+    id: '7',
     label: 'Select something',
     type: FieldType.Select,
-    options: ['Option 1', 'Option 2', 'Option 3'],
   },
 ];
 

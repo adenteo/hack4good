@@ -52,7 +52,7 @@ export default function UserAccountButton({ user }: UserAccountButtonProps) {
         )}
 
         <DropdownMenuItem asChild>
-          <Link href="">Create Community</Link>
+          <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>

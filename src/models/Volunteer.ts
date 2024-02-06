@@ -8,6 +8,8 @@ import {
 
 const volunteerSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   fullName: { type: String, required: true },
   volunteerStatus: {
     type: String,

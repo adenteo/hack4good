@@ -1,3 +1,4 @@
+'use server';
 import * as React from 'react';
 import Image from 'next/image';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -11,6 +12,7 @@ import {
   Timer,
 } from 'lucide-react';
 import { ProfileForm } from '@/components/profile-form';
+import { getAuthSession } from '@/lib/auth';
 
 const activities = [
   {
@@ -72,7 +74,11 @@ const certificates = [
   'https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80',
 ];
 
-export default function VolunteerProfile() {
+export default async function VolunteerProfile() {
+  const user = await getAuthSession();
+  if (!user) {
+    return <div>Error getting profile.</div>;
+  }
   return (
     <div className="min-h-screen">
       <div className="relative">
@@ -209,7 +215,8 @@ export default function VolunteerProfile() {
             </TabPanel>
             <TabPanel>
               <div className="flex flex-col justify-center items-center ">
-                <ProfileForm />
+                {/* need to get volunteer with user id. */}
+                <ProfileForm user={user.user} />
               </div>
             </TabPanel>
           </TabPanels>

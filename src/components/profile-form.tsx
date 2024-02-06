@@ -1,6 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { User } from 'next-auth';
 
 const formSchema = z.object({
   firstName: z.string().min(1, {
@@ -34,7 +35,7 @@ const formSchema = z.object({
   interests: z.string(),
 });
 
-export function ProfileForm() {
+export function ProfileForm({ user }: { user: User }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,6 +47,13 @@ export function ProfileForm() {
       interests: '',
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      form.setValue('firstName', user.name!);
+    }
+  }, []);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Handle form submission here
@@ -66,7 +74,7 @@ export function ProfileForm() {
                   className="text-sm w-80 md:w-96 lg:w-96"
                   type="text"
                   id="firstName"
-                  placeholder="Amy"
+                  placeholder="First Name"
                   {...field}
                 />
               </FormControl>

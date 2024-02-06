@@ -94,12 +94,8 @@ const formSchema = z.object({
     .refine((value) => value.some((item) => item), {
       message: 'You have to select at least one item.',
     }),
-
   tags: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: 'You have to select at least one item.',
-  }),
-  volunteerAreas: z.object({
-    donation: z.boolean(),
   }),
   skills: z.string(),
   experience: z.string(),
@@ -120,10 +116,6 @@ export function SignUpForm() {
       residentialStatus: '',
       availabilities: [''],
       tags: [''],
-
-      volunteerAreas: {
-        donation: false,
-      },
       skills: '',
       experience: '',
       contactPermission: '',
@@ -229,8 +221,8 @@ export function SignUpForm() {
                                 ? field.onChange([...field.value, item.id])
                                 : field.onChange(
                                     field.value?.filter(
-                                      (value) => value !== item.id
-                                    )
+                                      (value) => value !== item.id,
+                                    ),
                                   );
                             }}
                           />
@@ -262,7 +254,7 @@ export function SignUpForm() {
                 <FormField
                   key={item.id}
                   control={form.control}
-                  name="availabilities"
+                  name="tags"
                   render={({ field }) => {
                     return (
                       <FormItem
@@ -277,8 +269,8 @@ export function SignUpForm() {
                                 ? field.onChange([...field.value, item.id])
                                 : field.onChange(
                                     field.value?.filter(
-                                      (value) => value !== item.id
-                                    )
+                                      (value) => value !== item.id,
+                                    ),
                                   );
                             }}
                           />

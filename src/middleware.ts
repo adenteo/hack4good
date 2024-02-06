@@ -7,7 +7,7 @@ export async function middleware(req: NextRequest) {
   if (req.nextUrl.pathname === '/') {
     return NextResponse.redirect(new URL('/home', req.nextUrl));
   }
-  if (req.nextUrl.pathname === '/non-existent') {
+  if (req.nextUrl.pathname === '/profile') {
     if (!token) {
       return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
     }
