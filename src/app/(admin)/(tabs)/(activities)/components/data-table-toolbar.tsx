@@ -9,6 +9,8 @@ import { DataTableViewOptions } from './data-table-view-options';
 
 import { priorities, statuses } from '../data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
+import { CopyPlus, FolderPlus } from 'lucide-react';
+// import Link from 'next/link';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -39,7 +41,7 @@ export function DataTableToolbar<TData>({
         )}
         {isFiltered && (
           <Button
-            variant="ghost"
+            variant="outline"
             onClick={() => table.resetColumnFilters()}
             className="h-8 px-2 lg:px-3"
           >
@@ -48,6 +50,13 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
+
+      <Link href="/admin/activity-creation">
+        <Button variant="outline" className="h-8 px-2 lg:px-3 mr-2">
+          <FolderPlus className="mr-2 h-4 w-4" />
+          New Activity
+        </Button>
+      </Link>
       <DataTableViewOptions table={table} />
     </div>
   );

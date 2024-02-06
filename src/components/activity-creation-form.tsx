@@ -32,6 +32,7 @@ import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from './ui/calendar';
 import { cn } from '@/lib/utils';
+import { TimePicker } from './ui/time-picker';
 
 const tags = [
   {
@@ -65,7 +66,6 @@ const formSchema = z.object({
   additionalDetails: z.string(),
   startTime: z.date(),
   endTime: z.date(),
-  numHours: z.number(),
   volunteerCountNeeded: z.string(),
   signUpLimit: z.string(),
   image: z.string().url({
@@ -88,21 +88,16 @@ export function ActivityCreationForm() {
       address: '',
       description: '',
       additionalDetails: '',
-      //   startTime: new Date(),
-      //   endTime: new Date(),
-      //   numHours: 0,
       volunteerCountNeeded: '',
       signUpLimit: '',
       image: '',
-      //   signUpDeadline: new Date(),
       tags: [''],
       contactUs: '',
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Handle form submission here
-    console.log(values);
+    console.log(values.endTime);
   };
 
   return (
@@ -178,38 +173,37 @@ export function ActivityCreationForm() {
             <FormItem className="flex flex-col">
               <FormLabel className="text-black">
                 {' '}
-                Start Date of Activity
+                Start Date and Time of Activity
                 <span className="text-red-500 ml-1">*</span>
               </FormLabel>
+
               <Popover>
                 <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
+                  <Button
+                    variant={'outline'}
+                    className={cn(
+                      'w-[280px] justify-start text-left font-normal',
+                      !field.value && 'text-muted-foreground'
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {field.value ? (
+                      format(field.value, 'PPP HH:mm:ss')
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0">
                   <Calendar
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
                     initialFocus
                   />
+                  <div className="p-3 border-t border-border">
+                    <TimePicker setDate={field.onChange} date={field.value} />
+                  </div>
                 </PopoverContent>
               </Popover>
 
@@ -225,62 +219,39 @@ export function ActivityCreationForm() {
             <FormItem className="flex flex-col">
               <FormLabel className="text-black">
                 {' '}
-                End Date of Activity
+                End Date and Time of Activity
                 <span className="text-red-500 ml-1">*</span>
               </FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
+                  <Button
+                    variant={'outline'}
+                    className={cn(
+                      'w-[280px] justify-start text-left font-normal',
+                      !field.value && 'text-muted-foreground'
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {field.value ? (
+                      format(field.value, 'PPP HH:mm:ss')
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0">
                   <Calendar
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
                     initialFocus
                   />
+                  <div className="p-3 border-t border-border">
+                    <TimePicker setDate={field.onChange} date={field.value} />
+                  </div>
                 </PopoverContent>
               </Popover>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="numHours"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-black">
-                Duration of activity <span className="text-red-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  id="numHours"
-                  placeholder="Enter the total number of hours for the activity"
-                  {...field}
-                />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -371,16 +342,16 @@ export function ActivityCreationForm() {
                     <Button
                       variant={'outline'}
                       className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
+                        'w-[280px] justify-start text-left font-normal',
                         !field.value && 'text-muted-foreground'
                       )}
                     >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
                       {field.value ? (
                         format(field.value, 'PPP')
                       ) : (
                         <span>Pick a date</span>
                       )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -452,7 +423,7 @@ export function ActivityCreationForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-black">
-                Additional Details{' '}
+                Additional Details about the activity
                 <span className="text-gray-400 text-xs ml-1">(optional)</span>
               </FormLabel>
               <FormControl>

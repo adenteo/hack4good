@@ -49,13 +49,6 @@ const defaultActivityFormFields = [
       placeholder: 'Any further details about the activity',
       required: true,
     },
-    // {
-    //   id: 'day',
-    //   label: 'Day of the Week',
-    //   type: 'text',
-    //   placeholder: 'Enter the day of the week as a number (0=Sunday, 6=Saturday)',
-    //   required: true,
-    // },
     {
       id: 'startTime',
       label: 'Start Time',
@@ -68,13 +61,6 @@ const defaultActivityFormFields = [
       label: 'End Time',
       type: 'date',
       placeholder: 'Enter the end time for the activity',
-      required: true,
-    },
-    {
-      id: 'numHours',
-      label: 'Duration of activity',
-      type: 'number',
-      placeholder: 'Enter the total duration for the activity',
       required: true,
     },
     {
