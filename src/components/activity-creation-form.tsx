@@ -1,6 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -29,9 +29,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { DatePicker } from './datepicker';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, PlusCircle, Trash2 } from 'lucide-react';
 import { Calendar } from './ui/calendar';
 import { cn } from '@/lib/utils';
+import { TimePicker } from './ui/time-picker';
+import { Switch } from '@/components/ui/switch';
 
 const tags = [
   {
@@ -52,6 +54,25 @@ const tags = [
   },
 ] as const;
 
+const forms = [
+  {
+    id: '1',
+    label: 'form1',
+  },
+  {
+    id: '2',
+    label: 'form2',
+  },
+  {
+    id: '3',
+    label: 'form3',
+  },
+  {
+    id: '4',
+    label: 'form4',
+  },
+] as const;
+
 const formSchema = z.object({
   title: z.string().min(1, {
     message: 'Activity Name must be at least 1 character.',
@@ -63,20 +84,21 @@ const formSchema = z.object({
     message: 'Description must be at least 1 character.',
   }),
   additionalDetails: z.string(),
+  customSignUpForm: z.string(),
   startTime: z.date(),
   endTime: z.date(),
-  numHours: z.number(),
+  featured: z.boolean(),
   volunteerCountNeeded: z.string(),
   signUpLimit: z.string(),
-  image: z.string().url({
-    message: 'Invalid URL for the activity image.',
-  }),
   signUpDeadline: z.date(),
   tags: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: 'You have to select at least one category.',
   }),
   contactUs: z.string().email({
     message: 'Invalid email address for volunteers to contact.',
+  }),
+  image: z.string().refine((value) => value.trim() !== '', {
+    message: 'Please select an image.',
   }),
 });
 
@@ -88,21 +110,45 @@ export function ActivityCreationForm() {
       address: '',
       description: '',
       additionalDetails: '',
-      //   startTime: new Date(),
-      //   endTime: new Date(),
-      //   numHours: 0,
       volunteerCountNeeded: '',
       signUpLimit: '',
-      image: '',
-      //   signUpDeadline: new Date(),
       tags: [''],
+      featured: false,
       contactUs: '',
+      customSignUpForm: '',
+      image: '',
     },
   });
 
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
+  const [uploadedImage, setUploadedImage] = useState<string | undefined>(
+    undefined
+  );
+  const [isLabelVisible, setIsLabelVisible] = useState(true);
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Handle form submission here
-    console.log(values);
+    console.log(values.endTime);
+    console.log(values.image);
+  };
+
+  const handleImageUpload = async (file: File) => {
+    try {
+      const imageUrl = URL.createObjectURL(file);
+
+      form.setValue('image', imageUrl); // Set the image URL in the form
+      setUploadedImage(imageUrl); // Save the image URL in state
+      setImageFile(file);
+      setIsLabelVisible(false); // Hide the label when image is chosen
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+
+  const handleDeleteImage = () => {
+    form.setValue('image', ''); // Reset form field
+    setImageFile(undefined); // Clear selected image file
+    setUploadedImage(undefined); // Clear uploaded image data
+    setIsLabelVisible(true);
   };
 
   return (
@@ -125,6 +171,26 @@ export function ActivityCreationForm() {
                 />
               </FormControl>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="featured"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className="space-y-0.5">
+                <FormLabel className="text-black">
+                  Turn on Featured Post feature?
+                </FormLabel>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
             </FormItem>
           )}
         />
@@ -178,38 +244,37 @@ export function ActivityCreationForm() {
             <FormItem className="flex flex-col">
               <FormLabel className="text-black">
                 {' '}
-                Start Date of Activity
+                Start Date and Time of Activity
                 <span className="text-red-500 ml-1">*</span>
               </FormLabel>
+
               <Popover>
                 <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
+                  <Button
+                    variant={'outline'}
+                    className={cn(
+                      'w-[280px] justify-start text-left font-normal',
+                      !field.value && 'text-muted-foreground'
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {field.value ? (
+                      format(field.value, 'PPP HH:mm:ss')
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0">
                   <Calendar
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
                     initialFocus
                   />
+                  <div className="p-3 border-t border-border">
+                    <TimePicker setDate={field.onChange} date={field.value} />
+                  </div>
                 </PopoverContent>
               </Popover>
 
@@ -225,62 +290,40 @@ export function ActivityCreationForm() {
             <FormItem className="flex flex-col">
               <FormLabel className="text-black">
                 {' '}
-                End Date of Activity
+                End Date and Time of Activity
                 <span className="text-red-500 ml-1">*</span>
               </FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
+                  <Button
+                    variant={'outline'}
+                    className={cn(
+                      'w-[280px] justify-start text-left font-normal',
+                      !field.value && 'text-muted-foreground'
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {field.value ? (
+                      format(field.value, 'PPP HH:mm:ss')
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0">
                   <Calendar
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
+                    disabled={(date) => date < new Date()}
                     initialFocus
                   />
+                  <div className="p-3 border-t border-border">
+                    <TimePicker setDate={field.onChange} date={field.value} />
+                  </div>
                 </PopoverContent>
               </Popover>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="numHours"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-black">
-                Duration of activity <span className="text-red-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  id="numHours"
-                  placeholder="Enter the total number of hours for the activity"
-                  {...field}
-                />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -292,16 +335,52 @@ export function ActivityCreationForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-black">
-                Image URL<span className="text-red-500 ml-1">*</span>
+                Image<span className="text-red-500 ml-1">*</span>
               </FormLabel>
               <FormControl>
                 <Input
-                  type="url"
                   id="image"
-                  placeholder="Enter the URL for the activity image"
-                  {...field}
+                  type="file"
+                  className="hidden"
+                  accept="image/png, image/jpeg, image/jpg"
+                  onChange={(event) => {
+                    const file = event.target.files;
+                    if (!file) {
+                      return;
+                    }
+                    handleImageUpload(file[0]);
+                  }}
                 />
               </FormControl>
+              {isLabelVisible && (
+                <label
+                  className="w-full h-32 rounded-md border-4 border-dotted flex flex-col justify-center items-center cursor-pointer"
+                  htmlFor="productPhoto"
+                >
+                  <PlusCircle className="text-slate-200 h-8 w-8" />
+                  <div className="text-xs my-2 text-slate-500">
+                    JPG, JPEG, PNG
+                  </div>
+                </label>
+              )}
+              {uploadedImage && (
+                <div className="flex items-center space-x-2">
+                  <div className="max-w-full mx-auto">
+                    <button
+                      type="button"
+                      onClick={handleDeleteImage}
+                      className="text-black hover:text-red-700 focus:outline-none"
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </button>
+                    <img
+                      src={uploadedImage}
+                      alt="product image"
+                      className="w-full h-[40vh] object-contain"
+                    />
+                  </div>
+                </div>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -371,16 +450,16 @@ export function ActivityCreationForm() {
                     <Button
                       variant={'outline'}
                       className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
+                        'w-[280px] justify-start text-left font-normal',
                         !field.value && 'text-muted-foreground'
                       )}
                     >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
                       {field.value ? (
                         format(field.value, 'PPP')
                       ) : (
                         <span>Pick a date</span>
                       )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -389,9 +468,7 @@ export function ActivityCreationForm() {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
+                    disabled={(date) => date < new Date()}
                     initialFocus
                   />
                 </PopoverContent>
@@ -452,7 +529,7 @@ export function ActivityCreationForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-black">
-                Additional Details{' '}
+                Additional Details about the activity
                 <span className="text-gray-400 text-xs ml-1">(optional)</span>
               </FormLabel>
               <FormControl>
@@ -463,6 +540,41 @@ export function ActivityCreationForm() {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="customSignUpForm"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-black">
+                Participants Sign Up Form
+                <span className="text-gray-400 text-xs ml-1">(optional)</span>
+              </FormLabel>
+              <FormDescription className="w-auto text-xs">
+                Note: If no forms are selected, you will have to create a custom
+                form later, before this activity can be published
+              </FormDescription>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="text-start pr-6 w-auto font-normal text-[0.8rem]">
+                    <SelectValue placeholder="Select a Sign Up Form" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    {forms.map((formItem) => (
+                      <SelectItem key={formItem.id} value={formItem.id}>
+                        {formItem.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
               <FormMessage />
             </FormItem>
           )}

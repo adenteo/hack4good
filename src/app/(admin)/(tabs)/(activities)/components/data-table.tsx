@@ -75,14 +75,6 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  if (!data.length) {
-    return (
-      <h1>
-        <span className="loading loading-dots loading-lg"></span>
-      </h1>
-    );
-  }
-
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />

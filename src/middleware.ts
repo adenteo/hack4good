@@ -4,12 +4,22 @@ import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req });
+  if (req.nextUrl.pathname === '/onboarding' && token?.isOnboarded) {
+    return NextResponse.redirect(new URL('/home', req.nextUrl));
+  }
+  if (req.nextUrl.pathname === '/sign-in' && token) {
+    return NextResponse.redirect(new URL('/home', req.nextUrl));
+  }
   if (req.nextUrl.pathname === '/') {
     return NextResponse.redirect(new URL('/home', req.nextUrl));
   }
-  if (req.nextUrl.pathname === '/non-existent') {
+  if (req.nextUrl.pathname === '/profile') {
+    console.log(token);
     if (!token) {
       return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
+    }
+    if (!token.isOnboarded) {
+      return NextResponse.redirect(new URL('/onboarding', req.nextUrl));
     }
   }
 

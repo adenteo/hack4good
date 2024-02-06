@@ -14,12 +14,12 @@ import {
 } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { CircleUser, CircleUserRound } from 'lucide-react';
+import { Badge } from './ui/badge';
 interface UserAccountButtonProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, 'name' | 'image' | 'email' | 'isAdmin'>;
+  user: Pick<User, 'name' | 'image' | 'email' | 'isAdmin' | 'isOnboarded'>;
 }
 
 export default function UserAccountButton({ user }: UserAccountButtonProps) {
-  console.log(user);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -40,6 +40,11 @@ export default function UserAccountButton({ user }: UserAccountButtonProps) {
                 {user.email}
               </p>
             )}
+            {user.isOnboarded === true && (
+              <span className="bg-green-500 text-white text-xs font-bold px-4 p-1 rounded-full w-fit">
+                Verified Volunteer
+              </span>
+            )}
           </div>
         </div>
         <DropdownMenuSeparator />
@@ -51,9 +56,11 @@ export default function UserAccountButton({ user }: UserAccountButtonProps) {
           </DropdownMenuItem>
         )}
 
-        <DropdownMenuItem asChild>
-          <Link href="">Create Community</Link>
-        </DropdownMenuItem>
+        {user.isOnboarded === true && (
+          <DropdownMenuItem asChild>
+            <Link href="/profile">Profile</Link>
+          </DropdownMenuItem>
+        )}
 
         <DropdownMenuItem asChild>
           <Link href="">Settings</Link>

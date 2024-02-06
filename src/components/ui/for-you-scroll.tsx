@@ -2,20 +2,16 @@ import * as React from 'react';
 import Image from 'next/image';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import Link from 'next/link';
+import { faker } from '@faker-js/faker';
+import { Button } from './button';
+import { CalendarFold, ChevronLeft, ChevronRight, Clock1 } from 'lucide-react';
+import { TagColors } from '@/types/colors';
+import { ActivityType, ExtendedActivityType } from '@/models/Activity';
+import { format, parseISO } from 'date-fns';
+import { AspectRatio } from './aspect-ratio';
 
-export interface Activity {
-  image: string;
-  title: string;
-  attendees: any[];
-  numHours: number;
-  description: string;
-  additionalDetails: string;
-  date: string;
-  tags: string[];
-}
-
-interface ScrollAreaHorizontalDemoProps {
-  activities: Activity[];
+interface ForYouScrollProps {
+  activities: ExtendedActivityType[];
 }
 
 const avatarUrls = [
@@ -23,103 +19,130 @@ const avatarUrls = [
   'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
 ];
 
-export const ForYouScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
-  activities,
-}) => {
+export const ForYouScroll: React.FC<ForYouScrollProps> = ({ activities }) => {
+  const scrollContainerRef = React.useRef<HTMLDivElement | null>(null); // Create a ref for the scroll container
+
+  const handleScroll = (direction: string) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = scrollContainerRef.current.clientWidth / 2;
+      const secondChild = scrollContainerRef.current.children[1];
+      // Scroll the container by 100px to the right
+      secondChild.scrollBy({
+        left: direction === 'right' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
   return (
-    <ScrollArea className="w-full whitespace-nowrap rounded-md border-none">
-      <div className="flex w-max space-x-4 md:space-x-6 lg:space-x-16 ">
-        {activities.map((activity, index) => (
-          <Link
-            key={index}
-            href={`/activities/${encodeURIComponent(activity.title)}`}
-            passHref
-          >
-            <button key={index} className="border rounded-2xl shadow-md p-1">
-              <figure key={index} className="">
-                <div className=" overflow-hidden lg:rounded-md">
-                  <Image
-                    // src={activity.image}
-                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                    alt={`Image for ${activity.title}`}
-                    className=" w-56 h-36 p-2 object-cover rounded-2xl lg:w-[17.5rem] lg:h-44"
-                    width={300}
-                    height={200}
-                  />
-                </div>
-                <figcaption className="">
-                  <div className="flex ml-1 mt-1">
-                    {Array.isArray(activity.tags) &&
-                      activity.tags.slice(0, 3).map((tag, index) => (
-                        <div
-                          key={index}
-                          className={`text-[0.6rem] text-black ${
-                            index % 3 === 0
-                              ? 'bg-blue-100'
-                              : index % 3 === 1
-                              ? 'bg-red-100'
-                              : 'bg-green-100'
-                          } rounded-md p-1 pl-2 pr-2 ml-1 mr-1`}
-                        >
-                          {tag}
+    <ScrollArea
+      className="w-full whitespace-nowrap rounded-md border-none p-2 group"
+      ref={scrollContainerRef}
+    >
+      <Button
+        onClick={() => {
+          handleScroll('left');
+        }}
+        className="absolute left-5 p-6 top-1/2 rounded-full shadow-2xl bg-gray-200 hover:bg-gray-300 hidden group-hover:sm:flex items-center justify-center"
+        size={'icon'}
+      >
+        <div>
+          <ChevronLeft className="text-gray-700" />
+        </div>
+      </Button>
+      <div className="flex w-max space-x-4 md:space-x-6 lg:space-x-16">
+        {activities.map((activity, index) => {
+          const date = parseISO(activity.startTime);
+          const formattedDate = format(date, 'MMMM d yyyy');
+          return (
+            <Link
+              className="p-2"
+              key={index}
+              href={`/activities/${encodeURIComponent(activity._id)}`}
+              passHref
+            >
+              <button key={index} className="border rounded-2xl shadow-md">
+                <figure key={index} className="w-[280px]">
+                  <div className="overflow-hidden rounded-t-md mb-2">
+                    <AspectRatio ratio={16 / 9} className="bg-muted">
+                      <Image
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                        alt={`Image for ${activity.title}`}
+                        fill
+                        className="rounded-t-md object-cover"
+                      />
+                    </AspectRatio>
+                  </div>
+                  <figcaption className="px-2">
+                    <div className="flex my-1 space-x-2">
+                      {Array.isArray(activity.tags) &&
+                        activity.tags.slice(0, 3).map((tag, index) => (
+                          <div
+                            key={index}
+                            className={`text-[0.6rem] text-black rounded-md p-1 px-2 font-semibold my-1 ${faker.helpers.enumValue(
+                              TagColors,
+                            )}`}
+                          >
+                            {tag}
+                          </div>
+                        ))}
+                    </div>
+                    <div className="flex justify-between items-center mt-2">
+                      <div className="text-left">
+                        <div className="flex justify-start items-center">
+                          <CalendarFold size={15} />
+                          <p className="text-xs font-semibold ml-1">
+                            {formattedDate}
+                          </p>
                         </div>
-                      ))}
-                    {activity.tags.length > 3 && (
-                      <div className="text-[0.6rem] pl-1 pt-2 text-black">
-                        ...
+                        <p className="font-semibold text-foreground text-lg mt-1">
+                          {activity.title}
+                        </p>
                       </div>
-                    )}
-                  </div>
-
-                  <div className="flex justify-between items-center pt-2 pl-3 pr-3">
-                    <div className="text-left">
-                      <p className="text-xs">{activity.date}</p>
-                      <h1 className="font-semibold text-foreground text-lg">
-                        {activity.title}
-                      </h1>
                     </div>
-
-                    <div className="bg-black text-[0.7rem] text-white font-medium p-[0.2rem] pl-3 pr-3 rounded-md">
-                      <p>{activity.numHours}h</p>
-                    </div>
-                  </div>
-
-                  <div className="text-left">
-                    <span className=" text-gray-600 text-sm font-light pl-3">
-                      {activity.description.length > 30
-                        ? `${activity.description.slice(0, 30)}...`
-                        : activity.description}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between mt-1 mb-1 lg:mb-0">
-                    <div
-                      className="avatar-group -space-x-3 rtl:space-x-reverse pl-2 lg:pb-4"
-                      data-theme="light"
-                    >
-                      {avatarUrls.map((avatar, index) => (
-                        <div key={index} className="avatar">
-                          <div className="w-6 border-none lg:w-8">
-                            <img src={avatar} alt={`Avatar ${index + 1}`} />
+                    <p className="text-gray-600 text-xs font-light overflow-hidden text-ellipsis">
+                      {activity.description}
+                    </p>
+                    <div className="flex justify-between my-1">
+                      <div
+                        className="avatar-group -space-x-3 rtl:space-x-reverse"
+                        data-theme="light"
+                      >
+                        {avatarUrls.map((avatar, index) => (
+                          <div key={index} className="avatar">
+                            <div className="w-6 border-none lg:w-8">
+                              <img src={avatar} alt={`Avatar ${index + 1}`} />
+                            </div>
+                          </div>
+                        ))}
+                        <div className="avatar placeholder" data-theme="light">
+                          <div className="w-6 bg-blue-100 text-black lg:w-8">
+                            <span className="text-[0.6rem] lg:text-xs">
+                              +{activity.attendees.length}
+                            </span>
                           </div>
                         </div>
-                      ))}
-                      <div className="avatar placeholder" data-theme="light">
-                        <div className="w-6 bg-blue-100 text-black lg:w-8">
-                          <span className="text-[0.6rem] lg:text-xs">
-                            +{activity.attendees.length}
-                          </span>
-                        </div>
                       </div>
-                    </div>
 
-                    <br />
-                  </div>
-                </figcaption>
-              </figure>
-            </button>
-          </Link>
-        ))}
+                      <br />
+                    </div>
+                  </figcaption>
+                </figure>
+              </button>
+            </Link>
+          );
+        })}
+
+        <Button
+          onClick={() => {
+            handleScroll('right');
+          }}
+          className="absolute right-5 p-6 top-1/2 rounded-full shadow-2xl bg-gray-200 hover:bg-gray-300 hidden group-hover:sm:flex items-center justify-center"
+          size={'icon'}
+        >
+          <div>
+            <ChevronRight className="text-gray-700" />
+          </div>
+        </Button>
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>

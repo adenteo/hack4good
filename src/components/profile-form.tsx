@@ -1,6 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -16,6 +16,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { User } from 'next-auth';
+import { ExtendedVolunteerType } from '@/models/Volunteer';
 
 const formSchema = z.object({
   firstName: z.string().min(1, {
@@ -34,7 +36,11 @@ const formSchema = z.object({
   interests: z.string(),
 });
 
-export function ProfileForm() {
+export function ProfileForm({
+  volunteer,
+}: {
+  volunteer: ExtendedVolunteerType;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,6 +52,18 @@ export function ProfileForm() {
       interests: '',
     },
   });
+
+  useEffect(() => {
+    if (volunteer) {
+      console.log(volunteer);
+      form.setValue('firstName', volunteer.firstName);
+      form.setValue('lastName', volunteer.lastName);
+      form.setValue('phoneNumber', volunteer.contactNumber);
+      form.setValue('email', volunteer.email);
+      form.setValue('skills', volunteer.skills ? volunteer.skills : '');
+      //   form.setValue('interests', volunteer.interests ? volunteer.interests : '');
+    }
+  }, []);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Handle form submission here
@@ -66,7 +84,7 @@ export function ProfileForm() {
                   className="text-sm w-80 md:w-96 lg:w-96"
                   type="text"
                   id="firstName"
-                  placeholder="Amy"
+                  placeholder="First Name"
                   {...field}
                 />
               </FormControl>
@@ -87,7 +105,7 @@ export function ProfileForm() {
                   className="text-sm"
                   type="text"
                   id="lastName"
-                  placeholder="Tan"
+                  placeholder="Last Name"
                   {...field}
                 />
               </FormControl>
@@ -108,7 +126,7 @@ export function ProfileForm() {
                   className="text-sm"
                   type="email"
                   id="email"
-                  placeholder="amytan@gmail.com"
+                  placeholder="Email"
                   {...field}
                 />
               </FormControl>
@@ -129,7 +147,7 @@ export function ProfileForm() {
                   className="text-sm"
                   type="tel"
                   id="phoneNumber"
-                  placeholder="9126 3728"
+                  placeholder="Phone Number"
                   {...field}
                 />
               </FormControl>
@@ -150,7 +168,7 @@ export function ProfileForm() {
                   className="text-sm"
                   type="text"
                   id="skills"
-                  placeholder="Photography, Coding, Graphic Design"
+                  placeholder="Skills"
                   {...field}
                 />
               </FormControl>
@@ -171,7 +189,7 @@ export function ProfileForm() {
                   className="text-sm"
                   type="text"
                   id="interests"
-                  placeholder="Fashion, Animals"
+                  placeholder="Interests"
                   {...field}
                 />
               </FormControl>
@@ -181,7 +199,7 @@ export function ProfileForm() {
           )}
         />
         <div className="flex justify-center pb-2">
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Save Profile</Button>
         </div>
       </form>
     </Form>

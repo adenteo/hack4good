@@ -3,20 +3,13 @@ import Image from 'next/image';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import Link from 'next/link';
 import { getAllActivities } from '@/lib/actions/get-all-activities';
-
-export interface Activity {
-  image: string;
-  title: string;
-  attendees: any[];
-  numHours: number;
-  description: string;
-  additionalDetails: string;
-  date: string;
-  tags: string[];
-}
+import { Button } from './button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ActivityType, ExtendedActivityType } from '@/models/Activity';
+import { AspectRatio } from './aspect-ratio';
 
 interface ScrollAreaHorizontalDemoProps {
-  activities: Activity[];
+  activities: ExtendedActivityType[];
 }
 
 const avatarUrls = [
@@ -27,8 +20,33 @@ const avatarUrls = [
 export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
   activities,
 }: ScrollAreaHorizontalDemoProps) => {
+  const scrollContainerRef = React.useRef<HTMLDivElement | null>(null); // Create a ref for the scroll container
+  const handleScroll = (direction: string) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = scrollContainerRef.current.clientWidth / 2;
+      const secondChild = scrollContainerRef.current.children[1];
+      secondChild.scrollBy({
+        left: direction === 'right' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
   return (
-    <ScrollArea className="w-full whitespace-nowrap rounded-md border-none">
+    <ScrollArea
+      className="w-full whitespace-nowrap rounded-md border-none p-4 group"
+      ref={scrollContainerRef}
+    >
+      <Button
+        onClick={() => {
+          handleScroll('left');
+        }}
+        className="z-50 absolute left-5 p-6 top-1/2 rounded-full shadow-2xl bg-gray-200 hover:bg-gray-300 hidden group-hover:sm:flex items-center justify-center"
+        size={'icon'}
+      >
+        <div>
+          <ChevronLeft className="text-gray-700" />
+        </div>
+      </Button>
       <div className="flex w-max space-x-4 md:space-x-6 lg:space-x-16">
         {activities.map((activity, index) => (
           <Link
@@ -48,43 +66,27 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
                       width={300}
                       height={600}
                     />
-
-                    <div className="absolute top-[9.7rem] left-4 right-0 bottom-0 md:top-48 lg:top-60 ">
+                    <div className="absolute top-[9.7rem] left-4 right-0 bottom-0 md:top-48 lg:top-60">
                       <div className="flex mb-1">
                         {Array.isArray(activity.tags) &&
                           activity.tags.slice(0, 3).map((tag, index) => (
                             <div
                               key={index}
-                              className="text-[0.6rem] text-white border border-white rounded-md p-1 pl-2 pr-2 mr-2"
+                              className="text-[0.6rem] text-white border border-white rounded-md p-1 px-2 mr-2"
                             >
                               {tag}
                             </div>
                           ))}
-
-                        {activity.tags.length > 3 && (
-                          <div className="text-[0.6rem] pt-2 text-white">
-                            ...
-                          </div>
-                        )}
                       </div>
-
-                      <div>
-                        <p className=" text-white text-lg font-medium pr-24 md:pr-40 lg:pr-44">
-                          {activity.title}
-                        </p>
-                      </div>
-
-                      <div className=" w-2">
-                        <span className=" text-white text-xs font-light pl-[0.15rem] md:pl-0 lg:pl-0">
-                          {activity.description.length > 30
-                            ? `${activity.description.slice(0, 30)}...`
-                            : activity.description}
-                        </span>
-                      </div>
-
+                      <p className="text-white text-lg font-medium text-left">
+                        {activity.title}
+                      </p>
+                      <p className="text-white text-xs font-light text-left overflow-hidden text-ellipsis mr-4">
+                        {activity.description}
+                      </p>
                       <div className="mt-2">
                         <div
-                          className="avatar-group bg-transparent -space-x-3  "
+                          className="avatar-group bg-transparent -space-x-3"
                           data-theme="light"
                         >
                           {avatarUrls.map((avatar, index) => (
@@ -116,6 +118,17 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
           </Link>
         ))}
       </div>
+      <Button
+        onClick={() => {
+          handleScroll('right');
+        }}
+        className="absolute right-5 p-6 top-1/2 rounded-full shadow-2xl bg-gray-200 hover:bg-gray-300 hidden group-hover:sm:flex items-center justify-center"
+        size={'icon'}
+      >
+        <div>
+          <ChevronRight className="text-gray-700" />
+        </div>
+      </Button>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );

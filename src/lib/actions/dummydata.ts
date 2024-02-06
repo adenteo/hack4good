@@ -24,6 +24,8 @@ type UserData = {
 
 type VolunteerData = {
   user: mongoose.Types.ObjectId;
+  firstName: string;
+  lastName: string;
   fullName: string;
   volunteerStatus: VolunteerStatus;
   gender: Gender;
@@ -88,6 +90,8 @@ function generateRandomVolunteerData(
   const postalCode = generateSGPostalCode();
   return {
     user: userId,
+    firstName: firstName,
+    lastName: lastName,
     fullName: firstName + ' ' + lastName,
     volunteerStatus: VolunteerStatus.Active,
     gender: faker.helpers.arrayElement(Object.values(Gender)),

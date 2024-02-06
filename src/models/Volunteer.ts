@@ -1,4 +1,4 @@
-import { Schema, model, models } from 'mongoose';
+import { InferSchemaType, Schema, model, models } from 'mongoose';
 import {
   Gender,
   VolunteerStatus,
@@ -8,7 +8,10 @@ import {
 
 const volunteerSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   fullName: { type: String, required: true },
+  email: { type: String, required: true },
   volunteerStatus: {
     type: String,
     enum: Object.values(VolunteerStatus),
@@ -26,15 +29,14 @@ const volunteerSchema = new Schema({
     required: true,
   },
   profilePictureUrl: String,
-  lastFourDigitsOfNric: { type: String, required: true },
+  lastFourDigitsOfNric: { type: String },
   dateOfBirth: { type: Date, required: true },
-  contactNumber: String,
+  contactNumber: { type: String, required: true },
   address: String,
   postalCode: String,
   employmentStatus: {
     type: String,
     enum: Object.values(EmploymentStatus),
-    required: true,
   },
   occupation: String,
   drivingLicence: { type: Boolean, default: false },
@@ -44,6 +46,13 @@ const volunteerSchema = new Schema({
   pwdTrained: { type: Boolean, default: false },
 });
 
+export interface ExtendedVolunteerType extends Omit<VolunteerType, '_id'> {
+  _id: string;
+}
+
+type VolunteerType = InferSchemaType<typeof volunteerSchema>;
+
 const Volunteer = models.Volunteer || model('Volunteer', volunteerSchema);
 
 export default Volunteer;
+export type { VolunteerType };

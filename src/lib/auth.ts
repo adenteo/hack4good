@@ -5,6 +5,7 @@ import User from '@/models/User';
 import bcrypt from 'bcrypt';
 import { connectToDB } from './mongoose';
 import Role from '@/models/Role';
+import Volunteer from '@/models/Volunteer';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -45,10 +46,10 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         return {
-          id: user.id,
-          name: user.firstName,
+          id: user._id.toString(),
           email: user.email,
           isAdmin: user.isAdmin,
+          isOnboarded: false,
         };
       },
     }),
@@ -62,16 +63,30 @@ export const authOptions: NextAuthOptions = {
         session.user.image = token.picture;
         session.user.username = token.username;
         session.user.isAdmin = token.isAdmin;
+        session.user.isOnboarded = token.isOnboarded;
       }
 
       return session;
     },
     async jwt({ token, user }) {
+      let currentUser;
       if (user) {
-        // Fetch the role from the database
-        const currentUser = await User.findOne({ email: user.email });
-        token.isAdmin = currentUser.isAdmin;
+        currentUser = await User.findOne({ email: user.email });
+      } else if (token) {
+        currentUser = await User.findOne({ email: token.email });
       }
+      const volunteerDetails = await Volunteer.findOne({
+        user: currentUser._id,
+      });
+      if (volunteerDetails) {
+        token.isOnboarded = true;
+      } else {
+        token.isOnboarded = false;
+      }
+      token.isAdmin = currentUser.isAdmin;
+      token.email = currentUser.email;
+      token.username = currentUser.firstName + ' ' + currentUser.lastName;
+      token.id = currentUser._id.toString();
       return token;
     },
     async redirect({ url, baseUrl }) {

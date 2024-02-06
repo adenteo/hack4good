@@ -8,6 +8,7 @@ const nextConfig = {
   },
   images: {
     domains: [
+      'loremflickr.com',
       'lh3.googleusercontent.com',
       'placekitten.com',
       'source.unsplash.com',

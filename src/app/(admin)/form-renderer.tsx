@@ -75,8 +75,11 @@ function createFormSchema(fields: FormFieldType[]) {
         } else {
           validation = z.boolean().default(false).optional();
         }
-
         break;
+      // case 'multi-checkbox':
+      // 	if (field.required) {
+
+      // 	}
       case 'date':
         if (field.required) {
           validation = z.date({
