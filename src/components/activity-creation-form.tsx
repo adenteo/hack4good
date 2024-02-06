@@ -1,6 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -29,7 +29,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { DatePicker } from './datepicker';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, PlusCircle, Trash2 } from 'lucide-react';
 import { Calendar } from './ui/calendar';
 import { cn } from '@/lib/utils';
 import { TimePicker } from './ui/time-picker';
@@ -90,15 +90,15 @@ const formSchema = z.object({
   featured: z.boolean(),
   volunteerCountNeeded: z.string(),
   signUpLimit: z.string(),
-  image: z.string().url({
-    message: 'Invalid URL for the activity image.',
-  }),
   signUpDeadline: z.date(),
   tags: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: 'You have to select at least one category.',
   }),
   contactUs: z.string().email({
     message: 'Invalid email address for volunteers to contact.',
+  }),
+  image: z.string().refine((value) => value.trim() !== '', {
+    message: 'Please select an image.',
   }),
 });
 
@@ -112,16 +112,43 @@ export function ActivityCreationForm() {
       additionalDetails: '',
       volunteerCountNeeded: '',
       signUpLimit: '',
-      image: '',
       tags: [''],
       featured: false,
       contactUs: '',
       customSignUpForm: '',
+      image: '',
     },
   });
 
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
+  const [uploadedImage, setUploadedImage] = useState<string | undefined>(
+    undefined
+  );
+  const [isLabelVisible, setIsLabelVisible] = useState(true);
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values.endTime);
+    console.log(values.image);
+  };
+
+  const handleImageUpload = async (file: File) => {
+    try {
+      const imageUrl = URL.createObjectURL(file);
+
+      form.setValue('image', imageUrl); // Set the image URL in the form
+      setUploadedImage(imageUrl); // Save the image URL in state
+      setImageFile(file);
+      setIsLabelVisible(false); // Hide the label when image is chosen
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+
+  const handleDeleteImage = () => {
+    form.setValue('image', ''); // Reset form field
+    setImageFile(undefined); // Clear selected image file
+    setUploadedImage(undefined); // Clear uploaded image data
+    setIsLabelVisible(true);
   };
 
   return (
@@ -288,6 +315,7 @@ export function ActivityCreationForm() {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
+                    disabled={(date) => date < new Date()}
                     initialFocus
                   />
                   <div className="p-3 border-t border-border">
@@ -307,16 +335,52 @@ export function ActivityCreationForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-black">
-                Image URL<span className="text-red-500 ml-1">*</span>
+                Image<span className="text-red-500 ml-1">*</span>
               </FormLabel>
               <FormControl>
                 <Input
-                  type="url"
                   id="image"
-                  placeholder="Enter the URL for the activity image"
-                  {...field}
+                  type="file"
+                  className="hidden"
+                  accept="image/png, image/jpeg, image/jpg"
+                  onChange={(event) => {
+                    const file = event.target.files;
+                    if (!file) {
+                      return;
+                    }
+                    handleImageUpload(file[0]);
+                  }}
                 />
               </FormControl>
+              {isLabelVisible && (
+                <label
+                  className="w-full h-32 rounded-md border-4 border-dotted flex flex-col justify-center items-center cursor-pointer"
+                  htmlFor="productPhoto"
+                >
+                  <PlusCircle className="text-slate-200 h-8 w-8" />
+                  <div className="text-xs my-2 text-slate-500">
+                    JPG, JPEG, PNG
+                  </div>
+                </label>
+              )}
+              {uploadedImage && (
+                <div className="flex items-center space-x-2">
+                  <div className="max-w-full mx-auto">
+                    <button
+                      type="button"
+                      onClick={handleDeleteImage}
+                      className="text-black hover:text-red-700 focus:outline-none"
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </button>
+                    <img
+                      src={uploadedImage}
+                      alt="product image"
+                      className="w-full h-[40vh] object-contain"
+                    />
+                  </div>
+                </div>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -404,9 +468,7 @@ export function ActivityCreationForm() {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
+                    disabled={(date) => date < new Date()}
                     initialFocus
                   />
                 </PopoverContent>

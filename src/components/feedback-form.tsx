@@ -26,17 +26,8 @@ const formSchema = z.object({
   description: z.string().min(30, {
     message: 'Description must be at least 30 characters.',
   }),
-  image: z.string().refine((value) => isValidImageFile(value), {
-    message: 'Invalid image file.',
-  }),
+  image: z.string(),
 });
-
-const isValidImageFile = (value: string | undefined): boolean => {
-  if (!value) return true; // No file selected is considered valid
-  // Implement your custom file validation logic here
-  // For example, check file extension or MIME type
-  return true; // Replace with your validation logic
-};
 
 // Define the component
 export function FeedbackForm() {
@@ -52,6 +43,9 @@ export function FeedbackForm() {
 
   // State to manage the selected image file
   const [imageFile, setImageFile] = useState<File | undefined>(undefined);
+  const [uploadedImage, setUploadedImage] = useState<string | undefined>(
+    undefined
+  );
   const [isLabelVisible, setIsLabelVisible] = useState(true);
 
   // Form submission handler
@@ -67,9 +61,27 @@ export function FeedbackForm() {
     }
   };
 
+  const handleImageUpload = async (file: File) => {
+    try {
+      // Example: You can upload the image to a server and get the URL
+      // const imageUrl = await uploadImageToServer(file);
+
+      // For demonstration purposes, using a local URL
+      const imageUrl = URL.createObjectURL(file);
+
+      form.setValue('image', imageUrl); // Set the image URL in the form
+      setUploadedImage(imageUrl); // Save the image URL in state
+      setImageFile(file);
+      setIsLabelVisible(false); // Hide the label when image is chosen
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+
   const handleDeleteImage = () => {
     form.setValue('image', ''); // Reset form field
     setImageFile(undefined); // Clear selected image file
+    setUploadedImage(undefined); // Clear uploaded image data
     setIsLabelVisible(true);
   };
 
@@ -126,22 +138,20 @@ export function FeedbackForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-black">
-                Photo<span className="text-slate-400"> (optional)</span>
+                Image<span className="text-red-500 ml-1">*</span>
               </FormLabel>
               <FormControl>
                 <Input
-                  id="productPhoto"
+                  id="image"
                   type="file"
                   className="hidden"
                   accept="image/png, image/jpeg, image/jpg"
                   onChange={(event) => {
                     const file = event.target.files;
-                    field.onChange(file);
                     if (!file) {
                       return;
                     }
-                    setImageFile(file[0]);
-                    setIsLabelVisible(false); // Hide the label when image is chosen
+                    handleImageUpload(file[0]);
                   }}
                 />
               </FormControl>
@@ -156,7 +166,7 @@ export function FeedbackForm() {
                   </div>
                 </label>
               )}
-              {imageFile && (
+              {uploadedImage && (
                 <div className="flex items-center space-x-2">
                   <div className="max-w-full mx-auto">
                     <button
@@ -164,10 +174,10 @@ export function FeedbackForm() {
                       onClick={handleDeleteImage}
                       className="text-black hover:text-red-700 focus:outline-none"
                     >
-                      <Trash2 className="h-6 w-6" />
+                      <Trash2 className="h-5 w-5" />
                     </button>
                     <img
-                      src={URL.createObjectURL(imageFile)}
+                      src={uploadedImage}
                       alt="product image"
                       className="w-full h-[40vh] object-contain"
                     />
