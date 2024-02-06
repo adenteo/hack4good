@@ -83,6 +83,7 @@ const formSchema = z.object({
     message: 'Description must be at least 1 character.',
   }),
   additionalDetails: z.string(),
+  customSignUpForm: z.string(),
   startTime: z.date(),
   endTime: z.date(),
   volunteerCountNeeded: z.string(),
@@ -112,6 +113,7 @@ export function ActivityCreationForm() {
       image: '',
       tags: [''],
       contactUs: '',
+      customSignUpForm: '',
     },
   });
 
@@ -460,7 +462,7 @@ export function ActivityCreationForm() {
 
         <FormField
           control={form.control}
-          name="customForm"
+          name="customSignUpForm"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-black">
