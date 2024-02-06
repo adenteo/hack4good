@@ -95,7 +95,9 @@ export function FeedbackForm() {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-black">Reflection Title</FormLabel>
+              <FormLabel className="text-black">
+                Reflection Title <span className="text-red-500 ml-1">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
                   className="text-sm w-80 md:w-96 lg:w-96"
@@ -118,6 +120,7 @@ export function FeedbackForm() {
             <FormItem>
               <FormLabel className="text-black">
                 Describe your experience{' '}
+                <span className="text-red-500 ml-1">*</span>
               </FormLabel>
               <FormControl>
                 <Textarea
@@ -138,7 +141,7 @@ export function FeedbackForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-black">
-                Image<span className="text-red-500 ml-1">*</span>
+                Image<span className="text-gray-500 ml-1">(optional)</span>
               </FormLabel>
               <FormControl>
                 <Input
