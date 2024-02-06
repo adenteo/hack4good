@@ -116,11 +116,6 @@ export default async function VolunteerProfile() {
               <span className="text-sm">{volunteer.email}</span>
             </p>
           </div>
-          <div className="absolute top-8 right-5 lg:right-20">
-            <button className="rounded-full">
-              <Pencil size={18} />
-            </button>
-          </div>
         </div>
         <div className="flex justify-center">
           <div className="flex justify-between rounded-xl shadow-lg mt-[-1.5rem] bg-white relative z-20 p-4 w-4/5 lg:w-1/2 lg:justify-center">

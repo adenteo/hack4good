@@ -88,18 +88,32 @@ const activities = [
 ];
 
 export default function Home() {
-  const [activities, setActivities] = React.useState<ExtendedActivityType[]>(
-    [],
-  );
+  const [featuredActivities, setFeaturedActivities] = React.useState<
+    ExtendedActivityType[]
+  >([]);
+  const [forYouActivities, setForYouActivities] = React.useState<
+    ExtendedActivityType[]
+  >([]);
+  const [featuredPage, setFeaturedPage] = React.useState(0);
+  const [forYouPage, setForYouPage] = React.useState(0);
+
   React.useEffect(() => {
     const fetchActivities = async () => {
-      const activities = await getAllActivities();
+      const activities = await getAllActivities(featuredPage);
       const activitiesJson = JSON.parse(activities);
-      setActivities(activitiesJson);
-      console.log(activitiesJson);
+      setFeaturedActivities((prev) => [...prev, ...activitiesJson]);
     };
     fetchActivities();
-  }, []);
+  }, [featuredPage]);
+
+  React.useEffect(() => {
+    const fetchActivities = async () => {
+      const activities = await getAllActivities(forYouPage);
+      const activitiesJson = JSON.parse(activities);
+      setForYouActivities((prev) => [...prev, ...activitiesJson]);
+    };
+    fetchActivities();
+  }, [forYouPage]);
 
   return (
     <div className="min-h-screen">
@@ -134,21 +148,24 @@ export default function Home() {
         <div className="pb-1 pt-4">
           <p className="text-lg font-bold text-black">Featured</p>
         </div>
-        {/* <div className="flex">
-          <FeaturedScroll activities={activities} />
+        <div className="flex">
+          <FeaturedScroll
+            activities={featuredActivities}
+            setPage={setFeaturedPage}
+          />
         </div>
         <div className="pb-1 pt-4">
           <p className="text-lg font-bold text-black">For You</p>
         </div>
 
-        <ForYouScroll activities={activities} />
+        <ForYouScroll activities={forYouActivities} setPage={setForYouPage} />
 
         <div className="pb-1 pt-4">
           <p className="text-lg font-bold text-black">Upcoming</p>
         </div>
         <div className="flex">
-          <ForYouScroll activities={activities} />
-        </div> */}
+          <ForYouScroll activities={forYouActivities} setPage={setForYouPage} />
+        </div>
       </div>
     </div>
   );

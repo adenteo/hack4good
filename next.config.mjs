@@ -6,6 +6,7 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['sharp', 'onnxruntime-node'],
   },
+  //   reactStrictMode: false,
   images: {
     domains: [
       'loremflickr.com',

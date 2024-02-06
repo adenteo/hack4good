@@ -12,6 +12,7 @@ import { AspectRatio } from './aspect-ratio';
 
 interface ForYouScrollProps {
   activities: ExtendedActivityType[];
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const avatarUrls = [
@@ -19,7 +20,10 @@ const avatarUrls = [
   'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
 ];
 
-export const ForYouScroll: React.FC<ForYouScrollProps> = ({ activities }) => {
+export const ForYouScroll: React.FC<ForYouScrollProps> = ({
+  activities,
+  setPage,
+}) => {
   const scrollContainerRef = React.useRef<HTMLDivElement | null>(null); // Create a ref for the scroll container
 
   const handleScroll = (direction: string) => {
@@ -33,6 +37,30 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({ activities }) => {
       });
     }
   };
+
+  const handleEndOfScroll = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  React.useEffect(() => {
+    const scrollContainer = scrollContainerRef.current?.children[1];
+    const checkIfScrolledToEnd = () => {
+      if (!scrollContainer) return;
+
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+      console.log(scrollLeft, scrollWidth, clientWidth);
+      if (scrollLeft + clientWidth >= scrollWidth) {
+        handleEndOfScroll();
+      }
+    };
+
+    scrollContainer?.addEventListener('scroll', checkIfScrolledToEnd);
+
+    return () => {
+      scrollContainer?.removeEventListener('scroll', checkIfScrolledToEnd);
+    };
+  }, []);
+
   return (
     <ScrollArea
       className="w-full whitespace-nowrap rounded-md border-none p-2 group"
