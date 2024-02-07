@@ -1,37 +1,11 @@
 'use client';
 import React from 'react';
-import { TextInput } from '@tremor/react';
-
 import { ForYouScroll } from '@/components/ui/for-you-scroll';
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { SearchIcon } from 'lucide-react';
 import { FeaturedScroll } from '@/components/ui/featured-scroll';
-// import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { addRoles } from '@/lib/actions/add-roles';
-import { generateAndSaveDummyData } from '@/lib/actions/dummydata';
-import {
-  addDummyDataToAttendeeList,
-  generateAndSaveDummyActivityData,
-} from '@/lib/actions/dummyactivity';
-import { getDocumentsByDateRange } from '@/lib/actions/get-monthly-reports';
 import { getAllActivitiesPagination } from '@/lib/actions/get-all-activities-pagination';
-import {
-  fetchCompletedActivitiesWithVolunteers,
-  saveActivitiesToCSV,
-} from '@/lib/actions/get-reports';
-import { ActivityType, ExtendedActivityType } from '@/models/Activity';
+import { ExtendedActivityType } from '@/models/Activity';
 import { getUserUpcomingActivities } from '@/lib/actions/get-user-upcoming';
-import { unparse } from 'papaparse';
+import { useSession } from 'next-auth/react';
 
 export default function Home() {
   const [featuredActivities, setFeaturedActivities] = React.useState<
@@ -45,7 +19,8 @@ export default function Home() {
   >([]);
   const [featuredPage, setFeaturedPage] = React.useState(0);
   const [forYouPage, setForYouPage] = React.useState(0);
-  //   const [forYouPage, setForYouPage] = React.useState(0);
+  const session = useSession();
+  const userId = session.data?.user.id;
 
   React.useEffect(() => {
     const fetchActivities = async () => {
@@ -66,16 +41,14 @@ export default function Home() {
   }, [forYouPage]);
 
   React.useEffect(() => {
+    if (!userId) return;
     const fetchUpcoming = async () => {
-      const activities = await getUserUpcomingActivities(
-        '65c1c5a7919469d96a24fe53',
-      );
+      const activities = await getUserUpcomingActivities(userId);
       const activitiesJson = JSON.parse(activities);
-      console.log(activitiesJson);
       setUpcomingActivities(activitiesJson);
     };
     fetchUpcoming();
-  }, []);
+  }, [userId]);
 
   return (
     <div className="min-h-screen">

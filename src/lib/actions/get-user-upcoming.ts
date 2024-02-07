@@ -17,8 +17,6 @@ export async function getUserUpcomingActivities(userId: string) {
     const activities = await Activity.find({
       'attendees.user': userId,
     }).lean(); // Use .lean() for faster execution if you only need plain JavaScript objects
-    console.log(activities.length);
-    console.log('THIS MANY ACTIVITIES');
     return JSON.stringify(activities, null, 2);
     // return activities.map(activity => ({
     //   ...activity,

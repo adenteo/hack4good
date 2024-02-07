@@ -34,7 +34,6 @@ const LinkFormDialog: React.FC<LinkFormDialogProps> = ({
       const activityString = await getActivityById(activityId);
       if (!activityString) return;
       const activity = JSON.parse(activityString);
-      console.log(activity);
       setActivity(activity);
     };
 
@@ -58,12 +57,16 @@ const LinkFormDialog: React.FC<LinkFormDialogProps> = ({
           </p>
         </div>
       )}
-      <SelectForm
-        forms={forms}
-        signUpForm={activity?.customSignUpForm}
-        setFormId={setFormId}
-        setIsLinked={setIsLinked}
-      />
+      {activity ? (
+        <SelectForm
+          forms={forms}
+          signUpForm={activity.customSignUpForm}
+          setFormId={setFormId}
+          setIsLinked={setIsLinked}
+        />
+      ) : (
+        <span className="loading loading-dots loading-lg mx-auto"></span>
+      )}
       <DialogClose asChild>
         <Button
           className="text-[0.9rem] mt-8"
