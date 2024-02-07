@@ -66,7 +66,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
               </div>
             ))}
         </div>
-        <div className="mt-2 mb-4">
+        <div className="mt-2">
           <h1 className="text-3xl mb-2 font-semibold">{activity.title}</h1>
           <div className="flex items-center mt-1">
             <CalendarFold strokeWidth={3} size={15} />
@@ -79,7 +79,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
         </div>
 
         {activity.attendees.length - 2 > 0 && (
-          <div className="flex items-center">
+          <div className="flex items-center mt-4">
             <div
               className="avatar-group -space-x-4 rtl:space-x-reverse"
               data-theme="light"
@@ -181,12 +181,14 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
           </div>
 
           <div className="ml-4">
-            <Button
-              variant="outline"
-              className="border-gray-500 text-[0.8rem] hover:bg-gray-300"
-            >
-              Contact Us
-            </Button>
+            <a href={`mailto:${activity.contactUs}`}>
+              <Button
+                variant="outline"
+                className="border-gray-500 text-[0.8rem] hover:bg-gray-300"
+              >
+                Contact Us
+              </Button>
+            </a>
           </div>
         </div>
       </figcaption>
