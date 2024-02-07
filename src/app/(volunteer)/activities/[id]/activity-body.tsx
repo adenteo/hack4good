@@ -16,6 +16,8 @@ import {
   PopoverClose,
 } from '@radix-ui/react-popover';
 import Link from 'next/link';
+import { withdrawFromActivity } from '@/lib/actions/activity-withdraw';
+import { toast } from '@/components/ui/use-toast';
 
 interface ActivityBodyProps {
   activity: ExtendedActivityType;
@@ -37,6 +39,16 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
   const date = parseISO(activity.startTime);
   const formattedDate = format(date, 'MMMM d yyyy');
 
+  const handleWithdraw = async () => {
+    if (user) {
+      await withdrawFromActivity(activity._id, user?.user.id);
+      toast({
+        title: 'You have been withdrawn',
+        description: 'we are sad to see you go :(',
+      });
+    }
+  };
+
   return (
     <figure className="sm:p-20 sm:flex">
       {activity.image ? (
@@ -52,7 +64,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
         <div>Image not found</div>
       )}
 
-      <figcaption className="px-6 mt-2 pb-6 flex flex-col justify-center items-start sm:px-20">
+      <figcaption className="px-10 mt-2 pb-6 flex flex-col justify-center items-start ">
         <div className="flex justify-center items-center md:justify-center lg:justify-center flex-wrap">
           {Array.isArray(activity.tags) &&
             activity.tags.map((tag, index) => (
@@ -133,7 +145,8 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
             </p>
           </div>
         )}
-        <div className="flex justify-center mt-5">
+
+        <div className="flex mx-auto mt-5">
           <div className="mr-4">
             {isUserAttending ? (
               <Popover>
@@ -159,7 +172,10 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
                       </PopoverClose>
                       <PopoverClose asChild>
                         <Link href={'/'}>
-                          <Button className="bg-red-500 text-[0.9rem] ml-4 hover:bg-red-900">
+                          <Button
+                            onClick={handleWithdraw}
+                            className="bg-red-500 text-[0.9rem] ml-4 hover:bg-red-900"
+                          >
                             Yes, Withdraw
                           </Button>
                         </Link>

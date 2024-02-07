@@ -18,6 +18,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { User } from 'next-auth';
 import { ExtendedVolunteerType } from '@/models/Volunteer';
+import { updateVolunteer } from '@/lib/actions/update-volunteer-profile';
+import { toast } from './ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   firstName: z.string().min(1, {
@@ -33,7 +36,6 @@ const formSchema = z.object({
     message: 'Invalid phone number.',
   }),
   skills: z.string(),
-  interests: z.string(),
 });
 
 export function ProfileForm({
@@ -49,25 +51,37 @@ export function ProfileForm({
       email: '',
       phoneNumber: '',
       skills: '',
-      interests: '',
     },
   });
 
   useEffect(() => {
     if (volunteer) {
-      console.log(volunteer);
       form.setValue('firstName', volunteer.firstName);
       form.setValue('lastName', volunteer.lastName);
       form.setValue('phoneNumber', volunteer.contactNumber);
       form.setValue('email', volunteer.email);
       form.setValue('skills', volunteer.skills ? volunteer.skills : '');
-      //   form.setValue('interests', volunteer.interests ? volunteer.interests : '');
     }
   }, []);
+  const router = useRouter();
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log('hi');
+    const updatedVolunteer = {
+      ...volunteer,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      contactNumber: values.phoneNumber,
+      skills: values.skills,
+    };
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Handle form submission here
-    console.log(values);
+    const res = await updateVolunteer(updatedVolunteer);
+    console.log(res);
+    toast({
+      title: 'Successfully updated profile!',
+    });
+    router.push('/profile');
+    router.refresh();
   };
 
   return (
@@ -169,27 +183,6 @@ export function ProfileForm({
                   type="text"
                   id="skills"
                   placeholder="Skills"
-                  {...field}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="interests"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Interests</FormLabel>
-              <FormControl>
-                <Input
-                  className="text-sm"
-                  type="text"
-                  id="interests"
-                  placeholder="Interests"
                   {...field}
                 />
               </FormControl>

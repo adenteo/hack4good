@@ -33,6 +33,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { toast } from '@/components/ui/use-toast';
+import { useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { signUpForActivity } from '@/lib/actions/activity-signup';
+import { useRouter } from 'next/navigation';
 
 function createFormSchema(fields: FormFieldType[]) {
   const schemaObject: { [key: string]: any } = {};
@@ -112,11 +117,14 @@ function createFormSchema(fields: FormFieldType[]) {
 
 export default function FormRenderer({
   formFields,
+  id,
 }: {
   formFields: FormFieldType[];
+  id: string;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const formSchema = createFormSchema(formFields);
+  const session = useSession();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     // defaultValues: {
@@ -127,8 +135,21 @@ export default function FormRenderer({
     // },
   });
 
+  if (!session || !session.data?.user.isOnboarded) {
+    return null;
+  }
+  const router = useRouter();
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    console.log(id);
+    const user = session.data?.user;
+    const res = await signUpForActivity(id, user?.id!, values);
+    console.log(res);
+    toast({
+      title: 'Successfully Registered!',
+      description: 'We are so excited to have you on board',
+    });
+    router.push('/activities/' + id);
+    router.refresh();
   }
 
   const renderField = (formField: FormFieldType) => {
@@ -229,7 +250,7 @@ export default function FormRenderer({
                         variant={'outline'}
                         className={cn(
                           'w-[240px] pl-3 text-left font-normal',
-                          !field.value && 'text-muted-foreground',
+                          !field.value && 'text-muted-foreground'
                         )}
                       >
                         {field.value ? (

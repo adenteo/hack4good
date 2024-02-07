@@ -131,84 +131,82 @@ export default function ProfileTabs({
                     const isFeedbacked = activity.feedbacked;
                     return (
                       <div className="p-2" key={index}>
-                        <button
+                        <figure
                           key={index}
-                          className="border rounded-2xl shadow-md"
+                          className="w-[280px] border rounded-2xl shadow-md"
                         >
-                          <figure key={index} className="w-[280px]">
-                            <div className="overflow-hidden rounded-t-md mb-2">
-                              <AspectRatio ratio={16 / 9} className="bg-muted">
-                                <Image
-                                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                                  alt={`Image for ${activity.title}`}
-                                  fill
-                                  className="rounded-t-md object-cover"
-                                />
-                              </AspectRatio>
-                            </div>
-                            <figcaption className="px-2">
-                              <div className="flex justify-between items-center mt-4">
-                                <div className="text-left">
-                                  <div className="flex justify-start items-center">
-                                    <CalendarFold size={15} />
-                                    <p className="text-xs font-semibold ml-1">
-                                      {formattedDate}
-                                    </p>
-                                  </div>
-                                  <p className="font-semibold text-foreground text-lg mt-1">
-                                    {activity.title}
+                          <div className="overflow-hidden rounded-t-md mb-2">
+                            <AspectRatio ratio={16 / 9} className="bg-muted">
+                              <Image
+                                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                                alt={`Image for ${activity.title}`}
+                                fill
+                                className="rounded-t-md object-cover"
+                              />
+                            </AspectRatio>
+                          </div>
+                          <figcaption className="px-4">
+                            <div className="flex justify-between items-center mt-4">
+                              <div className="text-left">
+                                <div className="flex justify-start items-center">
+                                  <CalendarFold size={15} />
+                                  <p className="text-xs font-semibold ml-1">
+                                    {formattedDate}
                                   </p>
                                 </div>
+                                <p className="font-semibold text-foreground text-lg mt-1">
+                                  {activity.title}
+                                </p>
                               </div>
-                              <p className="text-gray-600 text-xs font-light overflow-hidden text-ellipsis text-start">
-                                {activity.description}
-                              </p>
+                            </div>
+                            <p className="text-gray-600 text-xs font-light overflow-hidden text-ellipsis text-start">
+                              {activity.description}
+                            </p>
 
-                              <div className="flex space-x-2 mt-2 mb-4">
-                                {isFeedbacked ? (
-                                  <div>
-                                    <Button
-                                      variant="outline"
-                                      className="h-7 px-2 lg:px-3 text-xs"
-                                      disabled // Disable the button if feedback is received
-                                    >
-                                      Recieved Feedback
-                                      <FolderHeart className="ml-2 h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                ) : (
-                                  //   <Link href="/feedback-form">
-                                  <div>
-                                    <Button
-                                      variant="outline"
-                                      className="h-7 px-2 lg:px-3 text-xs"
-                                      onClick={() => {
-                                        router.push('/feedback-form');
-                                        const activityIndex =
-                                          activities.findIndex(
-                                            (a) => a._id === activity._id
-                                          );
+                            <div className="flex space-x-2 mt-2 mb-4">
+                              {isFeedbacked ? (
+                                <div>
+                                  <Button
+                                    variant="outline"
+                                    className="h-7 px-2 lg:px-3 text-xs"
+                                    disabled // Disable the button if feedback is received
+                                  >
+                                    Recieved Feedback
+                                    <FolderHeart className="ml-2 h-4 w-4" />
+                                  </Button>
+                                </div>
+                              ) : (
+                                //   <Link href="/feedback-form">
+                                <div>
+                                  <Button
+                                    variant="outline"
+                                    className="h-7 px-2 lg:px-3 text-xs"
+                                    onClick={() => {
+                                      router.push('/feedback-form');
+                                      const activityIndex =
+                                        activities.findIndex(
+                                          (a) => a._id === activity._id
+                                        );
 
-                                        // Update the feedbacked property to true for the clicked activity
-                                        if (activityIndex !== -1) {
-                                          activities[activityIndex].feedbacked =
-                                            true;
-                                          // Optionally, you can perform other actions related to feedback here
-                                          console.log(
-                                            `Feedback submitted for activity with ID ${activity._id}`
-                                          );
-                                        }
-                                      }}
-                                    >
-                                      Add Feedback
-                                      <MessageCircleHeart className="ml-1 h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                )}
-                              </div>
-                            </figcaption>
-                          </figure>
-                        </button>
+                                      // Update the feedbacked property to true for the clicked activity
+                                      if (activityIndex !== -1) {
+                                        activities[activityIndex].feedbacked =
+                                          true;
+                                        // Optionally, you can perform other actions related to feedback here
+                                        console.log(
+                                          `Feedback submitted for activity with ID ${activity._id}`
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    Add Feedback
+                                    <MessageCircleHeart className="ml-1 h-4 w-4" />
+                                  </Button>
+                                </div>
+                              )}
+                            </div>
+                          </figcaption>
+                        </figure>
                       </div>
                     );
                   })}

@@ -45,13 +45,9 @@ export async function signUpForActivity(
       'User is banned or inactive. Cannot sign up for activities.',
     );
   }
-  if (user.roleId.RoleName !== 'Volunteer') {
-    throw new Error('Only volunteers can sign up for activities.');
-  }
-  // Add user to activity.attendees with the form details
   const newAttendee = {
     user: userId,
-    role: 'Volunteer', // Adjust as needed based on your application logic
+    role: 'Volunteer', 
     attendanceStatus: AttendanceStatus.Unconfirmed,
     signUpFormDetails: formDetails,
   };
@@ -61,7 +57,7 @@ export async function signUpForActivity(
 
   return {
     message: 'User successfully signed up for the activity.',
-    activityId: activity._id,
+    activityId: activity._id.toString(),
     userId: userId,
   };
 }
