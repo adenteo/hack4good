@@ -85,6 +85,7 @@ export default function Home() {
             new Date(2022, 0, 1),
             new Date(2024, 1, 1),
           );
+          console.log(data);
           const csvData = unparse(data);
 
           const blob = new Blob([csvData], { type: 'text/csv' });

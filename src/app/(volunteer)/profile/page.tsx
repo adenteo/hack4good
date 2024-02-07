@@ -1,4 +1,3 @@
-'use server';
 import * as React from 'react';
 import Image from 'next/image';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -129,7 +128,9 @@ export default async function VolunteerProfile() {
         </div>
       </div>
 
+
       <ProfileTabs volunteer={volunteer} />
+
     </div>
   );
 }

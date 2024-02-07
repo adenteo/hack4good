@@ -5,10 +5,12 @@ import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-interface TopbarProps {}
+interface TopbarProps {
+  date: Date;
+  setDate: React.Dispatch<React.SetStateAction<Date>>;
+}
 
-const Topbar: React.FC<TopbarProps> = () => {
-  const [date, setDate] = useState<Date>();
+const Topbar: React.FC<TopbarProps> = ({ date, setDate }: TopbarProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const year = searchParams.get('year');

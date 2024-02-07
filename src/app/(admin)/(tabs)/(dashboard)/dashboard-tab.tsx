@@ -3,11 +3,12 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import OverviewTab from './overview-tab';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 interface DashboardProps {}
 
 const Dashboard: React.FC<DashboardProps> = () => {
+  const [date, setDate] = useState<Date>(new Date());
   const searchParams = useSearchParams();
   const type = searchParams.get('type');
   const router = useRouter();
@@ -25,7 +26,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
 
   return (
     <div className="p-6">
-      <Topbar />
+      <Topbar date={date} setDate={setDate} />
       <Tabs
         defaultValue={
           type !== 'overview' && type !== 'volunteer' && type !== 'activity'
@@ -66,7 +67,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
             Activity
           </TabsTrigger>
         </TabsList>
-        <OverviewTab />
+        <OverviewTab date={date} setDate={setDate} />
       </Tabs>
     </div>
   );
