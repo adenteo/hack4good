@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { z, ZodError } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getSignedURL } from '@/lib/actions/s3-actions';
+import crypto from 'crypto';
+import { useRouter } from 'next/navigation';
 
 // Import your UI components
 import { Button } from '@/components/ui/button';
@@ -17,23 +20,25 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { addFeedback } from '@/lib/actions/add-feedback';
+import { toast } from './ui/use-toast';
 
 // Define the Zod schema
-const formSchema = z.object({
+export const feedbackFormSchema = z.object({
   title: z.string().min(1, {
     message: 'Title must be at least 1 character.',
   }),
   description: z.string().min(30, {
     message: 'Description must be at least 30 characters.',
   }),
-  image: z.string(),
+  image: z.string().optional(),
 });
 
 // Define the component
 export function FeedbackForm() {
   // Set up React Hook Form with Zod validation
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof feedbackFormSchema>>({
+    resolver: zodResolver(feedbackFormSchema),
     defaultValues: {
       title: '',
       description: '',
@@ -42,46 +47,52 @@ export function FeedbackForm() {
   });
 
   // State to manage the selected image file
-  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
+  const [imageFile, setImageFile] = useState<File>();
   const [uploadedImage, setUploadedImage] = useState<string | undefined>(
-    undefined,
+    undefined
   );
   const [isLabelVisible, setIsLabelVisible] = useState(true);
-
+  const router = useRouter();
   // Form submission handler
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      // Handle form submission logic here
-      console.log(values);
-    } catch (error) {
-      // Handle submission error, if any
-      if (error instanceof ZodError) {
-        console.error(error.errors);
-      }
+
+  const onSubmit = async (values: z.infer<typeof feedbackFormSchema>) => {
+    if (imageFile) {
+      let awsUrl = await handleImageUpload(imageFile);
+      console.log(awsUrl);
+      values.image = awsUrl;
     }
+    const res = await addFeedback(values);
+    console.log(res);
+    toast({
+      title: 'Success!',
+      description: 'Thank you for your feedback',
+    });
+    router.push('/profile');
   };
 
+  const uniqueFileName = (bytes = 32) =>
+    crypto.randomBytes(bytes).toString('hex');
+
   const handleImageUpload = async (file: File) => {
-    try {
-      // Example: You can upload the image to a server and get the URL
-      // const imageUrl = await uploadImageToServer(file);
+    const fileName = uniqueFileName();
+    const signedURLResult = await getSignedURL(fileName);
+    const { url } = signedURLResult.success;
 
-      // For demonstration purposes, using a local URL
-      const imageUrl = URL.createObjectURL(file);
-
-      form.setValue('image', imageUrl); // Set the image URL in the form
-      setUploadedImage(imageUrl); // Save the image URL in state
-      setImageFile(file);
-      setIsLabelVisible(false); // Hide the label when image is chosen
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    }
+    await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': file?.type,
+      },
+      body: imageFile,
+    });
+    console.log(url.split('?')[0]);
+    return url.split('?')[0]; // Return the base URL without query parameters
   };
 
   const handleDeleteImage = () => {
     form.setValue('image', ''); // Reset form field
-    setImageFile(undefined); // Clear selected image file
-    setUploadedImage(undefined); // Clear uploaded image data
+    setImageFile(undefined);
+    setUploadedImage(undefined); // Clear selected image file
     setIsLabelVisible(true);
   };
 
@@ -154,7 +165,14 @@ export function FeedbackForm() {
                     if (!file) {
                       return;
                     }
-                    handleImageUpload(file[0]);
+                    console.log(file);
+                    setImageFile(file[0]);
+                    const imageUrl = URL.createObjectURL(file[0]);
+                    setUploadedImage(imageUrl);
+                    if (imageUrl) {
+                      console.log(imageUrl);
+                      form.setValue('image', imageUrl);
+                    }
                   }}
                 />
               </FormControl>
