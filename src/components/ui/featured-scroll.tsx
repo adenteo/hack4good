@@ -77,7 +77,7 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
         {activities.map((activity, index) => (
           <Link
             key={index}
-            href={`/activities/${encodeURIComponent(activity.title)}`}
+            href={`/activities/${encodeURIComponent(activity._id)}`}
             passHref
           >
             <button key={index} className="rounded-xl relative shadow-md">

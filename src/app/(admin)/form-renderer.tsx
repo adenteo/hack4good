@@ -125,6 +125,7 @@ export default function FormRenderer({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const formSchema = createFormSchema(formFields);
   const session = useSession();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     // defaultValues: {
@@ -138,7 +139,7 @@ export default function FormRenderer({
   if (!session || !session.data?.user.isOnboarded) {
     return null;
   }
-  const router = useRouter();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(id);
     const user = session.data?.user;
@@ -250,7 +251,7 @@ export default function FormRenderer({
                         variant={'outline'}
                         className={cn(
                           'w-[240px] pl-3 text-left font-normal',
-                          !field.value && 'text-muted-foreground'
+                          !field.value && 'text-muted-foreground',
                         )}
                       >
                         {field.value ? (
