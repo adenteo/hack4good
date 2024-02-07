@@ -1,8 +1,10 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { addMonths, subMonths } from 'date-fns';
+import { fetchCompletedActivitiesWithVolunteers } from '@/lib/actions/get-reports';
+import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { unparse } from 'papaparse';
 import { useEffect, useState } from 'react';
 
 interface TopbarProps {
@@ -91,7 +93,29 @@ const Topbar: React.FC<TopbarProps> = ({ date, setDate }: TopbarProps) => {
               <ChevronRight size={15} />
             </Button>
           </div>
-          <Button>Download</Button>
+          <Button
+            onClick={async () => {
+              const data = await fetchCompletedActivitiesWithVolunteers(
+                startOfMonth(date),
+                endOfMonth(date),
+              );
+              const csvData = unparse(data);
+
+              const blob = new Blob([csvData], { type: 'text/csv' });
+              const downloadUrl = window.URL.createObjectURL(blob);
+
+              const a = document.createElement('a');
+              a.href = downloadUrl;
+              a.download = `activities_month_${date.getMonth() + 1}.csv`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+
+              window.URL.revokeObjectURL(downloadUrl);
+            }}
+          >
+            Download Monthly Report
+          </Button>
         </div>
       </div>
     </div>

@@ -79,42 +79,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <Button
-        onClick={async () => {
-          const data = await fetchCompletedActivitiesWithVolunteers(
-            new Date(2022, 0, 1),
-            new Date(2024, 1, 1),
-          );
-          console.log(data);
-          const csvData = unparse(data);
-
-          const blob = new Blob([csvData], { type: 'text/csv' });
-          const downloadUrl = window.URL.createObjectURL(blob);
-
-          const a = document.createElement('a');
-          a.href = downloadUrl;
-          a.download = 'activities.csv';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-
-          window.URL.revokeObjectURL(downloadUrl);
-        }}
-      >
-        get report
-      </Button>
-      {/* <Button
-        onClick={ () => {
-          generateAndSaveDummyData();
-        }}>users</Button>
-      <Button
-        onClick={ async () => {
-          generateAndSaveDummyActivityData();
-          addDummyDataToAttendeeList();
-        }}
-      >
-        activity
-      </Button> */}
       <div className="rounded-b-3xl bg-[#FC7869] text-white relative items-center lg:justify-center p-0 m-0">
         <div className="flex justify-between px-6 pb-4">
           <div>
