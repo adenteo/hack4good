@@ -38,7 +38,7 @@ const Topbar: React.FC<TopbarProps> = ({ date, setDate }: TopbarProps) => {
     searchParams.set('month', (newDate?.getMonth() + 1).toString());
 
     const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-    setDate(newDate);
+    // setDate(newDate);
     router.push(newUrl);
   };
 
@@ -50,7 +50,7 @@ const Topbar: React.FC<TopbarProps> = ({ date, setDate }: TopbarProps) => {
     searchParams.set('month', (newDate?.getMonth() + 1).toString());
 
     const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-    setDate(newDate);
+    // setDate(newDate);
     router.push(newUrl);
   };
 
