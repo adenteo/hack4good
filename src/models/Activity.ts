@@ -46,6 +46,15 @@ export interface ExtendedActivityType
   attendees: any[];
 }
 
+export interface ExtendedActivityTypePastEvents
+  extends Omit<ActivityType, 'startTime' | 'attendees' | 'customSignUpForm' | 'Address' > {
+  startTime: Date;
+  feedbacked: boolean;
+  _id: Number;
+  customSignUpForm: string;
+  attendees: any[];
+}
+
 const Activity = models.Activity || model('Activity', activitySchema);
 
 export default Activity;
