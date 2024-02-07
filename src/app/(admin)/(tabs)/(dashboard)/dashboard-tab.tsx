@@ -35,7 +35,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
         }
         className="space-y-4 mt-2"
       >
-        <TabsList>
+        <TabsList className="hidden">
           <TabsTrigger
             onClick={() => {
               router.push(
@@ -45,26 +45,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
             value="overview"
           >
             Overview
-          </TabsTrigger>
-          <TabsTrigger
-            onClick={() => {
-              router.push(
-                pathname + '?' + createQueryString('type', 'volunteer'),
-              );
-            }}
-            value="volunteer"
-          >
-            Volunteer
-          </TabsTrigger>
-          <TabsTrigger
-            onClick={() => {
-              router.push(
-                pathname + '?' + createQueryString('type', 'activity'),
-              );
-            }}
-            value="activity"
-          >
-            Activity
           </TabsTrigger>
         </TabsList>
         <OverviewTab date={date} setDate={setDate} />

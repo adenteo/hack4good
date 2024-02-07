@@ -17,7 +17,7 @@ interface ForYouScrollProps {
 
 const avatarUrls = [
   'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
-  'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
+  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
 ];
 
 export const ForYouScroll: React.FC<ForYouScrollProps> = ({
@@ -92,12 +92,21 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({
                 <figure key={index} className="w-[280px]">
                   <div className="overflow-hidden rounded-t-md mb-2">
                     <AspectRatio ratio={16 / 9} className="bg-muted">
-                      <Image
-                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                        alt={`Image for ${activity.title}`}
-                        fill
-                        className="rounded-t-md object-cover"
-                      />
+                      {activity.image.includes('h4good') ? (
+                        <Image
+                          src={activity.image}
+                          alt={`Image for ${activity.title}`}
+                          fill
+                          className="rounded-t-md object-cover"
+                        />
+                      ) : (
+                        <Image
+                          src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                          alt={`Image for ${activity.title}`}
+                          fill
+                          className="rounded-t-md object-cover"
+                        />
+                      )}
                     </AspectRatio>
                   </div>
                   <figcaption className="px-2">
@@ -150,7 +159,6 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({
                           </div>
                         </div>
                       </div>
-
                       <br />
                     </div>
                   </figcaption>

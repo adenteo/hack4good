@@ -32,6 +32,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
   date,
   setDate,
 }: OverviewTabProps) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [totalEvents, setTotalEvents] = useState<number>(0);
   const [totalVolunteers, setTotalVolunteers] = useState<number>(0);
   const [newVolunteers, setNewVolunteers] = useState<number>(0);
@@ -50,6 +51,8 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
   ] = useState<number>(0);
   const [demographicsData, setDemographicsData] = useState<any[]>([]);
   useEffect(() => {
+    console.log('detected Date Change');
+    setLoading(true);
     const getDemographics = async () => {
       const startOfCurrentMonth = startOfMonth(date);
       const endOfCurrentMonth = endOfMonth(date);
@@ -97,6 +100,8 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
       } catch (error) {
         console.error('Error posting data:', error);
       }
+      console.log('Everything is done');
+      setLoading(false);
     };
     getDemographics();
   }, [date]);
@@ -107,6 +112,15 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         No events were held for this month.
       </div>
     );
+
+  if (loading) {
+    return (
+      <div className="w-full text-center font-bold text-2xl">
+        <span className="loading loading-bars loading-lg"></span>
+        <div className="font-semibold">Getting dashboard data</div>
+      </div>
+    );
+  }
 
   return (
     <TabsContent value="overview" className="space-y-4">
