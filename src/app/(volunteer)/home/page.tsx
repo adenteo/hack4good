@@ -30,66 +30,8 @@ import {
   saveActivitiesToCSV,
 } from '@/lib/actions/get-reports';
 import { ActivityType, ExtendedActivityType } from '@/models/Activity';
-
-// const dummyActivities: Activity[] = [
-//   {
-//     image: 'https://placekitten.com/300/400', // Placeholder image URL
-//     title: 'Kitten Yoga',
-//     numPeopleJoined: 20,
-//     numHours: 3,
-//     date: '02 March 2024',
-//     tags: ['Charity', 'Food', 'Elderly', 'Charity', 'Food', 'Elderly'],
-//     description: 'Helping animals in need is your passion? Come join us for ',
-//   },
-//   {
-//     image: 'https://placekitten.com/302/402', // Placeholder image URL
-//     title: 'Purr Painting',
-//     numPeopleJoined: 25,
-//     numHours: 8,
-//     date: '02 March 2024',
-//     tags: ['Charity', 'Food', 'Elderly'],
-//     description:
-//       'When you enter into any new area of science, you almost always find a new discovery hidden within every element that you see',
-//   },
-//   {
-//     image: 'https://placekitten.com/300/400', // Placeholder image URL
-//     title: 'Kitten Yoga',
-//     numPeopleJoined: 20,
-//     numHours: 5,
-//     date: '02 March 2024',
-//     tags: ['Charity'],
-//     description:
-//       'When you enter into any new area of science, you almost always find a new discovery hidden within every element that you see',
-//   },
-//   {
-//     image: 'https://placekitten.com/301/401', // Placeholder image URL
-//     title: 'Meow Meditation',
-//     numPeopleJoined: 15,
-//     numHours: 7,
-//     date: '02 March 2024',
-//     tags: ['Charity', 'Food', 'Elderly'],
-//     description:
-//       'When you enter into any new area of science, you almost always find a new discovery hidden within every element that you see',
-//   },
-//   {
-//     image: 'https://placekitten.com/302/402', // Placeholder image URL
-//     title: 'Purr Painting',
-//     numPeopleJoined: 25,
-//     numHours: 1,
-//     date: '02 March 2024',
-//     tags: ['Charity', 'Food', 'Elderly'],
-//     description:
-//       'When you enter into any new area of science, you almost always find a new discovery hidden within every element that you see',
-//   },
-// ];
-
-const activities = [
-  { value: 'elderly', label: 'Elderly' },
-  { value: 'children', label: 'Children' },
-  { value: 'beach', label: 'Beach Clean Up' },
-  { value: 'food clean up', label: 'Food Donation' },
-  { value: 'food packing', label: 'Food Packing' },
-];
+import { getUserUpcomingActivities } from '@/lib/actions/get-user-upcoming';
+import { unparse } from 'papaparse';
 
 export default function Home() {
   const [featuredActivities, setFeaturedActivities] = React.useState<
@@ -98,8 +40,12 @@ export default function Home() {
   const [forYouActivities, setForYouActivities] = React.useState<
     ExtendedActivityType[]
   >([]);
+  const [upcomingActivities, setUpcomingActivities] = React.useState<
+    ExtendedActivityType[]
+  >([]);
   const [featuredPage, setFeaturedPage] = React.useState(0);
   const [forYouPage, setForYouPage] = React.useState(0);
+  //   const [forYouPage, setForYouPage] = React.useState(0);
 
   React.useEffect(() => {
     const fetchActivities = async () => {
@@ -119,17 +65,39 @@ export default function Home() {
     fetchActivities();
   }, [forYouPage]);
 
+  React.useEffect(() => {
+    const fetchUpcoming = async () => {
+      const activities = await getUserUpcomingActivities(
+        '65c1c5a7919469d96a24fe53',
+      );
+      const activitiesJson = JSON.parse(activities);
+      console.log(activitiesJson);
+      setUpcomingActivities(activitiesJson);
+    };
+    fetchUpcoming();
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Button
         onClick={async () => {
-          saveActivitiesToCSV(
-            await fetchCompletedActivitiesWithVolunteers(
-              new Date(2022, 0, 1),
-              new Date(2024, 1, 1),
-            ),
-            'activity.csv',
+          const data = await fetchCompletedActivitiesWithVolunteers(
+            new Date(2022, 0, 1),
+            new Date(2024, 1, 1),
           );
+          const csvData = unparse(data);
+
+          const blob = new Blob([csvData], { type: 'text/csv' });
+          const downloadUrl = window.URL.createObjectURL(blob);
+
+          const a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = 'activities.csv';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          window.URL.revokeObjectURL(downloadUrl);
         }}
       >
         get report
@@ -182,10 +150,13 @@ export default function Home() {
         <ForYouScroll activities={forYouActivities} setPage={setForYouPage} />
 
         <div className="pb-1 pt-4">
-          <p className="text-lg font-bold text-black">Upcoming</p>
+          <p className="text-lg font-bold text-black">Upcoming for you</p>
         </div>
         <div className="flex">
-          <ForYouScroll activities={forYouActivities} setPage={setForYouPage} />
+          <ForYouScroll
+            activities={upcomingActivities}
+            setPage={setForYouPage}
+          />
         </div>
       </div>
     </div>

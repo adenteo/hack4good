@@ -9,6 +9,7 @@ const nextConfig = {
   //   reactStrictMode: false,
   images: {
     domains: [
+      'h4good.s3.ap-southeast-1.amazonaws.com',
       'loremflickr.com',
       'lh3.googleusercontent.com',
       'placekitten.com',

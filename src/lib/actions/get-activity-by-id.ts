@@ -1,5 +1,6 @@
 'use server';
 import Activity, { ActivityType } from '@/models/Activity';
+import CustomForm from '@/models/Form';
 import { connectToDB } from '../mongoose';
 import mongoose from 'mongoose';
 
@@ -8,8 +9,7 @@ export default async function getActivityById(id: string) {
     return null;
   }
   await connectToDB();
-  console.log('id', id);
-  console.log('here');
+  await CustomForm.init();
   const activity = await Activity.findById(id)
     .populate('activitySignupForm')
     .lean();

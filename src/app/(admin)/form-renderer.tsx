@@ -140,7 +140,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <FormControl>
                   <Input placeholder={formField.placeholder} {...field} />
                 </FormControl>
@@ -156,7 +161,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -188,7 +198,12 @@ export default function FormRenderer({
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className="ml-2">{formField.label}</FormLabel>
+                <FormLabel className="ml-2">
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <FormMessage />
               </FormItem>
             )}
@@ -201,7 +216,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -245,7 +265,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="range"
@@ -265,7 +290,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
