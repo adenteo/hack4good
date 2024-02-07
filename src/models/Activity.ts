@@ -25,9 +25,13 @@ const activitySchema = new Schema({
   volunteerCountNeeded: { type: Number, required: false },
   image: { type: String, required: true },
   signUpDeadline: { type: Date, required: true },
-  customSignUpForm: { type: Schema.Types.ObjectId, ref: 'CustomForm', required:false },
+  customSignUpForm: {
+    type: Schema.Types.ObjectId,
+    ref: 'CustomForm',
+    required: false,
+  },
   attendees: [attendeeSchema],
-  featured: {type: Boolean, required:true},
+  featured: { type: Boolean, required: true },
   status: { type: String, enum: Object.values(ActivityStatus) },
   tags: { type: [String], enum: Object.values(volunteerTheme) },
   contactUs: { type: String, required: true },
@@ -35,10 +39,10 @@ const activitySchema = new Schema({
 type ActivityType = InferSchemaType<typeof activitySchema>;
 
 export interface ExtendedActivityType
-  extends Omit<ActivityType, 'startTime' | 'attendees' | 'activitySignupForm'> {
+  extends Omit<ActivityType, 'startTime' | 'attendees' | 'customSignUpForm'> {
   startTime: string;
   _id: string;
-  activitySignupForm: string;
+  customSignUpForm: string;
   attendees: any[];
 }
 

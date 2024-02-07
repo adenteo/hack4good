@@ -12,7 +12,8 @@ export default async function linkFormToActivity(
   if (!activity) {
     return { error: 'Activity not found.' };
   }
-  activity.activitySignupForm = new ObjectId(formId);
+
+  activity.customSignUpForm = new ObjectId(formId);
   const response = await activity.save();
   if (response) {
     return { success: 200 };

@@ -14,7 +14,7 @@ const ActivityRegister = async ({ params: { id } }: Params) => {
     return <div>Activity not found</div>;
   }
   const activity: ExtendedActivityType = JSON.parse(activityString);
-  const signUpForm: any = activity.activitySignupForm;
+  const signUpForm: any = activity.customSignUpForm;
   if (!signUpForm) {
     return (
       <div>
