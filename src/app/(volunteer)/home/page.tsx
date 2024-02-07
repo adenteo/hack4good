@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ForYouScroll } from '@/components/ui/for-you-scroll';
 import { FeaturedScroll } from '@/components/ui/featured-scroll';
 import { getAllActivitiesPagination } from '@/lib/actions/get-all-activities-pagination';
@@ -76,17 +76,27 @@ export default function Home() {
           <p className="text-lg font-bold text-black">Featured</p>
         </div>
         <div className="flex">
-          <FeaturedScroll
-            activities={featuredActivities}
-            setPage={setFeaturedPage}
-          />
+          {featuredActivities.length > 0 ? (
+            <FeaturedScroll
+              activities={featuredActivities}
+              setPage={setFeaturedPage}
+            />
+          ) : (
+            <div className="flex w-screen p-6 space-x-10">
+              <div className="flex-auto w-5/6 h-72 skeleton"></div>
+            </div>
+          )}
         </div>
         <div className="pb-1 pt-4">
           <p className="text-lg font-bold text-black">For You</p>
         </div>
-
-        <ForYouScroll activities={forYouActivities} setPage={setForYouPage} />
-
+        {forYouActivities.length > 0 ? (
+          <ForYouScroll activities={forYouActivities} setPage={setForYouPage} />
+        ) : (
+          <div className="flex w-screen p-6 space-x-10">
+            <div className="flex-auto w-5/6 h-72 skeleton"></div>
+          </div>
+        )}
         <div className="pb-1 pt-4">
           <p className="text-lg font-bold text-black">Upcoming for you</p>
         </div>
