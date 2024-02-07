@@ -18,10 +18,14 @@ import {
 import Link from 'next/link';
 import { withdrawFromActivity } from '@/lib/actions/activity-withdraw';
 import { toast } from '@/components/ui/use-toast';
+import { useSession } from 'next-auth/react';
+import { signUpForActivity } from '@/lib/actions/activity-signup';
+import { useRouter } from 'next/navigation';
 
 interface ActivityBodyProps {
   activity: ExtendedActivityType;
   user: Session | null;
+  activityId: string;
 }
 
 const avatarUrls = [
@@ -32,20 +36,26 @@ const avatarUrls = [
 const ActivityBody: React.FC<ActivityBodyProps> = ({
   activity,
   user,
+  activityId,
 }: ActivityBodyProps) => {
   const isUserAttending = activity.attendees.some(
-    (attendee) => attendee.user === user?.user.id
+    (attendee) => attendee.user === user?.user.id,
   );
+  const isLinked = activity.customSignUpForm;
   const date = parseISO(activity.startTime);
   const formattedDate = format(date, 'MMMM d yyyy');
+  const session = useSession();
+  const router = useRouter();
 
   const handleWithdraw = async () => {
     if (user) {
       await withdrawFromActivity(activity._id, user?.user.id);
       toast({
+        variant: 'default',
         title: 'You have been withdrawn',
         description: 'we are sad to see you go :(',
       });
+      router.refresh();
     }
   };
 
@@ -71,7 +81,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
               <div
                 key={index}
                 className={`text-xs text-black rounded-md p-1 px-4 font-semibold mx-2 my-1 sm:text-lg ${faker.helpers.enumValue(
-                  TagColors
+                  TagColors,
                 )}`}
               >
                 {tag}
@@ -171,20 +181,18 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
                         </Button>
                       </PopoverClose>
                       <PopoverClose asChild>
-                        <Link href={'/'}>
-                          <Button
-                            onClick={handleWithdraw}
-                            className="bg-red-500 text-[0.9rem] ml-4 hover:bg-red-900"
-                          >
-                            Yes, Withdraw
-                          </Button>
-                        </Link>
+                        <Button
+                          onClick={handleWithdraw}
+                          className="bg-red-500 text-[0.9rem] ml-4 hover:bg-red-900"
+                        >
+                          Yes, Withdraw
+                        </Button>
                       </PopoverClose>
                     </div>
                   </div>
                 </PopoverContent>
               </Popover>
-            ) : (
+            ) : isLinked ? (
               <Link href={`/register/${activity._id}`}>
                 <Button
                   className="text-[0.8rem]"
@@ -193,6 +201,29 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
                   Register Now
                 </Button>
               </Link>
+            ) : (
+              <Button
+                className="text-[0.8rem]"
+                disabled={!user?.user.isOnboarded}
+                onClick={async () => {
+                  const user = session.data?.user;
+                  const res = await signUpForActivity(
+                    activityId,
+                    user?.id!,
+                    {},
+                  );
+                  console.log(res);
+                  toast({
+                    title: 'Successfully Registered!',
+                    variant: 'default',
+                    description: 'We are so excited to have you on board',
+                    className: 'bg-green-500 border-none text-white',
+                  });
+                  router.refresh();
+                }}
+              >
+                Register Now
+              </Button>
             )}
           </div>
 

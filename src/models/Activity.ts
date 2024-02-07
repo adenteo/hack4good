@@ -32,7 +32,11 @@ const activitySchema = new Schema({
   },
   attendees: [attendeeSchema],
   featured: { type: Boolean, required: true, default: false },
-  status: { type: String, enum: Object.values(ActivityStatus) },
+  status: {
+    type: String,
+    enum: Object.values(ActivityStatus),
+    default: ActivityStatus.Upcoming,
+  },
   tags: { type: [String], enum: Object.values(volunteerTheme) },
   contactUs: { type: String, required: false, default: 'admin@admin.com' },
 });
