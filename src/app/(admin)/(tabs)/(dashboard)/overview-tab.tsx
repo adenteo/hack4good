@@ -9,10 +9,56 @@ import { TabsContent } from '@/components/ui/tabs';
 import { Graph } from './graph';
 import { Leaderboard } from './leaderboard';
 import { Progress } from '@/components/ui/progress';
+import { useEffect, useState } from 'react';
+import { fetchCompletedActivitiesWithVolunteers } from '@/lib/actions/get-reports';
+import { endOfMonth, startOfMonth } from 'date-fns';
 
-interface OverviewTabProps {}
+interface OverviewTabProps {
+  date: Date;
+  setDate: React.Dispatch<React.SetStateAction<Date>>;
+}
 
-const OverviewTab: React.FC<OverviewTabProps> = () => {
+const OverviewTab: React.FC<OverviewTabProps> = ({
+  date,
+  setDate,
+}: OverviewTabProps) => {
+  const [totalEvents, setTotalEvents] = useState<number>(0);
+  const [totalVolunteers, setTotalVolunteers] = useState<number>(0);
+  const [newVolunteers, setNewVolunteers] = useState<number>(0);
+  const [hoursVolunteered, setHoursVolunteered] = useState<number>(0);
+  useEffect(() => {
+    const getDemographics = async () => {
+      const startOfCurrentMonth = startOfMonth(date);
+      const endOfCurrentMonth = endOfMonth(date);
+      const data = await fetchCompletedActivitiesWithVolunteers(
+        startOfCurrentMonth,
+        endOfCurrentMonth,
+      );
+      const totalHours = data.reduce(
+        (sum, activity) => sum + activity.numHours,
+        0,
+      );
+      const uniqueTitles = new Set(data.map((activity) => activity.title));
+      const uniqueTitleCount = uniqueTitles.size;
+      setHoursVolunteered(totalHours);
+      setTotalVolunteers(data.length);
+      setTotalEvents(uniqueTitleCount);
+      // try {
+      //   const response = await fetch('/api/demographics', {
+      // 	method: 'POST',
+      // 	headers: {
+      // 	  'Content-Type': 'application/json',
+      // 	},
+      // 	body: JSON.stringify({ text: text }),
+      //   });
+      //   const data = await response.json();
+      //   setTags(data.tags.map((tag: string) => tag.toLowerCase()));
+      // } catch (error) {
+      //   console.error('Error posting data:', error);
+      // }
+    };
+    getDemographics();
+  }, [date]);
   return (
     <TabsContent value="overview" className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -39,7 +85,7 @@ const OverviewTab: React.FC<OverviewTabProps> = () => {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">10</div>
+            <div className="text-2xl font-bold">{totalEvents}</div>
             <p className="text-xs text-green-600">+20.1% from last month</p>
           </CardContent>
         </Card>
@@ -67,7 +113,7 @@ const OverviewTab: React.FC<OverviewTabProps> = () => {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold ">2350</div>
+            <div className="text-2xl font-bold ">{totalVolunteers}</div>
             <p className="text-xs text-green-600">+180.1% from last month</p>
           </CardContent>
         </Card>
@@ -121,7 +167,7 @@ const OverviewTab: React.FC<OverviewTabProps> = () => {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
+            <div className="text-2xl font-bold">{hoursVolunteered}</div>
             <p className="text-xs text-green-600">+201 since last month</p>
           </CardContent>
         </Card>

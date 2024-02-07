@@ -1,4 +1,3 @@
-'use server';
 import * as React from 'react';
 import Image from 'next/image';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -211,7 +210,7 @@ export default async function VolunteerProfile() {
         </div>
       </div>
 
-      <TabGroup defaultIndex={1}>
+      {/* <TabGroup defaultIndex={1}>
         <TabList
           className="mt-8 flex justify-center items-center"
           color="black"
@@ -220,12 +219,10 @@ export default async function VolunteerProfile() {
           <Tab>Certificates</Tab>
           <Tab>About Me</Tab>
         </TabList>
-        {/* <div className="h-[60vh] lg:h-96 overflow-y-auto"> */}
         <div className="overflow-y-auto p-6">
           <TabPanels>
             <TabPanel>
               <div className="">
-                {/* <ScrollArea> */}
                 <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
                   {activities.map((activity, index) => {
                     const date = parseISO(activity.startTime.toISOString());
@@ -288,12 +285,10 @@ export default async function VolunteerProfile() {
                     );
                   })}
                 </div>
-                {/* </ScrollArea> */}
               </div>
             </TabPanel>
             <TabPanel>
               <div className="">
-                {/* <ScrollArea> */}
                 <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
                   {certificates.map((certificates, index) => (
                     <figure
@@ -313,18 +308,16 @@ export default async function VolunteerProfile() {
                     </figure>
                   ))}
                 </div>
-                {/* </ScrollArea> */}
               </div>
             </TabPanel>
             <TabPanel>
               <div className="flex flex-col justify-center items-center ">
-                {/* need to get volunteer with user id. */}
                 <ProfileForm volunteer={volunteer} />
               </div>
             </TabPanel>
           </TabPanels>
         </div>
-      </TabGroup>
+      </TabGroup> */}
     </div>
   );
 }
