@@ -107,27 +107,27 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({
                           <div
                             key={index}
                             className={`text-[0.6rem] text-black rounded-md p-1 px-2 font-semibold my-1 ${faker.helpers.enumValue(
-                              TagColors
+                              TagColors,
                             )}`}
                           >
                             {tag}
                           </div>
                         ))}
                     </div>
-                    <div className="flex justify-between items-center mt-2">
-                      <div className="text-left">
+                    <div className="flex justify-between items-center mt-2 ">
+                      <div className="text-left overflow-hidden">
                         <div className="flex justify-start items-center">
                           <CalendarFold size={15} />
                           <p className="text-xs font-semibold ml-1">
                             {formattedDate}
                           </p>
                         </div>
-                        <p className="font-semibold text-foreground text-lg mt-1">
+                        <p className="font-semibold text-foreground text-lg mt-1 overflow-hidden text-ellipsis">
                           {activity.title}
                         </p>
                       </div>
                     </div>
-                    <p className="text-gray-600 text-xs font-light overflow-hidden text-ellipsis">
+                    <p className="text-gray-600 text-xs font-light overflow-hidden text-ellipsis text-start">
                       {activity.description}
                     </p>
                     <div className="flex justify-between my-1">

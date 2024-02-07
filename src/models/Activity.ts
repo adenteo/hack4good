@@ -31,10 +31,10 @@ const activitySchema = new Schema({
     required: false,
   },
   attendees: [attendeeSchema],
-  featured: { type: Boolean, required: true },
+  featured: { type: Boolean, required: true, default: false },
   status: { type: String, enum: Object.values(ActivityStatus) },
   tags: { type: [String], enum: Object.values(volunteerTheme) },
-  contactUs: { type: String, required: true },
+  contactUs: { type: String, required: false, default: 'admin@admin.com' },
 });
 type ActivityType = InferSchemaType<typeof activitySchema>;
 
@@ -47,7 +47,10 @@ export interface ExtendedActivityType
 }
 
 export interface ExtendedActivityTypePastEvents
-  extends Omit<ActivityType, 'startTime' | 'attendees' | 'customSignUpForm' | 'Address' > {
+  extends Omit<
+    ActivityType,
+    'startTime' | 'attendees' | 'customSignUpForm' | 'Address'
+  > {
   startTime: Date;
   feedbacked: boolean;
   _id: Number;

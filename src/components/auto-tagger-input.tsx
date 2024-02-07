@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { debounce } from 'lodash';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Badge } from './ui/badge';
 
-const Calendar: React.FC = () => {
+const AutoTaggerInput: React.FC = () => {
   const [text, setText] = useState('');
   const [tags, setTags] = useState<string[]>([]);
 
@@ -39,10 +39,11 @@ const Calendar: React.FC = () => {
   }, [text]);
 
   return (
-    <div className="p-6">
+    <div>
       <Textarea
+        id="description"
         className="mt-6"
-        placeholder="Type your message here."
+        placeholder="Describe the activity details"
         onChange={debouncedHandleChange}
       />
       <div className="mt-6">
@@ -56,4 +57,4 @@ const Calendar: React.FC = () => {
   );
 };
 
-export default Calendar;
+export default AutoTaggerInput;

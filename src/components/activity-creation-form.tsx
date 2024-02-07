@@ -1,6 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import crypto from 'crypto';
@@ -16,8 +16,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectItem,
@@ -27,7 +25,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DatePicker } from './datepicker';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { format } from 'date-fns';
 import { CalendarIcon, PlusCircle, Trash2 } from 'lucide-react';
@@ -39,25 +36,9 @@ import { getSignedURL } from '@/lib/actions/s3-actions';
 import { addActivity } from '@/lib/actions/add-activities';
 import { useRouter } from 'next/navigation';
 import { toast } from './ui/use-toast';
-
-const tags = [
-  {
-    id: 'Children',
-    label: 'Children',
-  },
-  {
-    id: 'Elderly',
-    label: 'Elderly',
-  },
-  {
-    id: 'Animals',
-    label: 'Animals',
-  },
-  {
-    id: 'Food',
-    label: 'Food',
-  },
-] as const;
+import { volunteerTheme } from '@/models/types';
+import { debounce } from 'lodash';
+import { Textarea } from './ui/textarea';
 
 const forms = [
   {
@@ -127,7 +108,7 @@ export function ActivityCreationForm() {
 
   const [imageFile, setImageFile] = useState<File>();
   const [uploadedImage, setUploadedImage] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [isLabelVisible, setIsLabelVisible] = useState(true);
   const router = useRouter();
@@ -177,6 +158,53 @@ export function ActivityCreationForm() {
     setIsLabelVisible(true);
   };
 
+  const [text, setText] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(event.target.value);
+    form.setValue('description', event.target.value);
+  };
+
+  const debouncedHandleChange = useCallback(debounce(handleChange, 500), []);
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const makePostRequest = async () => {
+      if (text.length < 20) return;
+      try {
+        setLoading(true);
+        const response = await fetch('/api/classify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: text }),
+        });
+        const data = await response.json();
+        setLoading(false);
+        setTags(
+          data.tags.map(
+            (tag: string) => tag.charAt(0).toUpperCase() + tag.slice(1),
+          ),
+        );
+        form.setValue(
+          'tags',
+          data.tags.map(
+            (tag: string) => tag.charAt(0).toUpperCase() + tag.slice(1),
+          ),
+        );
+      } catch (error) {
+        console.error('Error posting data:', error);
+      }
+    };
+
+    if (text) {
+      makePostRequest();
+    }
+  }, [text]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -200,7 +228,6 @@ export function ActivityCreationForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="featured"
@@ -220,7 +247,6 @@ export function ActivityCreationForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="address"
@@ -241,7 +267,6 @@ export function ActivityCreationForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="description"
@@ -251,18 +276,70 @@ export function ActivityCreationForm() {
                 Description<span className="text-red-500 ml-1">*</span>
               </FormLabel>
               <FormControl>
-                <Input
-                  type="text"
+                <Textarea
                   id="description"
+                  className="mt-6"
                   placeholder="Describe the activity details"
-                  {...field}
+                  onChange={debouncedHandleChange}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="tags"
+          render={() => (
+            <FormItem>
+              <div>
+                <FormLabel className="text-black">
+                  Category of activity
+                  <span className="text-red-500 ml-1">*</span>
+                </FormLabel>
+              </div>
+              {loading && (
+                <span className="loading loading-dots loading-md"></span>
+              )}
+              <div className="flex items-center max-w-screen flex-wrap">
+                {Object.entries(volunteerTheme).map(([key, themeValue]) => (
+                  <FormField
+                    key={key}
+                    control={form.control}
+                    name="tags"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={key}
+                          className="flex items-center justify-center space-y-0 space-x-1 mx-2 my-2"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(themeValue)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, themeValue])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== themeValue,
+                                      ),
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-medium text-gray-600">
+                            {themeValue}
+                          </FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="startTime"
@@ -280,7 +357,7 @@ export function ActivityCreationForm() {
                     variant={'outline'}
                     className={cn(
                       'w-[280px] justify-start text-left font-normal',
-                      !field.value && 'text-muted-foreground'
+                      !field.value && 'text-muted-foreground',
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -325,7 +402,7 @@ export function ActivityCreationForm() {
                     variant={'outline'}
                     className={cn(
                       'w-[280px] justify-start text-left font-normal',
-                      !field.value && 'text-muted-foreground'
+                      !field.value && 'text-muted-foreground',
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -421,55 +498,6 @@ export function ActivityCreationForm() {
 
         <FormField
           control={form.control}
-          name="tags"
-          render={() => (
-            <FormItem>
-              <div className="">
-                <FormLabel className="text-black">
-                  Category of activity
-                  <span className="text-red-500 ml-1">*</span>
-                </FormLabel>
-              </div>
-              {tags.map((item) => (
-                <FormField
-                  key={item.id}
-                  control={form.control}
-                  name="tags"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={item.id}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== item.id
-                                    )
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-medium text-gray-600">
-                          {item.label}
-                        </FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="signUpDeadline"
           render={({ field }) => (
             <FormItem className="flex flex-col">
@@ -484,7 +512,7 @@ export function ActivityCreationForm() {
                       variant={'outline'}
                       className={cn(
                         'w-[280px] justify-start text-left font-normal',
-                        !field.value && 'text-muted-foreground'
+                        !field.value && 'text-muted-foreground',
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
