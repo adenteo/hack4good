@@ -10,6 +10,7 @@ import {
   Gender,
   CitizenshipType,
   EmploymentStatus,
+  volunteerTheme,
 } from '@/models/types';
 
 type UserData = {
@@ -41,6 +42,7 @@ type VolunteerData = {
   occupation: string;
   drivingLicence: boolean;
   skills: string;
+  skillsTags: string[];
   declarations: string;
   remark: string;
   pwdTrained: boolean;
@@ -113,6 +115,11 @@ function generateRandomVolunteerData(
     occupation: faker.person.jobTitle(),
     drivingLicence: faker.datatype.boolean(),
     skills: faker.word.words(5),
+    skillsTags: [
+      faker.helpers.arrayElement(Object.values(volunteerTheme)),
+      faker.helpers.arrayElement(Object.values(volunteerTheme)),
+      faker.helpers.arrayElement(Object.values(volunteerTheme)),
+    ],
     declarations: faker.lorem.sentence(),
     remark: faker.lorem.sentence(),
     pwdTrained: faker.datatype.boolean(),

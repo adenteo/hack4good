@@ -4,6 +4,7 @@ import {
   VolunteerStatus,
   CitizenshipType,
   EmploymentStatus,
+  volunteerTheme,
 } from './types';
 
 const volunteerSchema = new Schema({
@@ -41,6 +42,7 @@ const volunteerSchema = new Schema({
   occupation: String,
   drivingLicence: { type: Boolean, default: false },
   skills: String,
+  skillsTags: { type: [String], enum: Object.values(volunteerTheme) },
   declarations: String,
   remark: String,
   pwdTrained: { type: Boolean, default: false },
