@@ -11,7 +11,7 @@ def get_attendance_report(user_ids, data, timeframe='monthly'):
                             'pwdTrained', 'dateOfBirth']
     user_details_df = activity_df[user_details_columns].drop_duplicates(subset=['userId'])
     # Calculate age from dateOfBirth
-    current_year = datetime.now().year
+    current_year = pd.Timestamp('now').year
     user_details_df['dateOfBirth'] = pd.to_datetime(user_details_df['dateOfBirth'])
     user_details_df['age'] = current_year - user_details_df['dateOfBirth'].dt.year
 
