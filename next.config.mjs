@@ -16,6 +16,7 @@ const nextConfig = {
       'images.unsplash.com',
       'unsplash.com',
       'daisyui.com',
+      'h4good.s3.ap-southeast-1.amazonaws.com',
     ],
   },
 };

@@ -32,7 +32,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
   user,
 }: ActivityBodyProps) => {
   const isUserAttending = activity.attendees.some(
-    (attendee) => attendee.user === user?.user.id,
+    (attendee) => attendee.user === user?.user.id
   );
   const date = parseISO(activity.startTime);
   const formattedDate = format(date, 'MMMM d yyyy');
@@ -59,15 +59,15 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
               <div
                 key={index}
                 className={`text-xs text-black rounded-md p-1 px-4 font-semibold mx-2 my-1 sm:text-lg ${faker.helpers.enumValue(
-                  TagColors,
+                  TagColors
                 )}`}
               >
                 {tag}
               </div>
             ))}
         </div>
-        <div className="mt-2">
-          <h1 className="text-3xl font-semibold">{activity.title}</h1>
+        <div className="mt-2 mb-4">
+          <h1 className="text-3xl mb-2 font-semibold">{activity.title}</h1>
           <div className="flex items-center mt-1">
             <CalendarFold strokeWidth={3} size={15} />
             <p className="ml-1">{formattedDate}</p>
@@ -78,40 +78,44 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
           </div>
         </div>
 
-        <div className="flex mt-4 items-center">
-          <div
-            className="avatar-group -space-x-4 rtl:space-x-reverse"
-            data-theme="light"
-          >
-            {avatarUrls.map((avatar, index) => (
-              <div key={index} className="avatar">
-                <div className="w-11 border-none">
-                  <Image src={avatar} alt={`Avatar ${index + 1}`} fill />
+        {activity.attendees.length - 2 > 0 && (
+          <div className="flex items-center">
+            <div
+              className="avatar-group -space-x-4 rtl:space-x-reverse"
+              data-theme="light"
+            >
+              {avatarUrls.map((avatar, index) => (
+                <div key={index} className="avatar">
+                  <div className="w-11 border-none">
+                    <Image src={avatar} alt={`Avatar ${index + 1}`} fill />
+                  </div>
+                </div>
+              ))}
+              <div className="avatar placeholder" data-theme="light">
+                <div className="w-11 bg-white border-2 rounded-full border-gray-200 text-black">
+                  <span className="text-[0.8rem]">
+                    +{activity.attendees.length - 2}
+                  </span>
                 </div>
               </div>
-            ))}
-            <div className="avatar placeholder" data-theme="light">
-              <div className="w-11 bg-white border-2 rounded-full border-gray-200 text-black ">
-                <span className="text-[0.8rem]">
-                  +{activity.attendees.length - 2}
-                </span>
-              </div>
+            </div>
+            <div className="ml-1">
+              <p className="text-gray-500 text-sm">Will be attending</p>
             </div>
           </div>
-          <div className="ml-1">
-            <p className="text-gray-500 text-sm">Will be attending</p>
-          </div>
-        </div>
+        )}
 
-        <div className="mt-5">
+        <div className="mt-4">
           <h1 className="font-semibold text-lg mb-1">About the event</h1>
           <p className="text-[0.95rem]">{activity.description}</p>
         </div>
 
-        <div className="mt-5">
-          <h1 className="font-semibold text-lg mb-1">Additional Details</h1>
-          <ExpandableText text={activity.description} />
-        </div>
+        {activity.additionalDetails && (
+          <div className="mt-5">
+            <h1 className="font-semibold text-lg mb-1">Additional Details</h1>
+            <ExpandableText text={activity.description} />
+          </div>
+        )}
         {!user?.user.isOnboarded && (
           <div className="flex items-center justify-center mt-14">
             <Info className="text-gray-500" />

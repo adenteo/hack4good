@@ -11,7 +11,7 @@ export default async function getActivityById(id: string) {
   console.log('id', id);
   console.log('here');
   const activity = await Activity.findById(id)
-    .populate('activitySignupForm')
+  .populate([{path: 'activitySignupForm', strictPopulate: false}])
     .lean();
   if (activity) {
     return JSON.stringify(activity, null, 2);
