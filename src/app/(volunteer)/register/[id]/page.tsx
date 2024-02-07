@@ -29,7 +29,7 @@ const ActivityRegister = async ({ params: { id } }: Params) => {
       {/* <SignUpForm /> */}
       <div className="mt-6">
         {' '}
-        <FormRenderer formFields={signUpForm.fields} />
+        <FormRenderer formFields={signUpForm.fields} id={id} />
       </div>
     </div>
   );
