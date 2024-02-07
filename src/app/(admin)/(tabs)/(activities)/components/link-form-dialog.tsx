@@ -60,7 +60,7 @@ const LinkFormDialog: React.FC<LinkFormDialogProps> = ({
       )}
       <SelectForm
         forms={forms}
-        signUpForm={activity?.activitySignupForm}
+        signUpForm={activity?.customSignUpForm}
         setFormId={setFormId}
         setIsLinked={setIsLinked}
       />

@@ -34,7 +34,7 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const activityId = (row.original as ExtendedActivityType)._id;
-  const signUpForm = (row.original as ExtendedActivityType).activitySignupForm;
+  const signUpForm = (row.original as ExtendedActivityType).customSignUpForm;
   return (
     <Dialog>
       <DropdownMenu>
