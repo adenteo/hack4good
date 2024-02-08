@@ -12,6 +12,16 @@ import { connectToDB } from '../mongoose';
 import Volunteer from '@/models/Volunteer';
 import User from '@/models/User';
 
+function getRandomActivityStatus() {
+  const rand = Math.random() * 100;
+    if (rand < 70) {
+    return 'Completed';
+  }
+  const remainingStatuses = ['Upcoming', 'Ongoing', 'Cancelled'];
+  const index = Math.floor((rand - 70) / 10);
+  return remainingStatuses[index];
+}
+
 export async function generateAndSaveDummyActivityData() {
   console.log('hi');
   await connectToDB(); // Replace with your connection string
@@ -33,7 +43,7 @@ export async function generateAndSaveDummyActivityData() {
       numHours: faker.number.int({ min: 1, max: 5 }),
       image: url,
       signUpDeadline: subWeeks(date, 1),
-      status: faker.helpers.arrayElement(Object.values(ActivityStatus)),
+      status: getRandomActivityStatus(),
       attendees: [], // Initially empty
       tags: [
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
