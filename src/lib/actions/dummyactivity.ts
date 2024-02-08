@@ -18,6 +18,7 @@ export async function generateAndSaveDummyActivityData() {
   for (let i = 0; i < 250; i++) {
     // Generate 10 activities
     const date = subWeeks(Date.now(), i);
+    const url = 'https://loremflickr.com/1920/1080/';
     const activityData = {
       title: faker.word.words(3),
       address: faker.location.streetAddress(),
@@ -28,7 +29,7 @@ export async function generateAndSaveDummyActivityData() {
       volunteerCountNeeded: faker.number.int({ min: 20, max: 50 }),
       signUpLimit: faker.number.int({ min: 50, max: 100 }),
       numHours: faker.number.int({ min: 1, max: 5 }),
-      image: faker.image.url(),
+      image: url,
       signUpDeadline: subWeeks(date, 1),
       status: faker.helpers.arrayElement(Object.values(ActivityStatus)),
       attendees: [], // Initially empty

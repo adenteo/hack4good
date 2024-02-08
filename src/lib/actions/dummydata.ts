@@ -11,7 +11,9 @@ import {
   CitizenshipType,
   EmploymentStatus,
   volunteerTheme,
+  ProfilePictureUrl,
 } from '@/models/types';
+import { profile } from 'console';
 
 type UserData = {
   firstName: string;
@@ -32,7 +34,7 @@ type VolunteerData = {
   gender: Gender;
   updatedAt: Date;
   citizenshipType: CitizenshipType;
-  profilePictureUrl: string;
+  profilePictureUrl: ProfilePictureUrl;
   lastFourDigitsOfNric: string;
   dateOfBirth: Date;
   contactNumber: string;
@@ -99,7 +101,7 @@ function generateRandomVolunteerData(
     gender: faker.helpers.arrayElement(Object.values(Gender)),
     updatedAt: faker.date.past(),
     citizenshipType: faker.helpers.arrayElement(Object.values(CitizenshipType)),
-    profilePictureUrl: faker.image.avatar(),
+    profilePictureUrl: faker.helpers.arrayElement(Object.values(ProfilePictureUrl)),
     lastFourDigitsOfNric: ('000' + faker.number.int(9999)).slice(-4),
 
     dateOfBirth: faker.date.past({
