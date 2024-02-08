@@ -80,7 +80,7 @@ export default async function VolunteerProfile() {
             <div className="flex items-center lg:mr-14">
               <CalendarHeart size={20} />
               <div className="ml-1">
-                <h1 className="text-[1.2rem] font-medium leading-none">42</h1>
+                <h1 className="text-[1.2rem] font-medium leading-none">6</h1>
                 <p className="text-[0.6rem] text-gray-400">Events Attended</p>
               </div>
             </div>
@@ -88,7 +88,7 @@ export default async function VolunteerProfile() {
               <Timer size={20} />
               <div className="ml-1">
                 <h1 className="text-[1.2rem] font-medium leading-none">
-                  256hrs
+                  15hrs
                 </h1>
                 <p className="text-[0.6rem] text-gray-400">Volunteered</p>
               </div>

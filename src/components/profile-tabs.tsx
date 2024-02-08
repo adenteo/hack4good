@@ -13,77 +13,83 @@ import { ProfileForm } from './profile-form';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { TabExample } from './test';
+import cleanupImage from '../assets/cleanup.jpg';
+import foodDrive from '../assets/fooddrive.jpg';
+import elderly from '../assets/elderly.jpg';
+import environment from '../assets/environment.jpg';
+import tutor from '../assets/tutor.jpg';
+import animal from '../assets/animal.jpg';
 
 const activities = [
   {
     _id: 1,
     title: 'Community Cleanup',
-    imageUrl: 'https://placekitten.com/300/200',
+    imageUrl: cleanupImage,
     date: '2024-02-15',
     hours: 3,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'We are fervent about helping out the community and the people all around us',
+    startTime: new Date('2024-02-01T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: true,
   },
   {
     _id: 2,
     title: 'Animal Shelter Support',
-    imageUrl: 'https://placekitten.com/300/201',
+    imageUrl: animal,
     date: '2024-02-20',
     hours: 5,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'Animals are our life long companions who deserve to be treated with respect',
+    startTime: new Date('2024-01-20T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
   {
     _id: 3,
     title: 'Food Drive',
-    imageUrl: 'https://placekitten.com/300/202',
+    imageUrl: foodDrive,
     date: '2024-03-05',
     hours: 4,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'Ensuring that everyone has the right nutrients regardless of our backgrounds',
+    startTime: new Date('2024-01-12T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
   {
     _id: 4,
     title: 'Teaching and Tutoring',
-    imageUrl: 'https://placekitten.com/300/203',
+    imageUrl: tutor,
     date: '2024-03-10',
     hours: 6,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'Nurture the future generation and work with young, brilliant minds',
+    startTime: new Date('2024-01-05T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
   {
     _id: 5,
     title: 'Elderly Care',
-    imageUrl: 'https://placekitten.com/300/204',
+    imageUrl: elderly,
     date: '2024-03-18',
     hours: 3,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'Placing importance on our pioneer generation who shaped us today',
+    startTime: new Date('2023-12-17T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
   {
     _id: 6,
-    title: 'Environmental Conservation',
-    imageUrl: 'https://placekitten.com/300/205',
+    title: 'Green Living',
+    imageUrl: environment,
     date: '2024-04-02',
     hours: 5,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'This activity is about helping out our environment before it gets too late',
+    startTime: new Date('2023-12-12T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
@@ -134,7 +140,7 @@ export default function ProfileTabs({
                         <div className="overflow-hidden rounded-t-md mb-2">
                           <AspectRatio ratio={16 / 9} className="bg-muted">
                             <Image
-                              src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                              src={activity.imageUrl}
                               alt={`Image for ${activity.title}`}
                               fill
                               className="rounded-t-md object-cover"
