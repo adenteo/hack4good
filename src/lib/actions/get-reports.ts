@@ -76,6 +76,7 @@ export async function fetchCompletedActivitiesWithVolunteers(
           postalCode: '$attendeeDetails.postalCode',
           gender: '$attendeeDetails.gender',
           occupation: '$attendeeDetails.occupation',
+          averageSentiment: 1,
         },
       },
     ]).exec();

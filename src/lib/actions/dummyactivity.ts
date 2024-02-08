@@ -15,9 +15,11 @@ import User from '@/models/User';
 export async function generateAndSaveDummyActivityData() {
   console.log('hi');
   await connectToDB(); // Replace with your connection string
+  const dateRangeStart = new Date(2022, 0, 1); // Jan 1, 2022
+  const dateRangeEnd = new Date(2024, 0, 1); // Jan 1, 2024
   for (let i = 0; i < 250; i++) {
     // Generate 10 activities
-    const date = subWeeks(Date.now(), i);
+    const date = new Date(dateRangeStart.getTime() + Math.random() * (dateRangeEnd.getTime() - dateRangeStart.getTime()));
     const url = 'https://loremflickr.com/1920/1080/';
     const activityData = {
       title: faker.word.words(3),
@@ -39,6 +41,7 @@ export async function generateAndSaveDummyActivityData() {
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
       ],
+      averageSentiment: faker.number.float({ min: -1, max: 1 }), 
     };
 
     const newActivity = new Activity(activityData);

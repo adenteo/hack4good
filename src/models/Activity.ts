@@ -38,6 +38,7 @@ const activitySchema = new Schema({
     default: ActivityStatus.Upcoming,
   },
   tags: { type: [String], enum: Object.values(volunteerTheme) },
+  averageSentiment: { type: Number, required: false }, //placeholder, to be retrieved and aggregated from feedback.ts
   contactUs: { type: String, required: false, default: 'admin@admin.com' },
 });
 type ActivityType = InferSchemaType<typeof activitySchema>;
