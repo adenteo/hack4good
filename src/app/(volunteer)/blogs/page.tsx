@@ -28,7 +28,7 @@ export default function Blogs() {
         <div className="flex flex-col justify-center items-center md:grid md:grid-cols-3 lg:grid-cols-4 lg:gap-4">
           {feedbackList.map((feedbackItem, index) => (
             <div className="p-2" key={index}>
-              <figure className="w-80 border rounded-2xl shadow-md md:h-[65vh]">
+              <figure className="w-80 border h-auto rounded-2xl shadow-md md:min-h-[65vh]">
                 <div className="overflow-hidden rounded-t-md mb-2">
                   <AspectRatio ratio={16 / 9} className="bg-muted">
                   {feedbackItem.image && (
