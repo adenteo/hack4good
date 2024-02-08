@@ -13,94 +13,91 @@ import { ProfileForm } from './profile-form';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { TabExample } from './test';
+import cleanupImage from '../assets/cleanup.jpg';
+import foodDrive from '../assets/fooddrive.jpg';
+import elderly from '../assets/elderly.jpg';
+import environment from '../assets/environment.jpg';
+import tutor from '../assets/tutor.jpg';
+import animal from '../assets/animal.jpg';
+import cert1 from '../assets/cert1.jpeg';
+import cert2 from '../assets/cert2.jpeg';
 
 const activities = [
   {
     _id: 1,
     title: 'Community Cleanup',
-    imageUrl: 'https://placekitten.com/300/200',
+    imageUrl: cleanupImage,
     date: '2024-02-15',
     hours: 3,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'We are fervent about helping out the community and the people all around us',
+    startTime: new Date('2024-02-01T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: true,
   },
   {
     _id: 2,
     title: 'Animal Shelter Support',
-    imageUrl: 'https://placekitten.com/300/201',
+    imageUrl: animal,
     date: '2024-02-20',
     hours: 5,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'Animals are our life long companions who deserve to be treated with respect',
+    startTime: new Date('2024-01-20T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
   {
     _id: 3,
     title: 'Food Drive',
-    imageUrl: 'https://placekitten.com/300/202',
+    imageUrl: foodDrive,
     date: '2024-03-05',
     hours: 4,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'Ensuring that everyone has the right nutrients regardless of our backgrounds',
+    startTime: new Date('2024-01-12T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
   {
     _id: 4,
     title: 'Teaching and Tutoring',
-    imageUrl: 'https://placekitten.com/300/203',
+    imageUrl: tutor,
     date: '2024-03-10',
     hours: 6,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'Nurture the future generation and work with young, brilliant minds',
+    startTime: new Date('2024-01-10T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
   {
     _id: 5,
     title: 'Elderly Care',
-    imageUrl: 'https://placekitten.com/300/204',
+    imageUrl: elderly,
     date: '2024-03-18',
     hours: 3,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'Placing importance on our pioneer generation who shaped us today',
+    startTime: new Date('2024-01-09T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
   {
     _id: 6,
-    title: 'Environmental Conservation',
-    imageUrl: 'https://placekitten.com/300/205',
+    title: 'Green Living',
+    imageUrl: environment,
     date: '2024-04-02',
     hours: 5,
     description:
-      'This activity is about helping out the community and the poeple all around us',
-    startTime: new Date(),
+      'This activity is about helping out our environment before it gets too late',
+    startTime: new Date('2024-01-07T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
 ];
 const certificates = [
-  'https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=&q=80',
-  'https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=&q=80',
-  'https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=&q=80',
-  'https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=&q=80',
-  'https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80',
+  cert1,cert2,cert1,cert2
 ];
 
 export default function ProfileTabs({
@@ -120,7 +117,7 @@ export default function ProfileTabs({
         <div className="overflow-y-auto p-6">
           <TabPanels>
             <TabPanel>
-              <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              <div className="w-full flex flex-col justify-center items-center md:flex-row md:grid md:grid-cols-3 lg:grid-cols-4 gap-5">
                 {activities.map((activity, index) => {
                   const date = parseISO(activity.startTime.toISOString());
                   const formattedDate = format(date, 'MMMM d yyyy');
@@ -129,12 +126,12 @@ export default function ProfileTabs({
                     <div className="p-2" key={index}>
                       <figure
                         key={index}
-                        className="w-[280px] border rounded-2xl shadow-md"
+                        className="w-[85vw] md:w-[280px] border rounded-2xl shadow-md"
                       >
                         <div className="overflow-hidden rounded-t-md mb-2">
                           <AspectRatio ratio={16 / 9} className="bg-muted">
                             <Image
-                              src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                              src={activity.imageUrl}
                               alt={`Image for ${activity.title}`}
                               fill
                               className="rounded-t-md object-cover"
@@ -208,21 +205,28 @@ export default function ProfileTabs({
               </div>
             </TabPanel>
             <TabPanel>
-              <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              <h1 className="text-center text-xs text-gray-500 mb-5">Click on your certificate to download!</h1>
+              <div className="flex flex-col items-center justify-center  md:flex-row md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-7">
                 {certificates.map((certificates, index) => (
                   <figure
                     key={index}
-                    className="shrink-0 w-full lg:w-64 hover:drop-shadow-md cursor-pointer"
+                    className="shrink-0 w-full hover:drop-shadow-md cursor-pointer"
                   >
-                    <div className="flex justify-center">
-                      <Image
-                        priority
-                        src={certificates}
-                        alt={certificates}
-                        className="h-44 w-full rounded overflow-hidden"
-                        width={1000}
-                        height={1000}
-                      ></Image>
+                    <div className="flex justify-center mb-4 md:mb-0">
+                    <a
+                        href={certificates.src || ''}
+                        download={`certificate-${index + 1}.jpeg`}
+                        className="flex justify-center border"
+                      >
+                      <div className="border border-gray-300 shadow-lg w-fit">
+                        <Image
+                          priority
+                          src={certificates}
+                          alt={"certificate"}
+                          className="h-60 w-auto md:h-auto"
+                        ></Image>
+                      </div>
+                       </a>
                     </div>
                   </figure>
                 ))}
