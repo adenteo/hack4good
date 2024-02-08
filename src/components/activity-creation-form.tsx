@@ -114,14 +114,13 @@ export function ActivityCreationForm() {
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof activityFormSchema>) => {
-    console.log(values);
+    setFormLoading(true);
     if (imageFile) {
       let awsUrl = await handleImageUpload(imageFile);
-      console.log(awsUrl);
       values.image = awsUrl;
     }
     const res = await addActivity(values);
-    console.log(res);
+    setFormLoading(false);
     if (res.error) {
       toast({
         title: 'Error occurred',
@@ -147,7 +146,6 @@ export function ActivityCreationForm() {
       },
       body: imageFile,
     });
-    console.log(url.split('?')[0]);
     return url.split('?')[0]; // Return the base URL without query parameters
   };
 
@@ -169,6 +167,7 @@ export function ActivityCreationForm() {
   const debouncedHandleChange = useCallback(debounce(handleChange, 500), []);
 
   const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
 
   useEffect(() => {
     const makePostRequest = async () => {
@@ -667,7 +666,12 @@ export function ActivityCreationForm() {
         />
 
         <div className="flex justify-center pb-2">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={formLoading}>
+            Submit
+            {formLoading && (
+              <span className="loading loading-spinner loading-xs ml-2"></span>
+            )}
+          </Button>
         </div>
       </form>
     </Form>

@@ -21,7 +21,6 @@ import { ExtendedVolunteerType } from '@/models/Volunteer';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import { ExtendedActivityTypePastEvents } from '@/models/Activity';
-import { useEffect, useState } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import ProfileTabs from '@/components/profile-tabs';
@@ -43,39 +42,9 @@ export default async function VolunteerProfile() {
   const volunteerString = await getVolunteerByUserId(user.user.id);
   const volunteer: ExtendedVolunteerType = JSON.parse(volunteerString);
 
-  // const [volunteer, setVolunteer] = useState<ExtendedVolunteerType | null>(
-  //   null
-  // );
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const user = await getAuthSession();
-  //       if (!user) {
-  //         throw new Error('Error getting profile.');
-  //       }
-
-  //       const volunteerString = await getVolunteerByUserId(user.user.id);
-  //       const parsedVolunteer: ExtendedVolunteerType =
-  //         JSON.parse(volunteerString);
-  //       if (!parsedVolunteer) {
-  //         throw new Error('Error getting profile.');
-  //       }
-
-  //       setVolunteer(parsedVolunteer);
-  //     } catch (error) {
-  //       console.error(error);
-  //       // Handle the error (e.g., show an error message)
-  //     }
-  //   };
-
-  //   fetchData(); // Call the asynchronous function
-  // }, [activities]);
-
   if (!volunteer) {
     return <div>Error getting profile.</div>;
   }
-  console.log(volunteer);
   return (
     <div className="min-h-screen">
       <div className="relative">
@@ -127,10 +96,7 @@ export default async function VolunteerProfile() {
           </div>
         </div>
       </div>
-
-
       <ProfileTabs volunteer={volunteer} />
-
     </div>
   );
 }
