@@ -77,6 +77,7 @@ def get_demographics_report(event, _):
         'numHours': 'sum',  # Sum numHours for total hours
         **{col: 'sum' for col in attendance_dummies.columns},  # Sum for each attendance status
         **{col: 'sum' for col in tags_dummies.columns},  # Sum for each tag column
+        'averageSentiment': 'mean',
         'drivingLicence': 'sum',
         'pwdTrained': 'sum',
         **{col: 'sum' for col in citizenship_dummies.columns},  # Sum for each citizenship status

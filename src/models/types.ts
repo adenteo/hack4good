@@ -88,10 +88,10 @@ export enum volunteerTheme {
   Overseas = 'Overseas',
 }
 
-export enum ProfilePictureUrl {
-  Portrait = 'https://loremflickr.com/1920/1080/portrait',
-  People = 'https://loremflickr.com/1920/1080/people',
-  Face = 'https://loremflickr.com/1920/1080/face',
-  Selfie = 'https://loremflickr.com/1920/1080/selfie',
-  Smile = 'https://loremflickr.com/1920/1080/smile',
-}
+// export enum ProfilePictureUrl {
+//   Portrait = 'https://loremflickr.com/1920/1080/portrait',
+//   People = 'https://loremflickr.com/1920/1080/people',
+//   Face = 'https://loremflickr.com/1920/1080/face',
+//   Selfie = 'https://loremflickr.com/1920/1080/selfie',
+//   Smile = 'https://loremflickr.com/1920/1080/smile',
+// }

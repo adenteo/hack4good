@@ -5,6 +5,9 @@ const nextConfig = {
   // Indicate that these packages should not be bundled by webpack
   experimental: {
     serverComponentsExternalPackages: ['sharp', 'onnxruntime-node'],
+    serverActions: {
+      bodySizeLimit: '50mb', // Increase the body size limit to 5MB
+    },
   },
   //   reactStrictMode: false,
   images: {
@@ -22,4 +25,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default nextConfig; 

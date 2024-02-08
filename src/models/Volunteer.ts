@@ -5,7 +5,6 @@ import {
   CitizenshipType,
   EmploymentStatus,
   volunteerTheme,
-  ProfilePictureUrl,
 } from './types';
 
 const volunteerSchema = new Schema({
@@ -30,10 +29,7 @@ const volunteerSchema = new Schema({
     enum: Object.values(CitizenshipType),
     required: true,
   },
-  profilePictureUrl: {
-    type: String,
-    enum: Object.values(ProfilePictureUrl),
-  },
+  profilePictureUrl: String,
   lastFourDigitsOfNric: { type: String },
   dateOfBirth: { type: Date, required: true },
   contactNumber: { type: String, required: true },
