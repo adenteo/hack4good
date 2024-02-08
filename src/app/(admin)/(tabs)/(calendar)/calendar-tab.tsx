@@ -40,7 +40,6 @@ const Calendar: React.FC = () => {
 
   return (
     <div className="p-6">
-      <h1 className="font-bold text-2xl">Calendar</h1>
       <Textarea
         className="mt-6"
         placeholder="Type your message here."

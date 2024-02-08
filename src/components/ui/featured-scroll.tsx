@@ -2,7 +2,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import Link from 'next/link';
-import { getAllActivities } from '@/lib/actions/get-all-activities';
+import { getAllActivitiesPagination } from '@/lib/actions/get-all-activities-pagination';
 import { Button } from './button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ActivityType, ExtendedActivityType } from '@/models/Activity';
@@ -10,6 +10,7 @@ import { AspectRatio } from './aspect-ratio';
 
 interface ScrollAreaHorizontalDemoProps {
   activities: ExtendedActivityType[];
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const avatarUrls = [
@@ -19,6 +20,7 @@ const avatarUrls = [
 
 export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
   activities,
+  setPage,
 }: ScrollAreaHorizontalDemoProps) => {
   const scrollContainerRef = React.useRef<HTMLDivElement | null>(null); // Create a ref for the scroll container
   const handleScroll = (direction: string) => {
@@ -31,6 +33,30 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
       });
     }
   };
+
+  const handleEndOfScroll = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  React.useEffect(() => {
+    const scrollContainer = scrollContainerRef.current?.children[1];
+    const checkIfScrolledToEnd = () => {
+      if (!scrollContainer) return;
+
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+      console.log(scrollLeft, scrollWidth, clientWidth);
+      if (scrollLeft + clientWidth >= scrollWidth) {
+        handleEndOfScroll();
+      }
+    };
+
+    scrollContainer?.addEventListener('scroll', checkIfScrolledToEnd);
+
+    return () => {
+      scrollContainer?.removeEventListener('scroll', checkIfScrolledToEnd);
+    };
+  }, []);
+
   return (
     <ScrollArea
       className="w-full whitespace-nowrap rounded-md border-none p-4 group"
@@ -51,7 +77,7 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
         {activities.map((activity, index) => (
           <Link
             key={index}
-            href={`/activities/${encodeURIComponent(activity.title)}`}
+            href={`/activities/${encodeURIComponent(activity._id)}`}
             passHref
           >
             <button key={index} className="rounded-xl relative shadow-md">

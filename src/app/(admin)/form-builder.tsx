@@ -161,7 +161,6 @@ const FormBuilder = ({
   });
 
   useEffect(() => {
-    console.log('this is happening');
     if (form) {
       form.setValue('title', selectedForm?.title ?? '');
       form.setValue('description', selectedForm?.description ?? '');

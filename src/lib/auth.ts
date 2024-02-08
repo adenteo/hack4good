@@ -69,11 +69,19 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
+      console.log('jtw');
+      console.log(token);
+      console.log(user);
       let currentUser;
       if (user) {
+        await connectToDB();
         currentUser = await User.findOne({ email: user.email });
       } else if (token) {
+        await connectToDB();
         currentUser = await User.findOne({ email: token.email });
+      }
+      if (!currentUser) {
+        return token;
       }
       const volunteerDetails = await Volunteer.findOne({
         user: currentUser._id,

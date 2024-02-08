@@ -7,7 +7,6 @@ export enum FieldType {
   Date = 'date',
   Radio = 'radio',
   Range = 'range',
-  Multicheckbox = 'multicheckbox',
   //add integer type
 }
 
@@ -24,4 +23,5 @@ export interface CustomForm {
   title: string;
   description: string;
   fields: FormField[];
+  _id: string;
 }

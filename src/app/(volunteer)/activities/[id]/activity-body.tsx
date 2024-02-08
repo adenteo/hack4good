@@ -16,10 +16,16 @@ import {
   PopoverClose,
 } from '@radix-ui/react-popover';
 import Link from 'next/link';
+import { withdrawFromActivity } from '@/lib/actions/activity-withdraw';
+import { toast } from '@/components/ui/use-toast';
+import { useSession } from 'next-auth/react';
+import { signUpForActivity } from '@/lib/actions/activity-signup';
+import { useRouter } from 'next/navigation';
 
 interface ActivityBodyProps {
   activity: ExtendedActivityType;
   user: Session | null;
+  activityId: string;
 }
 
 const avatarUrls = [
@@ -30,12 +36,28 @@ const avatarUrls = [
 const ActivityBody: React.FC<ActivityBodyProps> = ({
   activity,
   user,
+  activityId,
 }: ActivityBodyProps) => {
   const isUserAttending = activity.attendees.some(
     (attendee) => attendee.user === user?.user.id,
   );
+  const isLinked = activity.customSignUpForm;
   const date = parseISO(activity.startTime);
   const formattedDate = format(date, 'MMMM d yyyy');
+  const session = useSession();
+  const router = useRouter();
+
+  const handleWithdraw = async () => {
+    if (user) {
+      await withdrawFromActivity(activity._id, user?.user.id);
+      toast({
+        variant: 'default',
+        title: 'You have been withdrawn',
+        description: 'we are sad to see you go :(',
+      });
+      router.refresh();
+    }
+  };
 
   return (
     <figure className="sm:p-20 sm:flex">
@@ -52,7 +74,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
         <div>Image not found</div>
       )}
 
-      <figcaption className="px-6 mt-2 pb-6 flex flex-col justify-center items-start sm:px-20">
+      <figcaption className="px-10 mt-2 pb-6 flex flex-col justify-center items-start ">
         <div className="flex justify-center items-center md:justify-center lg:justify-center flex-wrap">
           {Array.isArray(activity.tags) &&
             activity.tags.map((tag, index) => (
@@ -67,7 +89,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
             ))}
         </div>
         <div className="mt-2">
-          <h1 className="text-3xl font-semibold">{activity.title}</h1>
+          <h1 className="text-3xl mb-2 font-semibold">{activity.title}</h1>
           <div className="flex items-center mt-1">
             <CalendarFold strokeWidth={3} size={15} />
             <p className="ml-1">{formattedDate}</p>
@@ -78,40 +100,44 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
           </div>
         </div>
 
-        <div className="flex mt-4 items-center">
-          <div
-            className="avatar-group -space-x-4 rtl:space-x-reverse"
-            data-theme="light"
-          >
-            {avatarUrls.map((avatar, index) => (
-              <div key={index} className="avatar">
-                <div className="w-11 border-none">
-                  <Image src={avatar} alt={`Avatar ${index + 1}`} fill />
+        {activity.attendees.length - 2 > 0 && (
+          <div className="flex items-center mt-4">
+            <div
+              className="avatar-group -space-x-4 rtl:space-x-reverse"
+              data-theme="light"
+            >
+              {avatarUrls.map((avatar, index) => (
+                <div key={index} className="avatar">
+                  <div className="w-11 border-none">
+                    <Image src={avatar} alt={`Avatar ${index + 1}`} fill />
+                  </div>
+                </div>
+              ))}
+              <div className="avatar placeholder" data-theme="light">
+                <div className="w-11 bg-white border-2 rounded-full border-gray-200 text-black">
+                  <span className="text-[0.8rem]">
+                    +{activity.attendees.length - 2}
+                  </span>
                 </div>
               </div>
-            ))}
-            <div className="avatar placeholder" data-theme="light">
-              <div className="w-11 bg-white border-2 rounded-full border-gray-200 text-black ">
-                <span className="text-[0.8rem]">
-                  +{activity.attendees.length - 2}
-                </span>
-              </div>
+            </div>
+            <div className="ml-1">
+              <p className="text-gray-500 text-sm">Will be attending</p>
             </div>
           </div>
-          <div className="ml-1">
-            <p className="text-gray-500 text-sm">Will be attending</p>
-          </div>
-        </div>
+        )}
 
-        <div className="mt-5">
+        <div className="mt-4">
           <h1 className="font-semibold text-lg mb-1">About the event</h1>
           <p className="text-[0.95rem]">{activity.description}</p>
         </div>
 
-        <div className="mt-5">
-          <h1 className="font-semibold text-lg mb-1">Additional Details</h1>
-          <ExpandableText text={activity.description} />
-        </div>
+        {activity.additionalDetails && (
+          <div className="mt-5">
+            <h1 className="font-semibold text-lg mb-1">Additional Details</h1>
+            <ExpandableText text={activity.description} />
+          </div>
+        )}
         {!user?.user.isOnboarded && (
           <div className="flex items-center justify-center mt-14">
             <Info className="text-gray-500" />
@@ -129,7 +155,8 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
             </p>
           </div>
         )}
-        <div className="flex justify-center mt-5">
+
+        <div className="flex mx-auto mt-5">
           <div className="mr-4">
             {isUserAttending ? (
               <Popover>
@@ -154,35 +181,61 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
                         </Button>
                       </PopoverClose>
                       <PopoverClose asChild>
-                        <Link href={'/'}>
-                          <Button className="bg-red-500 text-[0.9rem] ml-4 hover:bg-red-900">
-                            Yes, Withdraw
-                          </Button>
-                        </Link>
+                        <Button
+                          onClick={handleWithdraw}
+                          className="bg-red-500 text-[0.9rem] ml-4 hover:bg-red-900"
+                        >
+                          Yes, Withdraw
+                        </Button>
                       </PopoverClose>
                     </div>
                   </div>
                 </PopoverContent>
               </Popover>
-            ) : (
-              <Link href={`/activities/register?id=${activity._id}`}>
+            ) : isLinked ? (
+              <Link href={`/register/${activity._id}`}>
                 <Button
-                  className="bg-gray-800 text-[0.8rem] hover:bg-gray-500"
+                  className="text-[0.8rem]"
                   disabled={!user?.user.isOnboarded}
                 >
                   Register Now
                 </Button>
               </Link>
+            ) : (
+              <Button
+                className="text-[0.8rem]"
+                disabled={!user?.user.isOnboarded}
+                onClick={async () => {
+                  const user = session.data?.user;
+                  const res = await signUpForActivity(
+                    activityId,
+                    user?.id!,
+                    {},
+                  );
+                  console.log(res);
+                  toast({
+                    title: 'Successfully Registered!',
+                    variant: 'default',
+                    description: 'We are so excited to have you on board',
+                    className: 'bg-green-500 border-none text-white',
+                  });
+                  router.refresh();
+                }}
+              >
+                Register Now
+              </Button>
             )}
           </div>
 
           <div className="ml-4">
-            <Button
-              variant="outline"
-              className="border-gray-500 text-[0.8rem] hover:bg-gray-300"
-            >
-              Contact Us
-            </Button>
+            <a href={`mailto:${activity.contactUs}`}>
+              <Button
+                variant="outline"
+                className="border-gray-500 text-[0.8rem] hover:bg-gray-300"
+              >
+                Contact Us
+              </Button>
+            </a>
           </div>
         </div>
       </figcaption>

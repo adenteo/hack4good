@@ -14,7 +14,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/home', req.nextUrl));
   }
   if (req.nextUrl.pathname === '/profile') {
-    console.log(token);
     if (!token) {
       return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
     }

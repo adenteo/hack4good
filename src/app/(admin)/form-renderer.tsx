@@ -1,3 +1,4 @@
+'use client';
 import {
   Form,
   FormControl,
@@ -32,13 +33,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { toast } from '@/components/ui/use-toast';
+import { useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { signUpForActivity } from '@/lib/actions/activity-signup';
+import { useRouter } from 'next/navigation';
 
 function createFormSchema(fields: FormFieldType[]) {
   const schemaObject: { [key: string]: any } = {};
 
   fields.forEach((field) => {
     let validation;
-    console.log(field.options);
     switch (field.type) {
       case 'text':
         if (field.required) {
@@ -112,11 +117,15 @@ function createFormSchema(fields: FormFieldType[]) {
 
 export default function FormRenderer({
   formFields,
+  id,
 }: {
   formFields: FormFieldType[];
+  id: string;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const formSchema = createFormSchema(formFields);
+  const session = useSession();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     // defaultValues: {
@@ -127,8 +136,21 @@ export default function FormRenderer({
     // },
   });
 
+  if (!session || !session.data?.user.isOnboarded) {
+    return null;
+  }
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    console.log(id);
+    const user = session.data?.user;
+    const res = await signUpForActivity(id, user?.id!, values);
+    console.log(res);
+    toast({
+      title: 'Successfully Registered!',
+      description: 'We are so excited to have you on board',
+    });
+    router.push('/activities/' + id);
+    router.refresh();
   }
 
   const renderField = (formField: FormFieldType) => {
@@ -140,7 +162,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <FormControl>
                   <Input placeholder={formField.placeholder} {...field} />
                 </FormControl>
@@ -156,7 +183,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -188,7 +220,12 @@ export default function FormRenderer({
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className="ml-2">{formField.label}</FormLabel>
+                <FormLabel className="ml-2">
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <FormMessage />
               </FormItem>
             )}
@@ -201,7 +238,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -245,7 +287,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="range"
@@ -265,7 +312,12 @@ export default function FormRenderer({
             name={formField.id}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{formField.label}</FormLabel>
+                <FormLabel>
+                  {formField.label}
+                  {formField.required && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -304,7 +356,7 @@ export default function FormRenderer({
           onClick={form.handleSubmit(onSubmit)}
         >
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Sign Up with Email
+          Sign up to be a Volunteer
         </Button>
       </form>
     </Form>

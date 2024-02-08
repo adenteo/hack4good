@@ -13,8 +13,8 @@ export default async function SignUpFormPage() {
         Welcome! Thank you for your interest in joining our community. Your
         support is vital to our mission. Please fill out this short form to help
         us match your skills and interests with the right opportunities. Your
-        information will remain confidential. We're excited to have you on board
-        and look forward to making a difference together!
+        information will remain confidential. We&apos;re excited to have you on
+        board and look forward to making a difference together!
       </p>
       <SignUpForm session={session} />
     </div>

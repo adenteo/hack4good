@@ -5,7 +5,7 @@ import { MessageCircleHeart } from 'lucide-react';
 
 export default function SignUpFormPage() {
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-screen p-10 sm:p-20">
       <div className="flex justify-center items-center mb-14 text-center">
         <div className="flex flex-col ">
           <h1 className="text-2xl font-semibold">

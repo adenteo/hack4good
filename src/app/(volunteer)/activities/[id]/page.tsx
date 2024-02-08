@@ -20,7 +20,7 @@ export default async function ActivityPage({ params: { id } }: Params) {
 
   return (
     <div className="min-h-screen">
-      <ActivityBody activity={activity} user={user} />
+      <ActivityBody activity={activity} user={user} activityId={id} />
     </div>
   );
 }

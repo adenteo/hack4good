@@ -1,8 +1,9 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import crypto from 'crypto';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,8 +16,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectItem,
@@ -26,7 +25,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DatePicker } from './datepicker';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { format } from 'date-fns';
 import { CalendarIcon, PlusCircle, Trash2 } from 'lucide-react';
@@ -34,25 +32,13 @@ import { Calendar } from './ui/calendar';
 import { cn } from '@/lib/utils';
 import { TimePicker } from './ui/time-picker';
 import { Switch } from '@/components/ui/switch';
-
-const tags = [
-  {
-    id: 'children',
-    label: 'Children',
-  },
-  {
-    id: 'elderly',
-    label: 'Elderly',
-  },
-  {
-    id: 'animals',
-    label: 'Animals',
-  },
-  {
-    id: 'foodDrives',
-    label: 'Food Drives',
-  },
-] as const;
+import { getSignedURL } from '@/lib/actions/s3-actions';
+import { addActivity } from '@/lib/actions/add-activities';
+import { useRouter } from 'next/navigation';
+import { toast } from './ui/use-toast';
+import { volunteerTheme } from '@/models/types';
+import { debounce } from 'lodash';
+import { Textarea } from './ui/textarea';
 
 const forms = [
   {
@@ -73,7 +59,7 @@ const forms = [
   },
 ] as const;
 
-const formSchema = z.object({
+export const activityFormSchema = z.object({
   title: z.string().min(1, {
     message: 'Activity Name must be at least 1 character.',
   }),
@@ -84,12 +70,12 @@ const formSchema = z.object({
     message: 'Description must be at least 1 character.',
   }),
   additionalDetails: z.string(),
-  customSignUpForm: z.string(),
+  customSignUpForm: z.string().optional(),
   startTime: z.date(),
   endTime: z.date(),
   featured: z.boolean(),
-  volunteerCountNeeded: z.string(),
-  signUpLimit: z.string(),
+  volunteerCountNeeded: z.string().optional(),
+  signUpLimit: z.string().optional(),
   signUpDeadline: z.date(),
   tags: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: 'You have to select at least one category.',
@@ -97,59 +83,126 @@ const formSchema = z.object({
   contactUs: z.string().email({
     message: 'Invalid email address for volunteers to contact.',
   }),
-  image: z.string().refine((value) => value.trim() !== '', {
+  image: z.string().min(1, {
     message: 'Please select an image.',
   }),
 });
 
 export function ActivityCreationForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof activityFormSchema>>({
+    resolver: zodResolver(activityFormSchema),
     defaultValues: {
       title: '',
       address: '',
       description: '',
       additionalDetails: '',
-      volunteerCountNeeded: '',
-      signUpLimit: '',
-      tags: [''],
+      tags: [],
       featured: false,
       contactUs: '',
-      customSignUpForm: '',
       image: '',
     },
   });
 
-  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
+  const uniqueFileName = (bytes = 32) =>
+    crypto.randomBytes(bytes).toString('hex');
+
+  const [imageFile, setImageFile] = useState<File>();
   const [uploadedImage, setUploadedImage] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [isLabelVisible, setIsLabelVisible] = useState(true);
+  const router = useRouter();
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values.endTime);
-    console.log(values.image);
+  const onSubmit = async (values: z.infer<typeof activityFormSchema>) => {
+    setFormLoading(true);
+    if (imageFile) {
+      let awsUrl = await handleImageUpload(imageFile);
+      values.image = awsUrl;
+    }
+    const res = await addActivity(values);
+    setFormLoading(false);
+    if (res.error) {
+      toast({
+        title: 'Error occurred',
+        description: res.error,
+        variant: 'destructive',
+      });
+    }
+    if (res.activity) {
+      router.push('/activities/' + res.activity);
+      return;
+    }
   };
 
   const handleImageUpload = async (file: File) => {
-    try {
-      const imageUrl = URL.createObjectURL(file);
+    const fileName = uniqueFileName();
+    const signedURLResult = await getSignedURL(fileName);
+    const { url } = signedURLResult.success;
 
-      form.setValue('image', imageUrl); // Set the image URL in the form
-      setUploadedImage(imageUrl); // Save the image URL in state
-      setImageFile(file);
-      setIsLabelVisible(false); // Hide the label when image is chosen
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    }
+    await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': file?.type,
+      },
+      body: imageFile,
+    });
+    return url.split('?')[0]; // Return the base URL without query parameters
   };
 
   const handleDeleteImage = () => {
     form.setValue('image', ''); // Reset form field
-    setImageFile(undefined); // Clear selected image file
-    setUploadedImage(undefined); // Clear uploaded image data
+    setImageFile(undefined);
+    setUploadedImage(undefined); // Clear selected image file
     setIsLabelVisible(true);
   };
+
+  const [text, setText] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(event.target.value);
+    form.setValue('description', event.target.value);
+  };
+
+  const debouncedHandleChange = useCallback(debounce(handleChange, 500), []);
+
+  const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
+
+  useEffect(() => {
+    const makePostRequest = async () => {
+      if (text.length < 20) return;
+      try {
+        setLoading(true);
+        const response = await fetch('/api/classify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: text }),
+        });
+        const data = await response.json();
+        setLoading(false);
+        setTags(
+          data.tags.map(
+            (tag: string) => tag.charAt(0).toUpperCase() + tag.slice(1),
+          ),
+        );
+        form.setValue(
+          'tags',
+          data.tags.map(
+            (tag: string) => tag.charAt(0).toUpperCase() + tag.slice(1),
+          ),
+        );
+      } catch (error) {
+        console.error('Error posting data:', error);
+      }
+    };
+
+    if (text) {
+      makePostRequest();
+    }
+  }, [text]);
 
   return (
     <Form {...form}>
@@ -174,7 +227,6 @@ export function ActivityCreationForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="featured"
@@ -194,7 +246,6 @@ export function ActivityCreationForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="address"
@@ -215,7 +266,6 @@ export function ActivityCreationForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="description"
@@ -225,18 +275,70 @@ export function ActivityCreationForm() {
                 Description<span className="text-red-500 ml-1">*</span>
               </FormLabel>
               <FormControl>
-                <Input
-                  type="text"
+                <Textarea
                   id="description"
+                  className="mt-6"
                   placeholder="Describe the activity details"
-                  {...field}
+                  onChange={debouncedHandleChange}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="tags"
+          render={() => (
+            <FormItem>
+              <div>
+                <FormLabel className="text-black">
+                  Category of activity
+                  <span className="text-red-500 ml-1">*</span>
+                </FormLabel>
+              </div>
+              {loading && (
+                <span className="loading loading-dots loading-md"></span>
+              )}
+              <div className="flex items-center max-w-screen flex-wrap">
+                {Object.entries(volunteerTheme).map(([key, themeValue]) => (
+                  <FormField
+                    key={key}
+                    control={form.control}
+                    name="tags"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={key}
+                          className="flex items-center justify-center space-y-0 space-x-1 mx-2 my-2"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(themeValue)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, themeValue])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== themeValue,
+                                      ),
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-medium text-gray-600">
+                            {themeValue}
+                          </FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="startTime"
@@ -254,7 +356,7 @@ export function ActivityCreationForm() {
                     variant={'outline'}
                     className={cn(
                       'w-[280px] justify-start text-left font-normal',
-                      !field.value && 'text-muted-foreground'
+                      !field.value && 'text-muted-foreground',
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -299,7 +401,7 @@ export function ActivityCreationForm() {
                     variant={'outline'}
                     className={cn(
                       'w-[280px] justify-start text-left font-normal',
-                      !field.value && 'text-muted-foreground'
+                      !field.value && 'text-muted-foreground',
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -348,14 +450,21 @@ export function ActivityCreationForm() {
                     if (!file) {
                       return;
                     }
-                    handleImageUpload(file[0]);
+                    console.log(file);
+                    setImageFile(file[0]);
+                    const imageUrl = URL.createObjectURL(file[0]);
+                    setUploadedImage(imageUrl);
+                    if (imageUrl) {
+                      console.log(imageUrl);
+                      form.setValue('image', imageUrl);
+                    }
                   }}
                 />
               </FormControl>
               {isLabelVisible && (
                 <label
                   className="w-full h-32 rounded-md border-4 border-dotted flex flex-col justify-center items-center cursor-pointer"
-                  htmlFor="productPhoto"
+                  htmlFor="image"
                 >
                   <PlusCircle className="text-slate-200 h-8 w-8" />
                   <div className="text-xs my-2 text-slate-500">
@@ -375,61 +484,12 @@ export function ActivityCreationForm() {
                     </button>
                     <img
                       src={uploadedImage}
-                      alt="product image"
+                      alt="image"
                       className="w-full h-[40vh] object-contain"
                     />
                   </div>
                 </div>
               )}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="tags"
-          render={() => (
-            <FormItem>
-              <div className="">
-                <FormLabel className="text-black">
-                  Category of activity
-                  <span className="text-red-500 ml-1">*</span>
-                </FormLabel>
-              </div>
-              {tags.map((item) => (
-                <FormField
-                  key={item.id}
-                  control={form.control}
-                  name="tags"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={item.id}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== item.id
-                                    )
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-medium text-gray-600">
-                          {item.label}
-                        </FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
               <FormMessage />
             </FormItem>
           )}
@@ -451,7 +511,7 @@ export function ActivityCreationForm() {
                       variant={'outline'}
                       className={cn(
                         'w-[280px] justify-start text-left font-normal',
-                        !field.value && 'text-muted-foreground'
+                        !field.value && 'text-muted-foreground',
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
@@ -606,7 +666,12 @@ export function ActivityCreationForm() {
         />
 
         <div className="flex justify-center pb-2">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={formLoading}>
+            Submit
+            {formLoading && (
+              <span className="loading loading-spinner loading-xs ml-2"></span>
+            )}
+          </Button>
         </div>
       </form>
     </Form>

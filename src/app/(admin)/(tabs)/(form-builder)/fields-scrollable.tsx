@@ -30,11 +30,6 @@ const fields: FormFieldType[] = [
     type: FieldType.Checkbox,
   },
   {
-    id: '4',
-    label: 'What areas are you interested in?',
-    type: FieldType.Multicheckbox,
-  },
-  {
     id: '5',
     label: 'Select a date',
     type: FieldType.Date,

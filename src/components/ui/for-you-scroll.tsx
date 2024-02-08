@@ -12,14 +12,18 @@ import { AspectRatio } from './aspect-ratio';
 
 interface ForYouScrollProps {
   activities: ExtendedActivityType[];
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const avatarUrls = [
   'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
-  'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
+  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
 ];
 
-export const ForYouScroll: React.FC<ForYouScrollProps> = ({ activities }) => {
+export const ForYouScroll: React.FC<ForYouScrollProps> = ({
+  activities,
+  setPage,
+}) => {
   const scrollContainerRef = React.useRef<HTMLDivElement | null>(null); // Create a ref for the scroll container
 
   const handleScroll = (direction: string) => {
@@ -33,6 +37,30 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({ activities }) => {
       });
     }
   };
+
+  const handleEndOfScroll = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  React.useEffect(() => {
+    const scrollContainer = scrollContainerRef.current?.children[1];
+    const checkIfScrolledToEnd = () => {
+      if (!scrollContainer) return;
+
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+      console.log(scrollLeft, scrollWidth, clientWidth);
+      if (scrollLeft + clientWidth >= scrollWidth) {
+        handleEndOfScroll();
+      }
+    };
+
+    scrollContainer?.addEventListener('scroll', checkIfScrolledToEnd);
+
+    return () => {
+      scrollContainer?.removeEventListener('scroll', checkIfScrolledToEnd);
+    };
+  }, []);
+
   return (
     <ScrollArea
       className="w-full whitespace-nowrap rounded-md border-none p-2 group"
@@ -64,12 +92,21 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({ activities }) => {
                 <figure key={index} className="w-[280px]">
                   <div className="overflow-hidden rounded-t-md mb-2">
                     <AspectRatio ratio={16 / 9} className="bg-muted">
-                      <Image
-                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                        alt={`Image for ${activity.title}`}
-                        fill
-                        className="rounded-t-md object-cover"
-                      />
+                      {activity.image.includes('h4good') ? (
+                        <Image
+                          src={activity.image}
+                          alt={`Image for ${activity.title}`}
+                          fill
+                          className="rounded-t-md object-cover"
+                        />
+                      ) : (
+                        <Image
+                          src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                          alt={`Image for ${activity.title}`}
+                          fill
+                          className="rounded-t-md object-cover"
+                        />
+                      )}
                     </AspectRatio>
                   </div>
                   <figcaption className="px-2">
@@ -86,20 +123,20 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({ activities }) => {
                           </div>
                         ))}
                     </div>
-                    <div className="flex justify-between items-center mt-2">
-                      <div className="text-left">
+                    <div className="flex justify-between items-center mt-2 ">
+                      <div className="text-left overflow-hidden">
                         <div className="flex justify-start items-center">
                           <CalendarFold size={15} />
                           <p className="text-xs font-semibold ml-1">
                             {formattedDate}
                           </p>
                         </div>
-                        <p className="font-semibold text-foreground text-lg mt-1">
+                        <p className="font-semibold text-foreground text-lg mt-1 overflow-hidden text-ellipsis">
                           {activity.title}
                         </p>
                       </div>
                     </div>
-                    <p className="text-gray-600 text-xs font-light overflow-hidden text-ellipsis">
+                    <p className="text-gray-600 text-xs font-light overflow-hidden text-ellipsis text-start">
                       {activity.description}
                     </p>
                     <div className="flex justify-between my-1">
@@ -122,7 +159,6 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({ activities }) => {
                           </div>
                         </div>
                       </div>
-
                       <br />
                     </div>
                   </figcaption>

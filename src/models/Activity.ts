@@ -22,20 +22,43 @@ const activitySchema = new Schema({
   endTime: { type: Date, required: true },
   pointOfContact: { type: Schema.Types.ObjectId, ref: 'User' },
   signUpLimit: { type: Number, required: false },
-  volunteerCountNeeded: { type: Number, required: true},
-  image: { type: String, required: false },
+  volunteerCountNeeded: { type: Number, required: false },
+  image: { type: String, required: true },
   signUpDeadline: { type: Date, required: true },
-  activitySignupForm: { type: Schema.Types.ObjectId, ref: 'CustomForm' },
+  customSignUpForm: {
+    type: Schema.Types.ObjectId,
+    ref: 'CustomForm',
+    required: false,
+  },
   attendees: [attendeeSchema],
-  status: { type: String, enum: Object.values(ActivityStatus) },
+  featured: { type: Boolean, required: true, default: false },
+  status: {
+    type: String,
+    enum: Object.values(ActivityStatus),
+    default: ActivityStatus.Upcoming,
+  },
   tags: { type: [String], enum: Object.values(volunteerTheme) },
+  contactUs: { type: String, required: false, default: 'admin@admin.com' },
 });
 type ActivityType = InferSchemaType<typeof activitySchema>;
 
 export interface ExtendedActivityType
-  extends Omit<ActivityType, 'startTime' | 'attendees'> {
+  extends Omit<ActivityType, 'startTime' | 'attendees' | 'customSignUpForm'> {
   startTime: string;
   _id: string;
+  customSignUpForm: string;
+  attendees: any[];
+}
+
+export interface ExtendedActivityTypePastEvents
+  extends Omit<
+    ActivityType,
+    'startTime' | 'attendees' | 'customSignUpForm' | 'Address'
+  > {
+  startTime: Date;
+  feedbacked: boolean;
+  _id: Number;
+  customSignUpForm: string;
   attendees: any[];
 }
 

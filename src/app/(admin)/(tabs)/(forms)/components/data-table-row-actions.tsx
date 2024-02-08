@@ -26,6 +26,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { deleteForm } from '@/lib/actions/delete-form';
+import { toast } from '@/components/ui/use-toast';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -78,8 +79,18 @@ export function DataTableRowActions<TData>({
           <DialogClose asChild>
             <Button
               className="bg-red-500 text-[0.9rem] mt-6 hover:bg-red-900"
-              onClick={() => {
-                deleteForm((row.original as CustomForm).title);
+              onClick={async () => {
+                const response = await deleteForm(
+                  (row.original as CustomForm).title,
+                );
+                if (response.success) {
+                  router.refresh();
+                  toast({
+                    title: 'Form deleted',
+                    description: 'Your form has been deleted successfully.',
+                    className: 'bg-green-500 border-none text-white',
+                  });
+                }
               }}
             >
               Delete

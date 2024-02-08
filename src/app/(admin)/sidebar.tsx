@@ -47,12 +47,6 @@ export default function Sidebar() {
             variant: 'ghost',
           },
           {
-            title: 'Calendar',
-            label: '',
-            icon: CalendarDaysIcon,
-            variant: 'ghost',
-          },
-          {
             title: 'Volunteers',
             label: '',
             icon: User,

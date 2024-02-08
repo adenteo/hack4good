@@ -1,14 +1,18 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { addMonths, subMonths } from 'date-fns';
+import { fetchCompletedActivitiesWithVolunteers } from '@/lib/actions/get-reports';
+import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { unparse } from 'papaparse';
 import { useEffect, useState } from 'react';
 
-interface TopbarProps {}
+interface TopbarProps {
+  date: Date;
+  setDate: React.Dispatch<React.SetStateAction<Date>>;
+}
 
-const Topbar: React.FC<TopbarProps> = () => {
-  const [date, setDate] = useState<Date>();
+const Topbar: React.FC<TopbarProps> = ({ date, setDate }: TopbarProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const year = searchParams.get('year');
@@ -34,7 +38,7 @@ const Topbar: React.FC<TopbarProps> = () => {
     searchParams.set('month', (newDate?.getMonth() + 1).toString());
 
     const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-    setDate(newDate);
+    // setDate(newDate);
     router.push(newUrl);
   };
 
@@ -46,7 +50,7 @@ const Topbar: React.FC<TopbarProps> = () => {
     searchParams.set('month', (newDate?.getMonth() + 1).toString());
 
     const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-    setDate(newDate);
+    // setDate(newDate);
     router.push(newUrl);
   };
 
@@ -89,7 +93,29 @@ const Topbar: React.FC<TopbarProps> = () => {
               <ChevronRight size={15} />
             </Button>
           </div>
-          <Button>Download</Button>
+          <Button
+            onClick={async () => {
+              const data = await fetchCompletedActivitiesWithVolunteers(
+                startOfMonth(date),
+                endOfMonth(date),
+              );
+              const csvData = unparse(data);
+
+              const blob = new Blob([csvData], { type: 'text/csv' });
+              const downloadUrl = window.URL.createObjectURL(blob);
+
+              const a = document.createElement('a');
+              a.href = downloadUrl;
+              a.download = `activities_month_${date.getMonth() + 1}.csv`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+
+              window.URL.revokeObjectURL(downloadUrl);
+            }}
+          >
+            Download Monthly Report
+          </Button>
         </div>
       </div>
     </div>
