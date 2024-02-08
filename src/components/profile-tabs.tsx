@@ -19,6 +19,8 @@ import elderly from '../assets/elderly.jpg';
 import environment from '../assets/environment.jpg';
 import tutor from '../assets/tutor.jpg';
 import animal from '../assets/animal.jpg';
+import cert1 from '../assets/cert1.jpeg';
+import cert2 from '../assets/cert2.jpeg';
 
 const activities = [
   {
@@ -65,7 +67,7 @@ const activities = [
     hours: 6,
     description:
       'Nurture the future generation and work with young, brilliant minds',
-    startTime: new Date('2024-01-05T11:30:00'),
+    startTime: new Date('2024-01-10T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
@@ -77,7 +79,7 @@ const activities = [
     hours: 3,
     description:
       'Placing importance on our pioneer generation who shaped us today',
-    startTime: new Date('2023-12-17T11:30:00'),
+    startTime: new Date('2024-01-09T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
@@ -89,24 +91,13 @@ const activities = [
     hours: 5,
     description:
       'This activity is about helping out our environment before it gets too late',
-    startTime: new Date('2023-12-12T11:30:00'),
+    startTime: new Date('2024-01-07T11:30:00'),
     tags: ['charity', 'love', 'care'],
     feedbacked: false,
   },
 ];
 const certificates = [
-  'https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=&q=80',
-  'https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=&q=80',
-  'https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=&q=80',
-  'https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=&q=80',
-  'https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80',
+  cert1,cert2,cert1,cert2
 ];
 
 export default function ProfileTabs({
@@ -126,7 +117,7 @@ export default function ProfileTabs({
         <div className="overflow-y-auto p-6">
           <TabPanels>
             <TabPanel>
-              <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              <div className="w-full flex flex-col justify-center items-center md:flex-row md:grid md:grid-cols-3 lg:grid-cols-4 gap-5">
                 {activities.map((activity, index) => {
                   const date = parseISO(activity.startTime.toISOString());
                   const formattedDate = format(date, 'MMMM d yyyy');
@@ -135,7 +126,7 @@ export default function ProfileTabs({
                     <div className="p-2" key={index}>
                       <figure
                         key={index}
-                        className="w-[280px] border rounded-2xl shadow-md"
+                        className="w-[85vw] md:w-[280px] border rounded-2xl shadow-md"
                       >
                         <div className="overflow-hidden rounded-t-md mb-2">
                           <AspectRatio ratio={16 / 9} className="bg-muted">
@@ -214,21 +205,28 @@ export default function ProfileTabs({
               </div>
             </TabPanel>
             <TabPanel>
-              <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              <h1 className="text-center text-xs text-gray-500 mb-5">Click on your certificate to download!</h1>
+              <div className="flex flex-col items-center justify-center md:flex-row md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-7">
                 {certificates.map((certificates, index) => (
                   <figure
                     key={index}
-                    className="shrink-0 w-full lg:w-64 hover:drop-shadow-md cursor-pointer"
+                    className="shrink-0 w-full hover:drop-shadow-md cursor-pointer"
                   >
                     <div className="flex justify-center">
-                      <Image
-                        priority
-                        src={certificates}
-                        alt={certificates}
-                        className="h-44 w-full rounded overflow-hidden"
-                        width={1000}
-                        height={1000}
-                      ></Image>
+                    <a
+                        href={certificates.src || ''}
+                        download={`certificate-${index + 1}.jpeg`}
+                        className="flex justify-center border"
+                      >
+                      <div className="border w-fit">
+                        <Image
+                          priority
+                          src={certificates}
+                          alt={"certificate"}
+                          className="h-60 w-auto md:h-auto"
+                        ></Image>
+                      </div>
+                       </a>
                     </div>
                   </figure>
                 ))}
