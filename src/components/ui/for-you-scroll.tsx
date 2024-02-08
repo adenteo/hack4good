@@ -92,21 +92,12 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({
                 <figure key={index} className="w-[280px]">
                   <div className="overflow-hidden rounded-t-md mb-2">
                     <AspectRatio ratio={16 / 9} className="bg-muted">
-                      {activity.image.includes('h4good') ? (
-                        <Image
-                          src={activity.image}
-                          alt={`Image for ${activity.title}`}
-                          fill
-                          className="rounded-t-md object-cover"
-                        />
-                      ) : (
-                        <Image
-                          src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                          alt={`Image for ${activity.title}`}
-                          fill
-                          className="rounded-t-md object-cover"
-                        />
-                      )}
+                      <Image
+                        src={activity.image}
+                        alt={`Image for ${activity.title}`}
+                        fill
+                        className="rounded-t-md object-cover"
+                      />
                     </AspectRatio>
                   </div>
                   <figcaption className="px-2">

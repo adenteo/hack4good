@@ -9,6 +9,12 @@ import { DataTableViewOptions } from './data-table-view-options';
 
 import { genders, priorities, statuses } from '../data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
+import Link from 'next/link';
+import { ArrowDownToLine, FolderPlus } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import getVolunteerReport from '@/lib/actions/get-volunteer-report';
+import { endOfYear, startOfYear, subYears } from 'date-fns';
+import { fetchCompletedActivitiesWithVolunteers } from '@/lib/actions/get-reports';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -18,6 +24,21 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
+  const selectedIndexes = table.getState().rowSelection;
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!table) return;
+    const rows = Object.values(selectedIndexes).map((value, id) => {
+      const activityId = (table.getRow(id.toString()).original as any)._id;
+      return activityId;
+    });
+    setSelectedRows(rows);
+  }, [selectedIndexes, table]);
+
+  //   console.log(rows);
+
+  //   console.log(selectedRows);
 
   return (
     <div className="flex items-center justify-between">
@@ -57,6 +78,27 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
+      <Button
+        variant="outline"
+        className="h-8 px-2 lg:px-3 mr-2"
+        onClick={async () => {
+          const startYear = startOfYear(new Date());
+          const endYear = endOfYear(new Date());
+          const data = await fetchCompletedActivitiesWithVolunteers(
+            subYears(startYear, 2),
+            subYears(endYear, 2),
+          );
+          const volunteerReport = await getVolunteerReport(
+            data.splice(0, 5),
+            'yearly',
+            selectedRows,
+          );
+          console.log(volunteerReport);
+        }}
+      >
+        <ArrowDownToLine className="mr-2 h-4 w-4" />
+        Download Report(s)
+      </Button>
       <DataTableViewOptions table={table} />
     </div>
   );
