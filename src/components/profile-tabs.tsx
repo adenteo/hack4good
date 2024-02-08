@@ -206,19 +206,19 @@ export default function ProfileTabs({
             </TabPanel>
             <TabPanel>
               <h1 className="text-center text-xs text-gray-500 mb-5">Click on your certificate to download!</h1>
-              <div className="flex flex-col items-center justify-center md:flex-row md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-7">
+              <div className="flex flex-col items-center justify-center  md:flex-row md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-7">
                 {certificates.map((certificates, index) => (
                   <figure
                     key={index}
                     className="shrink-0 w-full hover:drop-shadow-md cursor-pointer"
                   >
-                    <div className="flex justify-center">
+                    <div className="flex justify-center mb-4 md:mb-0">
                     <a
                         href={certificates.src || ''}
                         download={`certificate-${index + 1}.jpeg`}
                         className="flex justify-center border"
                       >
-                      <div className="border w-fit">
+                      <div className="border border-gray-300 shadow-lg w-fit">
                         <Image
                           priority
                           src={certificates}
