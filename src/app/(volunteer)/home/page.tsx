@@ -6,6 +6,10 @@ import { getAllActivitiesPagination } from '@/lib/actions/get-all-activities-pag
 import { ExtendedActivityType } from '@/models/Activity';
 import { getUserUpcomingActivities } from '@/lib/actions/get-user-upcoming';
 import { useSession } from 'next-auth/react';
+import { generateAndSaveDummyActivityData, addDummyDataToAttendeeList } from '@/lib/actions/dummyactivity';
+import { generateAndSaveDummyData } from '@/lib/actions/dummydata';
+import { saveActivitiesToCSV, fetchCompletedActivitiesWithVolunteers } from '@/lib/actions/get-reports';
+import { Button } from 'antd';
 
 export default function Home() {
   const [featuredActivities, setFeaturedActivities] = React.useState<
@@ -52,6 +56,22 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      {/* <Button
+        onClick={ () => {
+          generateAndSaveDummyData();
+        }}>users</Button>
+      <Button
+        onClick={ async () => {
+          generateAndSaveDummyActivityData();
+          await addDummyDataToAttendeeList();
+        }}>activities</Button> */}
+      <Button
+        onClick={async () => {
+          saveActivitiesToCSV(await fetchCompletedActivitiesWithVolunteers(new Date(2022, 0, 1), new Date(2024, 1, 1)), './activity.csv');
+        }}
+      > get
+      </Button>
+
       <div className="rounded-b-3xl bg-[#FC7869] text-white relative items-center lg:justify-center p-0 m-0">
         <div className="flex justify-between px-6 pb-4">
           <div>

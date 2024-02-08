@@ -12,12 +12,24 @@ import { connectToDB } from '../mongoose';
 import Volunteer from '@/models/Volunteer';
 import User from '@/models/User';
 
+function getRandomActivityStatus() {
+  const rand = Math.random() * 100;
+    if (rand < 70) {
+    return 'Completed';
+  }
+  const remainingStatuses = ['Upcoming', 'Ongoing', 'Cancelled'];
+  const index = Math.floor((rand - 70) / 10);
+  return remainingStatuses[index];
+}
+
 export async function generateAndSaveDummyActivityData() {
   console.log('hi');
   await connectToDB(); // Replace with your connection string
-  for (let i = 0; i < 250; i++) {
+  const dateRangeStart = new Date(2022, 0, 1); // Jan 1, 2022
+  const dateRangeEnd = new Date(2024, 0, 1); // Jan 1, 2024
+  for (let i = 0; i < 300; i++) {
     // Generate 10 activities
-    const date = subWeeks(Date.now(), i);
+    const date = new Date(dateRangeStart.getTime() + Math.random() * (dateRangeEnd.getTime() - dateRangeStart.getTime()));
     const activityData = {
       title: faker.word.words(3),
       address: faker.location.streetAddress(),
@@ -25,12 +37,12 @@ export async function generateAndSaveDummyActivityData() {
       additionalDetails: faker.lorem.sentences(5),
       startTime: date,
       endTime: addHours(date, 2), // Ensure endTime is after startTime
-      volunteerCountNeeded: faker.number.int({ min: 5, max: 20 }),
-      signUpLimit: faker.number.int({ min: 20, max: 50 }),
+      volunteerCountNeeded: faker.number.int({ min: 20, max: 50 }),
+      signUpLimit: faker.number.int({ min: 50, max: 100 }),
       numHours: faker.number.int({ min: 1, max: 5 }),
       image: faker.image.url(),
       signUpDeadline: subWeeks(date, 1),
-      status: faker.helpers.arrayElement(Object.values(ActivityStatus)),
+      status: getRandomActivityStatus(),
       attendees: [], // Initially empty
       tags: [
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
@@ -38,6 +50,7 @@ export async function generateAndSaveDummyActivityData() {
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
       ],
+      averageSentiment: faker.number.float({ min: -1, max: 1 }), 
     };
 
     const newActivity = new Activity(activityData);
