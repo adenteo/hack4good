@@ -11,7 +11,12 @@ import { Leaderboard } from './leaderboard';
 import { Progress } from '@/components/ui/progress';
 import { useEffect, useState } from 'react';
 import { fetchCompletedActivitiesWithVolunteers } from '@/lib/actions/get-reports';
-import { endOfMonth, startOfMonth, subMonths } from 'date-fns';
+import {
+  differenceInHours,
+  endOfMonth,
+  startOfMonth,
+  subMonths,
+} from 'date-fns';
 import getDemographicsLambda from '@/lib/actions/get-demographics';
 import { cn } from '@/lib/utils';
 
@@ -60,8 +65,10 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         startOfCurrentMonth,
         endOfCurrentMonth,
       );
+      console.log(data);
       const totalHours = data.reduce(
-        (sum, activity) => sum + activity.numHours,
+        (sum, activity) =>
+          sum + differenceInHours(activity.endTime, activity.startTime),
         0,
       );
       const uniqueTitles = new Set(data.map((activity) => activity.title));
@@ -71,7 +78,8 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         subMonths(endOfCurrentMonth, 1),
       );
       const lastMonthTotalHours = lastMonthData.reduce(
-        (sum, activity) => sum + activity.numHours,
+        (sum, activity) =>
+          sum + differenceInHours(activity.endTime, activity.startTime),
         0,
       );
       const lastMonthUniqueTitles = new Set(
@@ -95,8 +103,8 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
       );
       try {
         const res = await getDemographicsLambda(data, 'monthly');
-        setDemographicsData(res);
         console.log(res);
+        setDemographicsData(res);
       } catch (error) {
         console.error('Error posting data:', error);
       }

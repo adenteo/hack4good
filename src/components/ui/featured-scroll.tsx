@@ -85,8 +85,7 @@ export const FeaturedScroll: React.FC<ScrollAreaHorizontalDemoProps> = ({
                 <div className="overflow-hidden lg:rounded-md">
                   <div className="relative shadow-lg">
                     <Image
-                      //   src={activity.image}
-                      src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                      src={activity.image}
                       alt={`Image for ${activity.title}`}
                       className="w-full h-72 md:h-80 lg:h-96 rounded-md filter brightness-75"
                       width={300}
