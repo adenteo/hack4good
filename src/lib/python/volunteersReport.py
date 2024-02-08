@@ -1,8 +1,13 @@
 import pandas as pd
+import json
 
-def get_attendance_report(user_ids, data, timeframe='monthly'):
-    activity_df = pd.read_json(data)
-
+def get_attendance_report(event, _):
+    body = json.loads(event['body'])
+    data = body['data']
+    user_ids = body['user_ids']
+    timeframe = body['timeframe']
+    activity_data = json.dumps(data)
+    activity_df = pd.read_json(activity_data)
     # Filter DataFrame for the given user IDs
     activity_df = activity_df[activity_df['userId'].isin(user_ids)]
     

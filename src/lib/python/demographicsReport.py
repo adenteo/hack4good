@@ -1,9 +1,13 @@
 import pandas as pd
+import json
 
-def get_demographics_report(data, timeframe='monthly'):
-    # Load data
-    activity_df = pd.read_json(data)
-
+def get_demographics_report(event, _):
+    body = json.loads(event['body'])
+    # Access the 'data' and 'timeframe' from the parsed body
+    data = body['data']
+    timeframe = body['timeframe']
+    activity_data = json.dumps(data)
+    activity_df = pd.read_json(activity_data)
     zones = pd.DataFrame({
     "Zone": ["City", "City", "South", "South", "West", "City", "City", "Central", "Central", "Central", 
              "Central", "Central", "East", "East", "East", "East", "East", "East", "North", "North",
@@ -50,13 +54,11 @@ def get_demographics_report(data, timeframe='monthly'):
     labels = ['under13', 'under21', 'under50', 'under65', 'over65']
     activity_df['ageGroup'] = pd.cut(activity_df['age'], bins=bins, labels=labels, right=False)
     age_group_dummies = pd.get_dummies(activity_df['ageGroup'])
-
     # Concatenate all dummies and the original DataFrame (excluding original categorical columns)
     final_df = pd.concat([
         activity_df.drop(['attendanceStatus','tags', 'citizenshipType', 'employmentStatus', 'gender', 'age', 'ageGroup', 'Zone'], axis=1),
         attendance_dummies, tags_dummies, citizenship_dummies, employment_dummies, gender_dummies, age_group_dummies, zone_dummies
     ], axis=1)
-
     # Group by year and month, and sum the numHours and other one-hot encoded columns
     if timeframe == 'annual':
         final_df = final_df.groupby(['year'])
@@ -65,6 +67,7 @@ def get_demographics_report(data, timeframe='monthly'):
     elif timeframe == 'monthly':
         final_df = final_df.groupby(['year', 'month'])
     elif timeframe == 'daily':
+        print("timeframe is daily")
         final_df = final_df.groupby(['year', 'month', 'day'])
     else:
         raise ValueError('Invalid timeframe')
