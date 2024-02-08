@@ -19,8 +19,8 @@ import elderly from '../assets/elderly.jpg';
 import environment from '../assets/environment.jpg';
 import tutor from '../assets/tutor.jpg';
 import animal from '../assets/animal.jpg';
-import cert1 from '../assets/cert1.jpeg';
-import cert2 from '../assets/cert2.jpeg';
+import cert1 from '../assets/cert1.jpg';
+import cert2 from '../assets/cert2.jpg';
 
 const activities = [
   {
