@@ -65,7 +65,6 @@ export function ProfileForm({
   }, []);
   const router = useRouter();
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log('hi');
     const updatedVolunteer = {
       ...volunteer,
       firstName: values.firstName,
@@ -76,7 +75,6 @@ export function ProfileForm({
     };
 
     const res = await updateVolunteer(updatedVolunteer);
-    console.log(res);
     toast({
       title: 'Successfully updated profile!',
     });

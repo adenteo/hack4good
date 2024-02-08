@@ -48,7 +48,6 @@ export const ForYouScroll: React.FC<ForYouScrollProps> = ({
       if (!scrollContainer) return;
 
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
-      console.log(scrollLeft, scrollWidth, clientWidth);
       if (scrollLeft + clientWidth >= scrollWidth) {
         handleEndOfScroll();
       }

@@ -5,7 +5,6 @@ import { connectToDB } from '../mongoose';
 export async function deleteForm(title: string) {
   await connectToDB();
   const matchingForm = await CustomForm.findOne({ title: title });
-  console.log(matchingForm);
   if (!matchingForm) {
     return { error: 'Form not found.' };
   }

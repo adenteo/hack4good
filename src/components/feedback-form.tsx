@@ -49,7 +49,7 @@ export function FeedbackForm() {
   // State to manage the selected image file
   const [imageFile, setImageFile] = useState<File>();
   const [uploadedImage, setUploadedImage] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [isLabelVisible, setIsLabelVisible] = useState(true);
   const router = useRouter();
@@ -58,11 +58,9 @@ export function FeedbackForm() {
   const onSubmit = async (values: z.infer<typeof feedbackFormSchema>) => {
     if (imageFile) {
       let awsUrl = await handleImageUpload(imageFile);
-      console.log(awsUrl);
       values.image = awsUrl;
     }
     const res = await addFeedback(values);
-    console.log(res);
     toast({
       title: 'Success!',
       description: 'Thank you for your feedback',
@@ -85,7 +83,6 @@ export function FeedbackForm() {
       },
       body: imageFile,
     });
-    console.log(url.split('?')[0]);
     return url.split('?')[0]; // Return the base URL without query parameters
   };
 
@@ -165,12 +162,10 @@ export function FeedbackForm() {
                     if (!file) {
                       return;
                     }
-                    console.log(file);
                     setImageFile(file[0]);
                     const imageUrl = URL.createObjectURL(file[0]);
                     setUploadedImage(imageUrl);
                     if (imageUrl) {
-                      console.log(imageUrl);
                       form.setValue('image', imageUrl);
                     }
                   }}

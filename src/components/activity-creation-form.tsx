@@ -450,12 +450,10 @@ export function ActivityCreationForm() {
                     if (!file) {
                       return;
                     }
-                    console.log(file);
                     setImageFile(file[0]);
                     const imageUrl = URL.createObjectURL(file[0]);
                     setUploadedImage(imageUrl);
                     if (imageUrl) {
-                      console.log(imageUrl);
                       form.setValue('image', imageUrl);
                     }
                   }}

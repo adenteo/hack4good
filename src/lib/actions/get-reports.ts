@@ -81,7 +81,6 @@ export async function fetchCompletedActivitiesWithVolunteers(
       },
     ]).exec();
 
-    console.log(activitiesWithVolunteers.length);
     return activitiesWithVolunteers;
   } catch (error) {
     console.error('Error fetching activities with volunteers:', error);
@@ -103,7 +102,6 @@ export async function saveActivitiesToCSV(
     // Convert JSON to CSV
     const csvResult = unparse(activitiesWithVolunteers);
     await writeFileAsync(filePath, csvResult);
-    console.log(`CSV saved successfully to ${filePath}`);
   } catch (error) {
     console.error('Error saving CSV:', error);
     throw error;

@@ -12,7 +12,6 @@ export const createFormFieldSchema = z
   .refine(
     (data) => {
       const typesRequiringOptions = ['select', 'radio'];
-      console.log(data.type);
       if (typesRequiringOptions.includes(data.type)) {
         return data.options && data.options.length > 0;
       }

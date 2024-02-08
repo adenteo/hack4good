@@ -23,12 +23,10 @@ function getRandomActivityStatus() {
 }
 
 export async function generateAndSaveDummyActivityData() {
-  console.log('hi');
   await connectToDB(); // Replace with your connection string
   const dateRangeStart = new Date(2022, 0, 1); // Jan 1, 2022
   const dateRangeEnd = new Date(2024, 0, 1); // Jan 1, 2024
   for (let i = 0; i < 300; i++) {
-    // Generate 10 activities
     const date = new Date(
       dateRangeStart.getTime() +
         Math.random() * (dateRangeEnd.getTime() - dateRangeStart.getTime()),
@@ -90,11 +88,4 @@ export async function addDummyDataToAttendeeList() {
     activity.attendees.push(...attendees);
     await activity.save();
   }
-  console.log('Dummy data added to attendee list successfully');
 }
-
-// generateAndSaveDummyActivityData().then(() => {
-//   console.log('Dummy activity data generated successfully');
-// }).catch((error) => {
-//   console.error('Failed to generate dummy activity data', error);
-// });

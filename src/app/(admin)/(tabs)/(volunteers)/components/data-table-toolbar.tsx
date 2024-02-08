@@ -40,13 +40,8 @@ export function DataTableToolbar<TData>({
       const activityId = (table.getRow(id.toString()).original as any)._id;
       return activityId;
     });
-    // console.log(rows);
     setSelectedRows(rows);
   }, [selectedIndexes, table]);
-
-  //   console.log(rows);
-
-  //   console.log(selectedRows);
 
   return (
     <div className="flex items-center justify-between">
@@ -86,29 +81,6 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      {/* <Button
-        variant="outline"
-        className="h-8 px-2 lg:px-3 mr-2"
-        onClick={async () => {
-          const startMonth = startOfMonth(new Date());
-          const endMonth = endOfMonth(new Date());
-          const data = await fetchCompletedActivitiesWithVolunteers(
-            subMonths(startMonth, 10),
-            subMonths(endMonth, 1),
-          );
-          const volunteerReport = await getVolunteerReport(
-            data,
-            'monthly',
-            selectedRows,
-          );
-          console.log(volunteerReport);
-          console.log(JSON.parse(volunteerReport[0]));
-          console.log(JSON.parse(volunteerReport[1]));
-        }}
-      >
-        <ArrowDownToLine className="mr-2 h-4 w-4" />
-        Download Report(s)
-      </Button> */}
       <DataTableViewOptions table={table} />
     </div>
   );

@@ -47,7 +47,6 @@ export function DataTable<TData, TValue>({
     const fetchForms = async () => {
       const forms = await getForms();
       const formsJson = JSON.parse(forms);
-      console.log(formsJson);
       setData(formsJson);
     };
     fetchForms();

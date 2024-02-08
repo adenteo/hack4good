@@ -48,7 +48,6 @@ export function DataTable<TData, TValue>({
     const fetchVolunteers = async () => {
       const volunteers = await getAllVolunteers();
       const volunteersJson = JSON.parse(volunteers);
-      console.log(volunteersJson);
       setData(volunteersJson);
     };
     fetchVolunteers();

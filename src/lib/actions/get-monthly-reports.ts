@@ -42,6 +42,5 @@ export async function getDocumentsByDateRange(
     currentMonth = nextMonth;
   }
 
-  console.log('monthlyDocuments', monthlyDocuments);
   return monthlyDocuments;
 }

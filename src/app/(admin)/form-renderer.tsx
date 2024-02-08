@@ -141,10 +141,8 @@ export default function FormRenderer({
   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(id);
     const user = session.data?.user;
     const res = await signUpForActivity(id, user?.id!, values);
-    console.log(res);
     toast({
       title: 'Successfully Registered!',
       description: 'We are so excited to have you on board',

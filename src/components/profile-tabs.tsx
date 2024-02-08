@@ -96,9 +96,7 @@ const activities = [
     feedbacked: false,
   },
 ];
-const certificates = [
-  cert1,cert2,cert1,cert2
-];
+const certificates = [cert1, cert2, cert1, cert2];
 
 export default function ProfileTabs({
   volunteer,
@@ -180,14 +178,9 @@ export default function ProfileTabs({
                                       (a) => a._id === activity._id,
                                     );
 
-                                    // Update the feedbacked property to true for the clicked activity
                                     if (activityIndex !== -1) {
                                       activities[activityIndex].feedbacked =
                                         true;
-                                      // Optionally, you can perform other actions related to feedback here
-                                      console.log(
-                                        `Feedback submitted for activity with ID ${activity._id}`,
-                                      );
                                     }
                                   }}
                                 >
@@ -205,7 +198,9 @@ export default function ProfileTabs({
               </div>
             </TabPanel>
             <TabPanel>
-              <h1 className="text-center text-xs text-gray-500 mb-5">Click on your certificate to download!</h1>
+              <h1 className="text-center text-xs text-gray-500 mb-5">
+                Click on your certificate to download!
+              </h1>
               <div className="flex flex-col items-center justify-center  md:flex-row md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-7">
                 {certificates.map((certificates, index) => (
                   <figure
@@ -213,20 +208,20 @@ export default function ProfileTabs({
                     className="shrink-0 w-full hover:drop-shadow-md cursor-pointer"
                   >
                     <div className="flex justify-center mb-4 md:mb-0">
-                    <a
+                      <a
                         href={certificates.src || ''}
                         download={`certificate-${index + 1}.jpeg`}
                         className="flex justify-center border"
                       >
-                      <div className="border border-gray-300 shadow-lg w-fit">
-                        <Image
-                          priority
-                          src={certificates}
-                          alt={"certificate"}
-                          className="h-60 w-auto md:h-auto"
-                        ></Image>
-                      </div>
-                       </a>
+                        <div className="border border-gray-300 shadow-lg w-fit">
+                          <Image
+                            priority
+                            src={certificates}
+                            alt={'certificate'}
+                            className="h-60 w-auto md:h-auto"
+                          ></Image>
+                        </div>
+                      </a>
                     </div>
                   </figure>
                 ))}

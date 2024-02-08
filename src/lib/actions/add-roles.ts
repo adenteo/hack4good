@@ -18,8 +18,6 @@ export async function addRoles() {
     const roleDoc = new Role(role);
     await roleDoc.save();
   }
-
-  console.log('Roles have been added to the database.');
 }
 
 addRoles().catch(console.error);

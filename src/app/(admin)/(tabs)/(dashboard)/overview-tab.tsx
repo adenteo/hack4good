@@ -56,7 +56,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
   ] = useState<number>(0);
   const [demographicsData, setDemographicsData] = useState<any[]>([]);
   useEffect(() => {
-    console.log('detected Date Change');
     setLoading(true);
     const getDemographics = async () => {
       const startOfCurrentMonth = startOfMonth(date);
@@ -65,7 +64,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         startOfCurrentMonth,
         endOfCurrentMonth,
       );
-      console.log(data);
       const totalHours = data.reduce(
         (sum, activity) =>
           sum + differenceInHours(activity.endTime, activity.startTime),
@@ -107,7 +105,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
       } catch (error) {
         console.error('Error posting data:', error);
       }
-      console.log('Everything is done');
       setLoading(false);
     };
     getDemographics();

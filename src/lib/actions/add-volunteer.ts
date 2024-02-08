@@ -10,8 +10,6 @@ export async function addVolunteer(
   data: z.infer<typeof onboardingFormSchema>,
 ) {
   await connectToDB();
-  console.log('userId', userId);
-  console.log('data', data);
   const volunteerData = {
     user: userId,
     firstName: data.firstName,

@@ -10,19 +10,11 @@ export default async function getVolunteerReport(
 ) {
   const users: any[] = [];
   for (const id of userIds) {
-    console.log(id);
     const volunteer = await Volunteer.findOne({ _id: id });
     if (volunteer) {
       users.push(volunteer.user.toString());
     }
   }
-  console.log(
-    JSON.stringify({
-      data: data,
-      user_ids: users,
-      timeframe: timeframe,
-    }),
-  );
   const response = await fetch(
     'https://ldgq64kjgaptfznkajto4nooru0khzbm.lambda-url.ap-southeast-1.on.aws/',
     {
@@ -37,7 +29,6 @@ export default async function getVolunteerReport(
       }),
     },
   );
-  console.log(response.status);
   if (response.status !== 200) {
     return null;
   }

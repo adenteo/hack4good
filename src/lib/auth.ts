@@ -69,9 +69,6 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      console.log('jtw');
-      console.log(token);
-      console.log(user);
       let currentUser;
       if (user) {
         await connectToDB();

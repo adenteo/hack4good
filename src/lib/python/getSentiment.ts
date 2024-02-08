@@ -3,7 +3,8 @@ import { spawn } from 'child_process';
 
 export function getSentimentScore(feedbackText: string): Promise<number> {
   return new Promise((resolve, reject) => {
-    const pythonProcess = spawn('python3', ['getSentiment.py'], { //if not working, see whether ur PATH uses python3 or python
+    const pythonProcess = spawn('python3', ['getSentiment.py'], {
+      //if not working, see whether ur PATH uses python3 or python
       env: { ...process.env, PYTHONIOENCODING: 'UTF-8' },
     });
 
@@ -34,8 +35,3 @@ export function getSentimentScore(feedbackText: string): Promise<number> {
     });
   });
 }
-
-//// Example usage
-//getSentimentScore("VADER is smart, handsome, and funny.")
-//  .then(score => console.log('Composite Sentiment Score:', score))
-//  .catch(error => console.error('Error:', error));

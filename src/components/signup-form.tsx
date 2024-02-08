@@ -1,6 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import type { DatePickerProps } from 'antd';
@@ -28,12 +28,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { CitizenshipType, Gender } from '@/models/types';
+import { CitizenshipType, Gender, volunteerTheme } from '@/models/types';
 import { addVolunteer } from '@/lib/actions/add-volunteer';
 import { Session, User } from 'next-auth';
 import { useRouter } from 'next/navigation';
 import { toast } from './ui/use-toast';
 import { useSession } from 'next-auth/react';
+import { Textarea } from './ui/textarea';
+import { debounce } from 'lodash';
+import { Separator } from './ui/separator';
 
 const citizenshipDisplayMap: Record<CitizenshipType, string> = {
   [CitizenshipType.Singaporean]: 'Singapore Citizen',
@@ -163,15 +166,64 @@ export function SignUpForm({ session }: { session: Session }) {
     }
   };
 
+  const [text, setText] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(event.target.value);
+    form.setValue('experience', event.target.value);
+  };
+
+  const debouncedHandleChange = useCallback(debounce(handleChange, 500), []);
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const makePostRequest = async () => {
+      if (text.length < 20) return;
+      try {
+        setLoading(true);
+        const response = await fetch('/api/classify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: text }),
+        });
+        const data = await response.json();
+        setLoading(false);
+        setTags(
+          data.tags.map(
+            (tag: string) => tag.charAt(0).toUpperCase() + tag.slice(1),
+          ),
+        );
+        form.setValue(
+          'tags',
+          data.tags.map(
+            (tag: string) => tag.charAt(0).toUpperCase() + tag.slice(1),
+          ),
+        );
+      } catch (error) {
+        console.error('Error posting data:', error);
+      }
+    };
+
+    if (text) {
+      makePostRequest();
+    }
+  }, [text]);
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel>
+                First Name<span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
                   className="text-xs"
@@ -191,7 +243,9 @@ export function SignUpForm({ session }: { session: Session }) {
           name="lastName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>
+                Last Name<span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
                   className="text-xs"
@@ -212,7 +266,9 @@ export function SignUpForm({ session }: { session: Session }) {
           name="gender"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Gender</FormLabel>
+              <FormLabel>
+                Gender<span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -242,7 +298,9 @@ export function SignUpForm({ session }: { session: Session }) {
           name="dateOfBirth"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Date of Birth</FormLabel>
+              <FormLabel>
+                Date of Birth<span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <div>
                   <DatePicker onChange={onChange} />
@@ -258,7 +316,9 @@ export function SignUpForm({ session }: { session: Session }) {
           name="phoneNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Contact Number</FormLabel>
+              <FormLabel>
+                Contact Number<span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
                   className="text-xs"
@@ -277,7 +337,9 @@ export function SignUpForm({ session }: { session: Session }) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>
+                Email<span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
                   className="text-xs"
@@ -296,7 +358,10 @@ export function SignUpForm({ session }: { session: Session }) {
           name="residentialStatus"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Residential Status in Singapore</FormLabel>
+              <FormLabel>
+                Residential Status in Singapore
+                <span className="text-red-500">*</span>
+              </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="text-start pr-6 w-auto font-medium text-sm">
@@ -327,7 +392,9 @@ export function SignUpForm({ session }: { session: Session }) {
           render={() => (
             <FormItem>
               <div className="">
-                <FormLabel className="">Availability</FormLabel>
+                <FormLabel className="">
+                  Availability<span className="text-red-500">*</span>
+                </FormLabel>
               </div>
               {availabilities.map((item) => (
                 <FormField
@@ -366,8 +433,107 @@ export function SignUpForm({ session }: { session: Session }) {
             </FormItem>
           )}
         />
-
         <FormField
+          control={form.control}
+          name="skills"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Skills you possess that can benefit the community / less
+                privileged
+              </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-xs"
+                  type="text"
+                  id="skills"
+                  placeholder="Photography, Coding, Graphic Design"
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Experience */}
+        <FormField
+          control={form.control}
+          name="experience"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Describe your previous relevant experience in those skills
+              </FormLabel>
+              <FormControl>
+                <Textarea
+                  id="experience"
+                  className="mt-6"
+                  placeholder="Describe experience"
+                  onChange={debouncedHandleChange}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="tags"
+          render={() => (
+            <FormItem>
+              <div>
+                <FormLabel>
+                  Area(s) of volunteering you are interested in
+                  <span className="text-red-500">*</span>
+                </FormLabel>
+              </div>
+              {loading && (
+                <span className="loading loading-dots loading-md"></span>
+              )}
+              <div className="flex items-center max-w-screen flex-wrap">
+                {Object.entries(volunteerTheme).map(([key, themeValue]) => (
+                  <FormField
+                    key={key}
+                    control={form.control}
+                    name="tags"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={key}
+                          className="flex items-center justify-center space-y-0 space-x-1 mx-2 my-2"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(themeValue)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, themeValue])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== themeValue,
+                                      ),
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-medium text-gray-600">
+                            {themeValue}
+                          </FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator className="my-2" />
+        {/* <FormField
           control={form.control}
           name="tags"
           render={() => (
@@ -413,55 +579,8 @@ export function SignUpForm({ session }: { session: Session }) {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
-        <FormField
-          control={form.control}
-          name="skills"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Skills you possess that can benefit the community / less
-                privileged
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="text-xs"
-                  type="text"
-                  id="skills"
-                  placeholder="Photography, Coding, Graphic Design"
-                  {...field}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Experience */}
-        <FormField
-          control={form.control}
-          name="experience"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Describe your previous relevant experience in those skills
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="text-xs"
-                  type="text"
-                  id="experience"
-                  placeholder="Describe experience..."
-                  {...field}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="contactPermission"

@@ -9,7 +9,6 @@ const Calendar: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.value);
     setText(event.target.value);
   };
 

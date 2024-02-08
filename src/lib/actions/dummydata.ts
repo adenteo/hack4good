@@ -134,7 +134,6 @@ function generateRandomVolunteerData(
 }
 
 export async function generateAndSaveDummyData() {
-  console.log('making data');
   await connectToDB(); // Replace with your connection string
 
   for (let i = 0; i < 2000; i++) {
@@ -151,9 +150,3 @@ export async function generateAndSaveDummyData() {
     }
   }
 }
-
-//   generateAndSaveDummyData().then(() => {
-//     console.log('Dummy data generated successfully');
-//   }).catch((error) => {
-//     console.error('Failed to generate dummy data', error);
-//   });

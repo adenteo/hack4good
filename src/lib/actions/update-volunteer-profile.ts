@@ -15,17 +15,15 @@ export async function updateVolunteer(volunteer: ExtendedVolunteerType) {
         { _id: volunteer._id },
         {
           $set: {
-            firstName: volunteer.firstName, 
+            firstName: volunteer.firstName,
             lastName: volunteer.lastName,
-            email: volunteer.email, 
+            email: volunteer.email,
             contactNumber: volunteer.contactNumber,
             skills: volunteer.skills,
           },
         },
-        { new: true }
+        { new: true },
       );
-
-      console.log('Volunteer details updated:', updatedVolunteer);
     } catch (error) {
       console.error('Error updating volunteer details:', error);
       throw new Error('Failed to update volunteer details');

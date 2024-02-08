@@ -1,16 +1,7 @@
-//on signup form submission:
-//fn takes in form details
-//ensure activity exists
-//ensure activity deadline has not passed
-//ensure activity is not full (attendees.length < signUpLimit)
-//ensure user is not already signed up for activity
-//if user is volunteer and status is approved, then add user to activity.attendees
-//form details will be added to activity.attendees
 'use server';
 import Activity from '@/models/Activity';
 import User from '@/models/User';
 import { AttendanceStatus } from '@/models/types';
-import { Angry } from 'lucide-react';
 
 export async function signUpForActivity(
   activityId: string,
@@ -22,9 +13,7 @@ export async function signUpForActivity(
   if (!activity) {
     throw new Error('Activity does not exist.');
   }
-  //   if (new Date() > activity.signUpDeadline) {
-  //     throw new Error('The sign-up deadline for this activity has passed.');
-  //   }
+
   if (activity.attendees && activity.attendees.length >= activity.signUpLimit) {
     throw new Error('The activity is full.');
   }
@@ -61,13 +50,3 @@ export async function signUpForActivity(
     userId: userId,
   };
 }
-
-//// Example usage:
-//const formDetails = {
-//  userId: 'userIdHere', // Replace with the actual user ID
-//  // ...other form fields
-//};
-//
-//signUpForActivity('activityIdHere', formDetails) // Replace with the actual activity ID
-//  .then(response => console.log(response.message))
-//  .catch(error => console.error(error.message));

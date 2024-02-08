@@ -213,7 +213,6 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
                       user?.id!,
                       {},
                     );
-                    console.log(res);
                     toast({
                       title: 'Successfully Registered!',
                       variant: 'default',

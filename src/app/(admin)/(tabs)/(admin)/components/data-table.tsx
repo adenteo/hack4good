@@ -49,7 +49,6 @@ export function DataTable<TData, TValue>({
     const fetchAdmins = async () => {
       const admins = await getAllAdmins();
       const adminsJson = JSON.parse(admins);
-      console.log(adminsJson);
       setData(adminsJson);
     };
     fetchAdmins();
