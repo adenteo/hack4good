@@ -27,7 +27,7 @@ export async function generateAndSaveDummyActivityData() {
   await connectToDB(); // Replace with your connection string
   const dateRangeStart = new Date(2022, 0, 1); // Jan 1, 2022
   const dateRangeEnd = new Date(2024, 0, 1); // Jan 1, 2024
-  for (let i = 0; i < 250; i++) {
+  for (let i = 0; i < 300; i++) {
     // Generate 10 activities
     const date = new Date(dateRangeStart.getTime() + Math.random() * (dateRangeEnd.getTime() - dateRangeStart.getTime()));
     const url = 'https://loremflickr.com/1920/1080/';

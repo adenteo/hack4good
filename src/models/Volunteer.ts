@@ -13,7 +13,7 @@ const volunteerSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   fullName: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: false },// keep for now
   volunteerStatus: {
     type: String,
     enum: Object.values(VolunteerStatus),

@@ -13,7 +13,6 @@ import {
   volunteerTheme,
   ProfilePictureUrl,
 } from '@/models/types';
-import { profile } from 'console';
 
 type UserData = {
   firstName: string;
@@ -132,7 +131,7 @@ export async function generateAndSaveDummyData() {
   console.log('making data');
   await connectToDB(); // Replace with your connection string
 
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 2000; i++) {
     // Generate 100 users
     const randomUserData = generateRandomUserData();
     const newUser = new User(randomUserData);
