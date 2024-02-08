@@ -59,7 +59,7 @@ export function ProfileForm({
       form.setValue('firstName', volunteer.firstName);
       form.setValue('lastName', volunteer.lastName);
       form.setValue('phoneNumber', volunteer.contactNumber);
-      form.setValue('email', volunteer.email);
+      form.setValue('email', volunteer.email!);
       form.setValue('skills', volunteer.skills ? volunteer.skills : '');
     }
   }, []);
@@ -95,6 +95,7 @@ export function ProfileForm({
               <FormLabel>First Name</FormLabel>
               <FormControl>
                 <Input
+                  disabled
                   className="text-sm w-80 md:w-96 lg:w-96"
                   type="text"
                   id="firstName"
@@ -116,6 +117,7 @@ export function ProfileForm({
               <FormLabel>Last Name</FormLabel>
               <FormControl>
                 <Input
+                  disabled
                   className="text-sm"
                   type="text"
                   id="lastName"
@@ -137,6 +139,7 @@ export function ProfileForm({
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
+                  disabled
                   className="text-sm"
                   type="email"
                   id="email"

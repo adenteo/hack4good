@@ -50,6 +50,12 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
+      <Link href="/admin/activity-creation">
+        <Button variant="outline" className="h-8 px-2 lg:px-3 mr-2">
+          <FolderPlus className="mr-2 h-4 w-4" />
+          New Activity
+        </Button>
+      </Link>
       <DataTableViewOptions table={table} />
     </div>
   );

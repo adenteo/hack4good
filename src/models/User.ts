@@ -4,6 +4,8 @@ import { UserStatus } from './types';
 
 const userSchema = new Schema({
   firstName: { type: String, required: true },
+  totalHours: { type: Number, default: 0 },
+  totalEvents: { type: Number, default: 0 },
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },

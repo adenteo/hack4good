@@ -13,7 +13,14 @@ import Link from 'next/link';
 import { ArrowDownToLine, FolderPlus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import getVolunteerReport from '@/lib/actions/get-volunteer-report';
-import { endOfYear, startOfYear, subYears } from 'date-fns';
+import {
+  endOfMonth,
+  endOfYear,
+  startOfMonth,
+  startOfYear,
+  subMonths,
+  subYears,
+} from 'date-fns';
 import { fetchCompletedActivitiesWithVolunteers } from '@/lib/actions/get-reports';
 
 interface DataTableToolbarProps<TData> {
@@ -29,10 +36,11 @@ export function DataTableToolbar<TData>({
 
   useEffect(() => {
     if (!table) return;
-    const rows = Object.values(selectedIndexes).map((value, id) => {
+    const rows = Object.keys(selectedIndexes).map((id) => {
       const activityId = (table.getRow(id.toString()).original as any)._id;
       return activityId;
     });
+    // console.log(rows);
     setSelectedRows(rows);
   }, [selectedIndexes, table]);
 
@@ -78,27 +86,29 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <Button
+      {/* <Button
         variant="outline"
         className="h-8 px-2 lg:px-3 mr-2"
         onClick={async () => {
-          const startYear = startOfYear(new Date());
-          const endYear = endOfYear(new Date());
+          const startMonth = startOfMonth(new Date());
+          const endMonth = endOfMonth(new Date());
           const data = await fetchCompletedActivitiesWithVolunteers(
-            subYears(startYear, 2),
-            subYears(endYear, 2),
+            subMonths(startMonth, 10),
+            subMonths(endMonth, 1),
           );
           const volunteerReport = await getVolunteerReport(
-            data.splice(0, 5),
-            'yearly',
+            data,
+            'monthly',
             selectedRows,
           );
           console.log(volunteerReport);
+          console.log(JSON.parse(volunteerReport[0]));
+          console.log(JSON.parse(volunteerReport[1]));
         }}
       >
         <ArrowDownToLine className="mr-2 h-4 w-4" />
         Download Report(s)
-      </Button>
+      </Button> */}
       <DataTableViewOptions table={table} />
     </div>
   );

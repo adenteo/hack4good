@@ -33,6 +33,7 @@ import { addVolunteer } from '@/lib/actions/add-volunteer';
 import { Session, User } from 'next-auth';
 import { useRouter } from 'next/navigation';
 import { toast } from './ui/use-toast';
+import { useSession } from 'next-auth/react';
 
 const citizenshipDisplayMap: Record<CitizenshipType, string> = {
   [CitizenshipType.Singaporean]: 'Singapore Citizen',
@@ -118,6 +119,7 @@ export const onboardingFormSchema = z.object({
 });
 
 export function SignUpForm({ session }: { session: Session }) {
+  const { update } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof onboardingFormSchema>>({
@@ -142,7 +144,15 @@ export function SignUpForm({ session }: { session: Session }) {
     setIsLoading(true);
     const volunteer = await addVolunteer(session.user.id, values);
     if (volunteer) {
-      window.location.href = '/home';
+      await update();
+      router.push('/');
+      router.refresh();
+      toast({
+        title: 'Success',
+        description: 'You are now a verified volunteer!',
+        variant: 'default',
+        className: 'bg-green-500 text-white border-none',
+      });
     } else {
       toast({
         title: 'Error',

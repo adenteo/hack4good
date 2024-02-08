@@ -38,7 +38,7 @@ def get_attendance_report(event, _):
 
     # Concatenate dummies and the original DataFrame
     activity_df = pd.concat([
-        activity_df[['userId', 'year', 'month', 'quarter', 'day', 'numHours', 'eventSignUpCount']],
+        activity_df[['userId', 'year', 'month', 'quarter', 'day', 'eventSignUpCount']],
         attendance_status_dummies,
         tags_dummies
     ], axis=1)
@@ -59,7 +59,7 @@ def get_attendance_report(event, _):
     # Group by and summarize
     grouped_df = activity_df.groupby(group_by_columns).agg({
         'eventSignUpCount': 'sum',
-        'numHours': 'sum',
+        # 'numHours': 'sum',
         **{col: 'sum' for col in attendance_status_dummies.columns},
         **{col: 'sum' for col in tags_dummies.columns},
     }).reset_index()

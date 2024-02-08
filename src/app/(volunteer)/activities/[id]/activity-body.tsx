@@ -53,7 +53,7 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
       toast({
         variant: 'default',
         title: 'You have been withdrawn',
-        description: 'we are sad to see you go :(',
+        description: 'We are sad to see you go :(',
       });
       router.refresh();
     }
@@ -206,20 +206,29 @@ const ActivityBody: React.FC<ActivityBodyProps> = ({
                 className="text-[0.8rem]"
                 disabled={!user?.user.isOnboarded}
                 onClick={async () => {
-                  const user = session.data?.user;
-                  const res = await signUpForActivity(
-                    activityId,
-                    user?.id!,
-                    {},
-                  );
-                  console.log(res);
-                  toast({
-                    title: 'Successfully Registered!',
-                    variant: 'default',
-                    description: 'We are so excited to have you on board',
-                    className: 'bg-green-500 border-none text-white',
-                  });
-                  router.refresh();
+                  try {
+                    const user = session.data?.user;
+                    const res = await signUpForActivity(
+                      activityId,
+                      user?.id!,
+                      {},
+                    );
+                    console.log(res);
+                    toast({
+                      title: 'Successfully Registered!',
+                      variant: 'default',
+                      description: 'We are so excited to have you on board',
+                      className: 'bg-green-500 border-none text-white',
+                    });
+                    router.refresh();
+                  } catch (error: any) {
+                    toast({
+                      title: 'Error occurred',
+                      variant: 'destructive',
+                      description: error.message,
+                      className: 'bg-red-500 border-none text-white',
+                    });
+                  }
                 }}
               >
                 Register Now

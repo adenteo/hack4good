@@ -14,6 +14,8 @@ import {
 } from '@/models/types';
 
 type UserData = {
+  totalHours: number;
+  totalEvents: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -54,6 +56,8 @@ function generateRandomUserData(): UserData {
   const lastName = faker.person.lastName();
 
   return {
+    totalHours: faker.number.int({ min: 0, max: 500 }),
+    totalEvents: faker.number.int({ min: 0, max: 50 }),
     firstName: firstName,
     lastName: lastName,
     email: faker.internet.email({ firstName: firstName, lastName: lastName }),
@@ -72,10 +76,13 @@ function generateSGPostalCode(): string {
   }).filter(Boolean);
 
   // Select a random prefix from the valid first two digits
-  const randomPrefix = validFirstTwoDigits[Math.floor(Math.random() * validFirstTwoDigits.length)];
+  const randomPrefix =
+    validFirstTwoDigits[Math.floor(Math.random() * validFirstTwoDigits.length)];
 
   // Generate a random number between 0 and 9999 for the last four digits
-  const lastFourDigits = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+  const lastFourDigits = Math.floor(Math.random() * 10000)
+    .toString()
+    .padStart(4, '0');
 
   // Combine to form a full 6-digit postal code
   const postalCode = `${randomPrefix}${lastFourDigits}`;

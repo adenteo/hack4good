@@ -6,9 +6,15 @@ import { getAllActivitiesPagination } from '@/lib/actions/get-all-activities-pag
 import { ExtendedActivityType } from '@/models/Activity';
 import { getUserUpcomingActivities } from '@/lib/actions/get-user-upcoming';
 import { useSession } from 'next-auth/react';
-import { generateAndSaveDummyActivityData, addDummyDataToAttendeeList } from '@/lib/actions/dummyactivity';
+import {
+  generateAndSaveDummyActivityData,
+  addDummyDataToAttendeeList,
+} from '@/lib/actions/dummyactivity';
 import { generateAndSaveDummyData } from '@/lib/actions/dummydata';
-import { saveActivitiesToCSV, fetchCompletedActivitiesWithVolunteers } from '@/lib/actions/get-reports';
+import {
+  saveActivitiesToCSV,
+  fetchCompletedActivitiesWithVolunteers,
+} from '@/lib/actions/get-reports';
 import { Button } from 'antd';
 
 export default function Home() {
@@ -57,20 +63,26 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* <Button
-        onClick={ () => {
+        onClick={() => {
           generateAndSaveDummyData();
-        }}>users</Button>
+        }}
+      >
+        users
+      </Button>
       <Button
-        onClick={ async () => {
-          generateAndSaveDummyActivityData();
+        onClick={async () => {
+          await generateAndSaveDummyActivityData();
           await addDummyDataToAttendeeList();
-        }}>activities</Button> */}
-      <Button
+        }}
+      >
+        activities
+      </Button> */}
+      {/* <Button
         onClick={async () => {
           saveActivitiesToCSV(await fetchCompletedActivitiesWithVolunteers(new Date(2022, 0, 1), new Date(2024, 1, 1)), './activity.csv');
         }}
       > get
-      </Button>
+      </Button> */}
 
       <div className="rounded-b-3xl bg-[#FC7869] text-white relative items-center lg:justify-center p-0 m-0">
         <div className="flex justify-between px-6 pb-4">
@@ -91,7 +103,7 @@ export default function Home() {
           />
         </div> */}
       </div>
-      <div className="p-4">
+      <div className="p-6">
         <div className="pb-1 pt-4">
           <p className="text-lg font-bold text-black">Featured</p>
         </div>
@@ -117,15 +129,19 @@ export default function Home() {
             <div className="flex-auto w-5/6 h-72 skeleton"></div>
           </div>
         )}
-        <div className="pb-1 pt-4">
-          <p className="text-lg font-bold text-black">Upcoming for you</p>
-        </div>
-        <div className="flex">
-          <ForYouScroll
-            activities={upcomingActivities}
-            setPage={setForYouPage}
-          />
-        </div>
+        {upcomingActivities.length > 0 && (
+          <>
+            <div className="pb-1 pt-4">
+              <p className="text-lg font-bold text-black">Upcoming for you</p>
+            </div>
+            <div className="flex">
+              <ForYouScroll
+                activities={upcomingActivities}
+                setPage={setForYouPage}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

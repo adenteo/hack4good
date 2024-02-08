@@ -22,9 +22,9 @@ export async function signUpForActivity(
   if (!activity) {
     throw new Error('Activity does not exist.');
   }
-  if (new Date() > activity.signUpDeadline) {
-    throw new Error('The sign-up deadline for this activity has passed.');
-  }
+  //   if (new Date() > activity.signUpDeadline) {
+  //     throw new Error('The sign-up deadline for this activity has passed.');
+  //   }
   if (activity.attendees && activity.attendees.length >= activity.signUpLimit) {
     throw new Error('The activity is full.');
   }
@@ -47,7 +47,7 @@ export async function signUpForActivity(
   }
   const newAttendee = {
     user: userId,
-    role: 'Volunteer', 
+    role: 'Volunteer',
     attendanceStatus: AttendanceStatus.Unconfirmed,
     signUpFormDetails: formDetails,
   };
@@ -56,7 +56,7 @@ export async function signUpForActivity(
   await activity.save();
 
   return {
-    message: 'User successfully signed up for the activity.',
+    message: 'Successfully signed up for the activity.',
     activityId: activity._id.toString(),
     userId: userId,
   };

@@ -103,7 +103,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
       );
       try {
         const res = await getDemographicsLambda(data, 'monthly');
-        console.log(res);
         setDemographicsData(res);
       } catch (error) {
         console.error('Error posting data:', error);

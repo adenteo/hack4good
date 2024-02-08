@@ -43,7 +43,7 @@ export async function fetchCompletedActivitiesWithVolunteers(
           _id: 0,
           activityId: { $toString: '$_id' },
           title: 1,
-          numHours: 1,
+          //   numHours: 1,
           startTime: {
             $dateToString: {
               format: '%Y-%m-%dT%H:%M:%S.%LZ',

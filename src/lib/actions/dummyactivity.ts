@@ -14,7 +14,7 @@ import User from '@/models/User';
 
 function getRandomActivityStatus() {
   const rand = Math.random() * 100;
-    if (rand < 70) {
+  if (rand < 70) {
     return 'Completed';
   }
   const remainingStatuses = ['Upcoming', 'Ongoing', 'Cancelled'];
@@ -29,7 +29,10 @@ export async function generateAndSaveDummyActivityData() {
   const dateRangeEnd = new Date(2024, 0, 1); // Jan 1, 2024
   for (let i = 0; i < 300; i++) {
     // Generate 10 activities
-    const date = new Date(dateRangeStart.getTime() + Math.random() * (dateRangeEnd.getTime() - dateRangeStart.getTime()));
+    const date = new Date(
+      dateRangeStart.getTime() +
+        Math.random() * (dateRangeEnd.getTime() - dateRangeStart.getTime()),
+    );
     const activityData = {
       title: faker.word.words(3),
       address: faker.location.streetAddress(),
@@ -50,7 +53,7 @@ export async function generateAndSaveDummyActivityData() {
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
         faker.helpers.arrayElement(Object.values(volunteerTheme)),
       ],
-      averageSentiment: faker.number.float({ min: -1, max: 1 }), 
+      averageSentiment: faker.number.float({ min: -1, max: 1 }),
     };
 
     const newActivity = new Activity(activityData);
