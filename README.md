@@ -56,7 +56,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Codingbears Volunteering Management App](https://h4good.s3.ap-southeast-1.amazonaws.com/homescreen.png)
+![Codingbears Volunteering Management App](public/homescreen.png)
 
 ### Built With
 
