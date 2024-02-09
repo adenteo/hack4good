@@ -134,7 +134,7 @@ You will require an admin account to access some of the following features. Here
 
 ## Features for Volunteer Side
 
-## Explore Page
+### Explore Page
 
 - **Featured Section**: Allows volunteers to view and register for featured activities that are in demand.
 - **For You Section**: Allows volunteers to view and register for activities that are tailored to them, based on their interests that they provided when registering as a verified volunteer.
@@ -142,7 +142,7 @@ You will require an admin account to access some of the following features. Here
 
 ![Explore Page Screenshot](src/assets/explorepage.png)
 
-## Individual Activity Listing
+### Individual Activity Listing
 
 - **Details**: Details of the event are displayed for volunteers to take note of, and be informed.
 - **Register**: Allows volunteers to view and register for featured activities that are in demand.
@@ -157,7 +157,7 @@ You will require an admin account to access some of the following features. Here
 
 ![Contact us Screenshot](src/assets/contactus.png)
 
-## Profile Page
+### Profile Page
 
 - **Past Events**: Volunteer's past activities are displayed, and they are able to provide their feedback and thoughts on each event.
 - **Certificate**: Volunteer's certificate collection is displayed, and they are able to download and retrieve each certificate by simply clicking on them.
@@ -176,7 +176,7 @@ You will require an admin account to access some of the following features. Here
     <img src="src/assets/aboutme.png" alt="About Me Screenshot" width="400">
 </div>
 
-## Blogs
+### Blogs
 
 - **Blog Posts**: Allows volunteers to view their own, and other volunteers feedback and reflections to stay connected.
 
