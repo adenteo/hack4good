@@ -91,7 +91,14 @@ You will require an admin account to access some of the following features. Here
 - **Data Visualization**: Hover over pie charts to reveal detailed statistics on volunteer participation by region and gender.
 - **Monthly Reports**: Easily download comprehensive monthly reports with a single click, providing insights into volunteer activities and engagements.
 
+<br />
+<br />
+
 ![Dashboard Screenshot](src/assets/dashboard.png)
+
+<br />
+<br />
+<br />
 
 ### Form Builder
 
@@ -99,7 +106,23 @@ You will require an admin account to access some of the following features. Here
 - **Customizable Questions**: Add, remove, and reorder questions to ensure your form collects all the necessary information.
 - **Form Management**: Save new forms for future use and select from existing forms to edit or repurpose them.
 
+<br />
+<br />
+
 ![Form Builder Screenshot](src/assets/formbuilder.png)
+
+<br />
+<br />
+
+### This video shows an example of our drag-n-drop custom form builder
+
+<br />
+<br />
+
+https://github.com/adenteo/hack4good/assets/88359484/92b8aba3-6408-4ced-92a1-48b9660f0489
+
+<br />
+<br />
 
 ### Forms
 
@@ -107,7 +130,13 @@ You will require an admin account to access some of the following features. Here
 - **Edit Forms**: Revisit and modify forms as needed, ensuring they remain up-to-date and relevant.
 - **Form Preservation**: Save changes to forms, maintaining a current and accessible form library.
 
+<br />
+<br />
+
 ![Forms Screenshot](src/assets/form.png)
+
+<br />
+<br />
 
 ### Activities
 
@@ -115,14 +144,34 @@ You will require an admin account to access some of the following features. Here
 - **View Functionality**: Adjust view settings to tailor the display of activities to your preferences.
 - **Activity Management**: Edit activity details, link activities to specific forms, and conduct searches for activities using keywords.
 
+<br />
+<br />
+
 ![Activities 1 Screenshot](src/assets/activities1.png) ![Activities 2 Screenshot](src/assets/activities2.png)
+
+<br />
+<br />
 
 ### New Activity
 
 - **Create**: Allows activity to be created and published
+<br />
+
   ![Volunteers 1 Screenshot](src/assets/activitycreation.png)
+  
+<br />
+
 - **Auto Tagging**: Generates automated tags to catergorize activities based on activity description given
-  ![Volunteers 1 Screenshot](src/assets/autotagging.png)
+
+<br />
+
+### This video shows an example of our auto tagging feature
+
+https://github.com/adenteo/hack4good/assets/88359484/272eb0ee-f805-4dde-a10b-d510b5cf3049
+
+<br />
+<br />
+
 
 ### Volunteers
 
@@ -130,37 +179,55 @@ You will require an admin account to access some of the following features. Here
 - **Comprehensive Search**: Find volunteers by name, streamlining the process of accessing volunteer profiles.
 - **Volunteer Profiles**: View detailed volunteer information, including participation history and personal details.
 
+<br />
+<br />
+
 ![Volunteers 1 Screenshot](src/assets/volunteers1.png) ![Volunteers 2 Screenshot](src/assets/volunteers2.png) ![Volunteers 3 Screenshot](src/assets/volunteers3.png)
 
-Admins can also select multiple volunteers and click on 'Generate Certificate(s)' to generate a report of their entire history into an online Google Forms.
+<br />
+<br />
+
+### Admins can also select multiple volunteers and click on 'Generate Certificate(s)' to generate a report of their entire history into an online Google Forms.
+
+<br />
+<br />
 
 ![Generate Certificate](src/assets/generate_certificate.png)
 
-With the help of a free tool AutoCrat on Google Sheets, admins can also set up a base certificate template, along with a personalised email subject & content. Admins can also create time triggers to automatically send out these emails and certificates every day/week/month.
+<br />
+<br />
+
+### With the help of a free tool AutoCrat on Google Sheets, admins can also set up a base certificate template, along with a personalised email subject & content. Admins can also create time triggers to automatically send out these emails and certificates every day/week/month.
+
+<br />
+<br />
 
 ![Send Email & Certificates](src/assets/autoCrat.png)
 
-This is how an example of the email may look like.
+<br />
+<br />
+
+### This is how an example of the email may look like.
+
+<br />
+<br />
 
 ![Email](src/assets/email.png)
+
+<br />
+<br />
 
 ## Features for Volunteer Side
 
 ### Onboarding
 
 - **Verified Volunteer Creation**: Ensures volunteers undergo a verification process to maintain the integrity and credibility of the platform before gaining access to activity registration.
+- **Auto Tagging**: Automatically generates categorical tags based on volunteers' self-described interests, facilitating streamlined activity recommendations and personalization.
 
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/signup.png" alt="Login Screenshot" width="300">
     <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
-    <img src="src/assets/verifiedvolunteer.png" alt="Unverified Screenshot" width="300">
 </div>
-
-![Onboarding Form](src/assets/onboardingform.png)
-
-- **Auto Tagging**: Automatically generates categorical tags based on volunteers' self-described interests, facilitating streamlined activity recommendations and personalization.
-
-![Auto Tagging](src/assets/registerautotagging.png)
 
 ### Explore Page
 
@@ -168,7 +235,7 @@ This is how an example of the email may look like.
 - **For You Section**: Tailors activity recommendations based on volunteers' specified interests during the verified volunteer registration process.
 - **Featured Section**: Displays a comprehensive list of upcoming events for which volunteers have successfully registered.
 
-![Explore Page Screenshot](src/assets/explorepage2.png)
+![Explore Page Screenshot](src/assets/explorePage.png)
 
 ### Individual Activity Listing
 
