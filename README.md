@@ -149,12 +149,16 @@ This is how an example of the email may look like.
 ### Onboarding
 
 - **Verified Volunteer Creation**: Ensures volunteers undergo a verification process to maintain the integrity and credibility of the platform before gaining access to activity registration.
-- **Auto Tagging**: Automatically generates categorical tags based on volunteers' self-described interests, facilitating streamlined activity recommendations and personalization.
 
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/signup.png" alt="Login Screenshot" width="300">
     <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
+    <img src="src/assets/verifiedvolunteer.png" alt="Unverified Screenshot" width="300">
 </div>
+![Onboarding Form](src/assets/onboardingform.png)
+
+- **Auto Tagging**: Automatically generates categorical tags based on volunteers' self-described interests, facilitating streamlined activity recommendations and personalization.
+  ![Auto Tagging](src/assets/registerautotagging.png)
 
 ### Explore Page
 
