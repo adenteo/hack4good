@@ -134,20 +134,30 @@ You will require an admin account to access some of the following features. Here
 
 ## Features for Volunteer Side
 
+### Onboarding
+
+- **Verified Volunteer Creation**: Ensures volunteers undergo a verification process to maintain the integrity and credibility of the platform before gaining access to activity registration.
+- **Auto Tagging**: Automatically generates categorical tags based on volunteers' self-described interests, facilitating streamlined activity recommendations and personalization.
+
+<div style="display: flex; justify-content: space-between;">
+    <img src="src/assets/loginform.png" alt="Login Screenshot" width="300">
+    <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
+</div>
+
 ### Explore Page
 
-- **Featured Section**: Allows volunteers to view and register for featured activities that are in demand.
-- **For You Section**: Allows volunteers to view and register for activities that are tailored to them, based on their interests that they provided when registering as a verified volunteer.
-- **Featured Section**: Allows volunteers to view their upcoming events that they have registered for.
+- **Featured Section**: Provides volunteers with the opportunity to view and register for high-demand activities.
+- **For You Section**: Tailors activity recommendations based on volunteers' specified interests during the verified volunteer registration process.
+- **Featured Section**: Displays a comprehensive list of upcoming events for which volunteers have successfully registered.
 
 ![Explore Page Screenshot](src/assets/explorepage.png)
 
 ### Individual Activity Listing
 
-- **Details**: Details of the event are displayed for volunteers to take note of, and be informed.
-- **Register**: Allows volunteers to view and register for featured activities that are in demand.
-- **Withdraw**: Allows volunteers to withdraw for the registered activity.
-- **Contact Us**: Allows volunteers to email and stay in touch with the organiser.
+- **Details**: Presents essential event details for volunteers to stay informed.
+- **Register**: Facilitates the registration process for the chosen activities.
+- **Withdraw**: Enables volunteers to withdraw from a registered activity.
+- **Contact Us**: Offers a way for volunteers to connect with event organizers.
 
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/register1.png" alt="Register Screenshot 1" width="300">
@@ -159,9 +169,9 @@ You will require an admin account to access some of the following features. Here
 
 ### Profile Page
 
-- **Past Events**: Volunteer's past activities are displayed, and they are able to provide their feedback and thoughts on each event.
-- **Certificate**: Volunteer's certificate collection is displayed, and they are able to download and retrieve each certificate by simply clicking on them.
-- **About Me**: Allows volunteers to update their information.
+- **Past Events**: Displays a record of volunteers' past activities, allowing them to provide valuable feedback on each event.
+- **Certificate**: Showcases a collection of certificates earned by volunteers, providing an option to download each certificate individually by simply clicking on them.
+- **About Me**: Allows volunteers to keep their information up-to-date.
 
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/profile.png" alt="Profile Screenshot" width="300">
@@ -176,7 +186,7 @@ You will require an admin account to access some of the following features. Here
 
 ### Blogs
 
-- **Blog Posts**: Allows volunteers to view their own, and other volunteers feedback and reflections to stay connected.
+- **Blog Posts**: Allows volunteers to read and contribute to a collection of feedback and reflections from other volunteers, fostering a sense of connection.
 
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/blog1.png" alt="Blog Screenshot 1" width="400">
@@ -196,6 +206,7 @@ You will require an admin account to access some of the following features. Here
 - [Img Shields](https://shields.io)
 - [Lucide](https://lucide.dev/)
 - [React Icons](https://react-icons.github.io/react-icons/search)
+- [DaisyUI](https://daisyui.com/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
