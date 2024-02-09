@@ -77,7 +77,7 @@ You can access our live web app directly <a href="https://hack4good-alpha.vercel
 
 <!-- USAGE EXAMPLES -->
 
-## Features
+## Features for Admin Side
 
 You will require an admin account to access some of the following features. Here is the credentials to log in to a pre-created admin account.
 
@@ -127,6 +127,31 @@ You will require an admin account to access some of the following features. Here
 ![Volunteers 1 Screenshot](src/assets/volunteers1.png)
 ![Volunteers 2 Screenshot](src/assets/volunteers2.png)
 ![Volunteers 3 Screenshot](src/assets/volunteers3.png)
+
+## Features for Volunteer Side
+
+## Explore Page
+
+- **Featured Section**: Allows volunteers to view and register for featured activities that are in demand.
+- **For You Section**: Allows volunteers to view and register for activities that are tailored to them, based on their interests that they provided when registering as a verified volunteer.
+- **Featured Section**: Allows volunteers to view their upcoming events that they have registered for.
+
+## Individual Activity Listing
+
+- **Details**: Details of the event are displayed for volunteers to take note of, and be informed.
+- **Register buttonn**: Allows volunteers to view and register for featured activities that are in demand.
+- **Withdraw button**: Allows volunteers to withdraw for the registered activity.
+- **Contact us button**: Allows volunteers to email and stay in touch with the organiser.
+
+## Profile Page
+
+- **Past Events**: Volunteer's past activities are displayed, and they are able to provide their feedback and thoughts on each event.
+- **Certificate**: Volunteer's certificate collection is displayed, and they are able to download and retrieve each certificate by simply clicking on them.
+- **About Me**: Allows volunteers to update their information.
+
+## Blogs
+
+- **Past Events**: Allows volunteers to view their own, and other volunteers feedback and reflections to stay connected.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
