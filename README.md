@@ -115,10 +115,7 @@ You will require an admin account to access some of the following features. Here
 - **View Functionality**: Adjust view settings to tailor the display of activities to your preferences.
 - **Activity Management**: Edit activity details, link activities to specific forms, and conduct searches for activities using keywords.
 
-<div style="display: flex; justify-content: space-between;">
-    <img src="src/assets/activities1.png" alt="Activities Screenshot 1" width="700">
-    <img src="src/assets/activities2.png" alt="Activities Screenshot 2" width="700">
-</div>
+![Activities 1 Screenshot](src/assets/activities1.png) ![Activities 2 Screenshot](src/assets/activities2.png)
 
 ### Volunteers
 
@@ -143,9 +140,14 @@ You will require an admin account to access some of the following features. Here
 - **Withdraw button**: Allows volunteers to withdraw for the registered activity.
 - **Contact us button**: Allows volunteers to email and stay in touch with the organiser.
 
-![Register 1 Screenshot](src/assets/register1.png) ![Register 2 Screenshot](src/assets/register2.png)
-![Withdraw Screenshot](src/assets/withdraw.png)
-![Contact us Screenshot](src/assets/contactus.png)
+<div style="display: flex; justify-content: space-between;">
+    <img src="src/assets/register1.png" alt="Register Screenshot 1" width="400">
+    <img src="src/assets/register2.png" alt="Register Screenshot 2" width="400">
+</div>
+<div style="display: flex; justify-content: space-between;">
+    <img src="src/assets/withdraw.png" alt="withdraw Screenshot 1" width="400">
+    <img src="src/assets/contactus.png" alt="contactus Screenshot 2" width="400">
+</div>
 
 ## Profile Page
 
