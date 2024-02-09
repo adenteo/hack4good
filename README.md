@@ -115,7 +115,10 @@ You will require an admin account to access some of the following features. Here
 - **View Functionality**: Adjust view settings to tailor the display of activities to your preferences.
 - **Activity Management**: Edit activity details, link activities to specific forms, and conduct searches for activities using keywords.
 
-![Activities 1 Screenshot](src/assets/activities1.png) ![Activities 2 Screenshot](src/assets/activities2.png)
+<div style="display: flex; justify-content: space-between;">
+    <img src="src/assets/src/assets/activities1.png" alt="Activities Screenshot 1" width="400">
+    <img src="src/assets/activities2.png" alt="Activities Screenshot 2" width="400">
+</div>
 
 ### Volunteers
 
