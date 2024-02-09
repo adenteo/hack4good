@@ -160,15 +160,17 @@ You will require an admin account to access some of the following features. Here
 ## Profile Page
 
 - **Past Events**: Volunteer's past activities are displayed, and they are able to provide their feedback and thoughts on each event.
+- **Certificate**: Volunteer's certificate collection is displayed, and they are able to download and retrieve each certificate by simply clicking on them.
+- **About Me**: Allows volunteers to update their information.
 
+- **Past Events**
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/profile.png" alt="Profile Screenshot" width="300">
     <img src="src/assets/pastevents.png" alt="Past Events Screenshot" width="300">
     <img src="src/assets/feedback.png" alt="Feedback Screenshot" width="300">
 </div>
 
-- **Certificate**: Volunteer's certificate collection is displayed, and they are able to download and retrieve each certificate by simply clicking on them.
-- **About Me**: Allows volunteers to update their information.
+- **Certificate and About Me**
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/certs.png" alt="Certificates Screenshot" width="400">
     <img src="src/assets/aboutme.png" alt="About Me Screenshot" width="400">
@@ -176,7 +178,7 @@ You will require an admin account to access some of the following features. Here
 
 ## Blogs
 
-- **Past Events**: Allows volunteers to view their own, and other volunteers feedback and reflections to stay connected.
+- **Blog Posts**: Allows volunteers to view their own, and other volunteers feedback and reflections to stay connected.
 
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/blog1.png" alt="Blog Screenshot 1" width="400">
