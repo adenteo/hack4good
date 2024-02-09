@@ -145,9 +145,9 @@ You will require an admin account to access some of the following features. Here
 ## Individual Activity Listing
 
 - **Details**: Details of the event are displayed for volunteers to take note of, and be informed.
-- **Register buttonn**: Allows volunteers to view and register for featured activities that are in demand.
-- **Withdraw button**: Allows volunteers to withdraw for the registered activity.
-- **Contact us button**: Allows volunteers to email and stay in touch with the organiser.
+- **Register**: Allows volunteers to view and register for featured activities that are in demand.
+- **Withdraw**: Allows volunteers to withdraw for the registered activity.
+- **Contact Us**: Allows volunteers to email and stay in touch with the organiser.
 
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/register1.png" alt="Register Screenshot 1" width="300">
