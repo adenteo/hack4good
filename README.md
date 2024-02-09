@@ -142,7 +142,6 @@ You will require an admin account to access some of the following features. Here
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/loginform.png" alt="Login Screenshot" width="300">
     <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
-    <img src="src/assets/withdraw.png" alt="withdraw Screenshot 1" width="300">
 </div>
 
 ### Explore Page
