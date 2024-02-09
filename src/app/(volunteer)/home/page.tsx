@@ -16,6 +16,7 @@ import {
   fetchCompletedActivitiesWithVolunteers,
 } from '@/lib/actions/get-reports';
 import { Button } from 'antd';
+import googleForm from '@/lib/actions/google-form';
 
 export default function Home() {
   const [featuredActivities, setFeaturedActivities] = React.useState<
@@ -59,6 +60,13 @@ export default function Home() {
     };
     fetchUpcoming();
   }, [userId]);
+
+  const data = {
+    name: 'teo jun yong aden',
+    email: 'adenteo@gmail.com',
+    phone: '96190255',
+    message: 'hello there',
+  };
 
   return (
     <div className="min-h-screen">
