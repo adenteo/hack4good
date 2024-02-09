@@ -155,6 +155,7 @@ This is how an example of the email may look like.
     <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
     <img src="src/assets/verifiedvolunteer.png" alt="Unverified Screenshot" width="300">
 </div>
+
 ![Onboarding Form](src/assets/onboardingform.png)
 
 - **Auto Tagging**: Automatically generates categorical tags based on volunteers' self-described interests, facilitating streamlined activity recommendations and personalization.
