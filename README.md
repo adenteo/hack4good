@@ -183,7 +183,7 @@ This is how an example of the email may look like.
     <img src="src/assets/withdraw.png" alt="withdraw Screenshot 1" width="300">
 </div>
 
-![Contact us Screenshot](src/assets/contactus.png)
+![Contact us Screenshot](src/assets/contactus2.png)
 
 ### Profile Page
 
