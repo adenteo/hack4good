@@ -133,6 +133,8 @@ You will require an admin account to access some of the following features. Here
 - **For You Section**: Allows volunteers to view and register for activities that are tailored to them, based on their interests that they provided when registering as a verified volunteer.
 - **Featured Section**: Allows volunteers to view their upcoming events that they have registered for.
 
+![Explore Page Screenshot](src/assets/explorepage.png)
+
 ## Individual Activity Listing
 
 - **Details**: Details of the event are displayed for volunteers to take note of, and be informed.
@@ -154,9 +156,26 @@ You will require an admin account to access some of the following features. Here
 - **Certificate**: Volunteer's certificate collection is displayed, and they are able to download and retrieve each certificate by simply clicking on them.
 - **About Me**: Allows volunteers to update their information.
 
+<div style="display: flex; justify-content: space-between;">
+    <img src="src/assets/profile.png" alt="Profile Screenshot" width="300">
+    <img src="src/assets/pastevents.png" alt="Past Events Screenshot" width="300">
+    <img src="src/assets/feedback.png" alt="Feedback Screenshot" width="300">
+</div>
+
+<div style="display: flex; justify-content: space-between;">
+    <img src="src/assets/certs.png" alt="Certificates Screenshot" width="400">
+    <img src="src/assets/aboutme.png" alt="About Me Screenshot" width="400">
+</div>
+
 ## Blogs
 
 - **Past Events**: Allows volunteers to view their own, and other volunteers feedback and reflections to stay connected.
+
+<div style="display: flex; justify-content: space-between;">
+    <img src="src/assets/blog1.png" alt="Blog Screenshot 1" width="400">
+    <img src="src/assets/blog2.png" alt="Blog Screenshot 2" width="400">
+
+</div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
