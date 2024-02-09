@@ -163,14 +163,12 @@ You will require an admin account to access some of the following features. Here
 - **Certificate**: Volunteer's certificate collection is displayed, and they are able to download and retrieve each certificate by simply clicking on them.
 - **About Me**: Allows volunteers to update their information.
 
-- **Past Events**
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/profile.png" alt="Profile Screenshot" width="300">
     <img src="src/assets/pastevents.png" alt="Past Events Screenshot" width="300">
     <img src="src/assets/feedback.png" alt="Feedback Screenshot" width="300">
 </div>
 
-- **Certificate and About Me**
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/certs.png" alt="Certificates Screenshot" width="400">
     <img src="src/assets/aboutme.png" alt="About Me Screenshot" width="400">
