@@ -235,7 +235,7 @@ https://github.com/adenteo/hack4good/assets/88359484/272eb0ee-f805-4dde-a10b-d51
 - **For You Section**: Tailors activity recommendations based on volunteers' specified interests during the verified volunteer registration process.
 - **Featured Section**: Displays a comprehensive list of upcoming events for which volunteers have successfully registered.
 
-![Explore Page Screenshot](src/assets/explorePage.png)
+![Explore Page Screenshot](src/assets/explorepage2.png)
 
 ### Individual Activity Listing
 
