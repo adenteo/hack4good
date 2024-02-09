@@ -158,7 +158,8 @@ This is how an example of the email may look like.
 ![Onboarding Form](src/assets/onboardingform.png)
 
 - **Auto Tagging**: Automatically generates categorical tags based on volunteers' self-described interests, facilitating streamlined activity recommendations and personalization.
-  ![Auto Tagging](src/assets/registerautotagging.png)
+
+![Auto Tagging](src/assets/registerautotagging.png)
 
 ### Explore Page
 
