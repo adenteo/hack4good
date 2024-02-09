@@ -70,21 +70,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <Button
-        onClick={async () => {
-          await generateAndSaveDummyActivityData();
-          await addDummyDataToAttendeeList();
-        }}
-      >
-        activities
-      </Button>
-      {/* <Button
-        onClick={async () => {
-          const test = await googleForm(data);
-        }}
-      >
-        users
-      </Button> */}
       {/* <Button
         onClick={() => {
           generateAndSaveDummyData();
