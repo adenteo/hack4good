@@ -140,7 +140,7 @@ You will require an admin account to access some of the following features. Here
 - **Auto Tagging**: Automatically generates categorical tags based on volunteers' self-described interests, facilitating streamlined activity recommendations and personalization.
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="src/assets/loginform.png" alt="Login Screenshot" width="300">
+    <img src="src/assets/signup.png" alt="Login Screenshot" width="300">
     <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
 </div>
 
