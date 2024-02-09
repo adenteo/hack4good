@@ -1,3 +1,4 @@
+
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 
 <a name="readme-top"></a>
@@ -132,6 +133,18 @@ You will require an admin account to access some of the following features. Here
 
 ![Volunteers 1 Screenshot](src/assets/volunteers1.png) ![Volunteers 2 Screenshot](src/assets/volunteers2.png) ![Volunteers 3 Screenshot](src/assets/volunteers3.png)
 
+Admins can also select multiple volunteers and click on 'Generate Certificate(s)' to generate a report of their entire history into an online Google Forms.
+
+![Generate Certificate](src/assets/generate_certificate.png)
+
+With the help of a free tool AutoCrat on Google Sheets, admins can also set up a base certificate template, along with a personalised email subject & content. Admins can also create time triggers to automatically send out these emails and certificates every day/week/month.
+
+![Send Email & Certificates](src/assets/autoCrat.png)
+
+This is how an example of the email may look like.
+
+![Email](src/assets/email.png)
+
 ## Features for Volunteer Side
 
 ### Onboarding
@@ -140,7 +153,7 @@ You will require an admin account to access some of the following features. Here
 - **Auto Tagging**: Automatically generates categorical tags based on volunteers' self-described interests, facilitating streamlined activity recommendations and personalization.
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="src/assets/loginform.png" alt="Login Screenshot" width="300">
+    <img src="src/assets/signup.png" alt="Login Screenshot" width="300">
     <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
 </div>
 
@@ -200,6 +213,7 @@ You will require an admin account to access some of the following features. Here
 
 ## Acknowledgments
 
+- [AutoCrat](https://workspace.google.com/marketplace/app/autocrat/539341275670)
 - [Shadcn](https://ui.shadcn.com/)
 - [HuggingFace](https://huggingface.co/)
 - [NextJS](https://nextjs.org/)
