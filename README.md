@@ -91,13 +91,15 @@ You will require an admin account to access some of the following features. Here
 - **Data Visualization**: Hover over pie charts to reveal detailed statistics on volunteer participation by region and gender.
 - **Monthly Reports**: Easily download comprehensive monthly reports with a single click, providing insights into volunteer activities and engagements.
 
-### Form Builder
+![Dashboard Screenshot](src/assets/dashboard.png)
 
-![Form Builder Screenshot](src/assets/formbuilder.png)
+### Form Builder
 
 - **Create New Forms**: Design custom forms tailored to your event's needs, from volunteer sign-up sheets to feedback forms.
 - **Customizable Questions**: Add, remove, and reorder questions to ensure your form collects all the necessary information.
 - **Form Management**: Save new forms for future use and select from existing forms to edit or repurpose them.
+
+![Form Builder Screenshot](src/assets/formbuilder.png)
 
 ### Forms
 
@@ -105,17 +107,26 @@ You will require an admin account to access some of the following features. Here
 - **Edit Forms**: Revisit and modify forms as needed, ensuring they remain up-to-date and relevant.
 - **Form Preservation**: Save changes to forms, maintaining a current and accessible form library.
 
+![Forms Screenshot](src/assets/form.png)
+
 ### Activities
 
 - **Advanced Filtering**: Utilize filters to sort activities by date, volunteer count, and status, making it easier to find specific events.
 - **View Functionality**: Adjust view settings to tailor the display of activities to your preferences.
 - **Activity Management**: Edit activity details, link activities to specific forms, and conduct searches for activities using keywords.
 
+![Activities 1 Screenshot](src/assets/activity1.png)
+![Activities 2 Screenshot](src/assets/activity2.png)
+
 ### Volunteers
 
 - **Sorting and Filtering**: Sort volunteers using various criteria and filter by status and gender for targeted management.
 - **Comprehensive Search**: Find volunteers by name, streamlining the process of accessing volunteer profiles.
 - **Volunteer Profiles**: View detailed volunteer information, including participation history and personal details.
+
+![Volunteers 1 Screenshot](src/assets/volunteers1.png)
+![Volunteers 2 Screenshot](src/assets/volunteers2.png)
+![Volunteers 3 Screenshot](src/assets/volunteers3.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
