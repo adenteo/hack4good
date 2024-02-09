@@ -1,4 +1,3 @@
-
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 
 <a name="readme-top"></a>
@@ -163,7 +162,7 @@ This is how an example of the email may look like.
 - **For You Section**: Tailors activity recommendations based on volunteers' specified interests during the verified volunteer registration process.
 - **Featured Section**: Displays a comprehensive list of upcoming events for which volunteers have successfully registered.
 
-![Explore Page Screenshot](src/assets/explorepage.png)
+![Explore Page Screenshot](src/assets/explorePage.png)
 
 ### Individual Activity Listing
 
