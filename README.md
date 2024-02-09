@@ -115,8 +115,7 @@ You will require an admin account to access some of the following features. Here
 - **View Functionality**: Adjust view settings to tailor the display of activities to your preferences.
 - **Activity Management**: Edit activity details, link activities to specific forms, and conduct searches for activities using keywords.
 
-![Activities 1 Screenshot](src/assets/activities1.png)
-![Activities 2 Screenshot](src/assets/activities2.png)
+![Activities 1 Screenshot](src/assets/activities1.png) ![Activities 2 Screenshot](src/assets/activities2.png)
 
 ### Volunteers
 
@@ -124,9 +123,7 @@ You will require an admin account to access some of the following features. Here
 - **Comprehensive Search**: Find volunteers by name, streamlining the process of accessing volunteer profiles.
 - **Volunteer Profiles**: View detailed volunteer information, including participation history and personal details.
 
-![Volunteers 1 Screenshot](src/assets/volunteers1.png)
-![Volunteers 2 Screenshot](src/assets/volunteers2.png)
-![Volunteers 3 Screenshot](src/assets/volunteers3.png)
+![Volunteers 1 Screenshot](src/assets/volunteers1.png) ![Volunteers 2 Screenshot](src/assets/volunteers2.png) ![Volunteers 3 Screenshot](src/assets/volunteers3.png)
 
 ## Features for Volunteer Side
 
@@ -142,6 +139,10 @@ You will require an admin account to access some of the following features. Here
 - **Register buttonn**: Allows volunteers to view and register for featured activities that are in demand.
 - **Withdraw button**: Allows volunteers to withdraw for the registered activity.
 - **Contact us button**: Allows volunteers to email and stay in touch with the organiser.
+
+![Register 1 Screenshot](src/assets/register1.png) ![Register 2 Screenshot](src/assets/register2.png)
+![Withdraw Screenshot](src/assets/withdraw.png)
+![Contact us Screenshot](src/assets/contactus.png)
 
 ## Profile Page
 
