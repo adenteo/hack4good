@@ -117,6 +117,13 @@ You will require an admin account to access some of the following features. Here
 
 ![Activities 1 Screenshot](src/assets/activities1.png) ![Activities 2 Screenshot](src/assets/activities2.png)
 
+### New Activity
+
+- **Create**: Allows activity to be created and published
+  ![Volunteers 1 Screenshot](src/assets/activitycreation.png)
+- **Auto Tagging**: Generates automated tags to catergorize activities based on activity description given
+  ![Volunteers 1 Screenshot](src/assets/autotagging.png)
+
 ### Volunteers
 
 - **Sorting and Filtering**: Sort volunteers using various criteria and filter by status and gender for targeted management.
