@@ -141,13 +141,12 @@ You will require an admin account to access some of the following features. Here
 - **Contact us button**: Allows volunteers to email and stay in touch with the organiser.
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="src/assets/register1.png" alt="Register Screenshot 1" width="400">
-    <img src="src/assets/register2.png" alt="Register Screenshot 2" width="400">
+    <img src="src/assets/register1.png" alt="Register Screenshot 1" width="300">
+    <img src="src/assets/register2.png" alt="Register Screenshot 2" width="300">
+    <img src="src/assets/withdraw.png" alt="withdraw Screenshot 1" width="300">
 </div>
-<div style="display: flex; justify-content: space-between;">
-    <img src="src/assets/withdraw.png" alt="withdraw Screenshot 1" width="400">
-    <img src="src/assets/contactus.png" alt="contactus Screenshot 2" width="400">
-</div>
+
+![Contact us Screenshot](src/assets/contactus.png)
 
 ## Profile Page
 
