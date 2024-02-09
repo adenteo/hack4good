@@ -25,7 +25,7 @@ function getRandomActivityStatus() {
 export async function generateAndSaveDummyActivityData() {
   await connectToDB(); // Replace with your connection string
   const dateRangeStart = new Date(2022, 0, 1); // Jan 1, 2022
-  const dateRangeEnd = new Date(2024, 0, 1); // Jan 1, 2024
+  const dateRangeEnd = new Date(2024, 1, 30); // Jan 1, 2024
   for (let i = 0; i < 300; i++) {
     const date = new Date(
       dateRangeStart.getTime() +
@@ -38,8 +38,8 @@ export async function generateAndSaveDummyActivityData() {
       additionalDetails: faker.lorem.sentences(5),
       startTime: date,
       endTime: addHours(date, 2), // Ensure endTime is after startTime
-      volunteerCountNeeded: faker.number.int({ min: 20, max: 50 }),
-      signUpLimit: faker.number.int({ min: 50, max: 100 }),
+      volunteerCountNeeded: faker.number.int({ min: 10, max: 20 }),
+      signUpLimit: faker.number.int({ min: 20, max: 40 }),
       numHours: faker.number.int({ min: 1, max: 5 }),
       image: faker.image.url(),
       signUpDeadline: subWeeks(date, 1),
@@ -88,4 +88,5 @@ export async function addDummyDataToAttendeeList() {
     activity.attendees.push(...attendees);
     await activity.save();
   }
+  console.log('Dummy data added to attendee list successfully');
 }
