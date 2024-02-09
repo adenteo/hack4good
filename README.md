@@ -116,8 +116,8 @@ You will require an admin account to access some of the following features. Here
 - **Activity Management**: Edit activity details, link activities to specific forms, and conduct searches for activities using keywords.
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="src/assets/src/assets/activities1.png" alt="Activities Screenshot 1" width="400">
-    <img src="src/assets/activities2.png" alt="Activities Screenshot 2" width="400">
+    <img src="src/assets/src/activities1.png" alt="Activities Screenshot 1" width="600">
+    <img src="src/assets/activities2.png" alt="Activities Screenshot 2" width="600">
 </div>
 
 ### Volunteers
