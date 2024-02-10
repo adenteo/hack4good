@@ -1,4 +1,10 @@
 'use server';
+/**
+ * Retrieves demographics data from a Lambda function.
+ * @param data - The data to be sent to the Lambda function.
+ * @param timeframe - The timeframe for the demographics data.
+ * @returns The response from the Lambda function.
+ */
 export default async function getDemographicsLambda(
   data: any,
   timeframe: string,

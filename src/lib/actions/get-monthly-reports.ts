@@ -10,6 +10,12 @@ interface IMonthlyDocuments {
   documents: Document[];
 }
 
+/**
+ * Retrieves monthly documents within a specified date range.
+ * @param startDate The start date of the range.
+ * @param endDate The end date of the range.
+ * @returns A promise that resolves to an array of monthly documents.
+ */
 export async function getDocumentsByDateRange(
   startDate: Date,
   endDate: Date,

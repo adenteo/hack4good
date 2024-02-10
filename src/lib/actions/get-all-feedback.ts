@@ -1,3 +1,7 @@
+/**
+ * Retrieves all feedback from the database.
+ * @returns A JSON string representation of the feedbacks.
+ */
 'use server';
 import Feedback from '@/models/Feedback';
 import { connectToDB } from '../mongoose';

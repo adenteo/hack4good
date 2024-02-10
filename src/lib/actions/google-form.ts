@@ -11,6 +11,12 @@ type SheetForm = {
   message: string;
 };
 
+/**
+ * Submits the data of volunteers to a Google Form.
+ *
+ * @param volunteerIds - An array of volunteer IDs.
+ * @returns An object with an error property if an error occurs during the submission.
+ */
 export default async function googleForm(volunteerIds: string[]) {
   const users: any[] = [];
   for (const id of volunteerIds) {

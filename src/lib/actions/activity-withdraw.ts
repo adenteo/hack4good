@@ -1,6 +1,14 @@
 'use server';
 import Activity from '@/models/Activity';
 
+/**
+ * Withdraws a user from an activity.
+ *
+ * @param {string} activityId - The ID of the activity.
+ * @param {string} userId - The ID of the user.
+ * @returns {Promise<{ message: string, activityId: string, userId: string }>} - A promise that resolves to an object containing a success message, activity ID, and user ID.
+ * @throws {Error} - If the activity does not exist or the user is not signed up for the activity.
+ */
 export async function withdrawFromActivity(activityId: string, userId: string) {
   const activity = await Activity.findById(activityId);
 
@@ -9,7 +17,7 @@ export async function withdrawFromActivity(activityId: string, userId: string) {
   }
 
   const attendeeIndex = activity.attendees.findIndex(
-    (attendee : any) => attendee.user.toString() === userId
+    (attendee: any) => attendee.user.toString() === userId,
   );
 
   if (attendeeIndex === -1) {

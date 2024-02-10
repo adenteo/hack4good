@@ -3,6 +3,13 @@
 import User from '@/models/User';
 import Volunteer from '@/models/Volunteer';
 
+/**
+ * Retrieves a volunteer report based on the provided parameters.
+ * @param data - The data to be included in the report.
+ * @param timeframe - The timeframe for the report.
+ * @param userIds - An array of volunteer IDs.
+ * @returns The volunteer report.
+ */
 export default async function getVolunteerReport(
   data: any,
   timeframe: string,

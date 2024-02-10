@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { debounce } from 'lodash';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 
 const Calendar: React.FC = () => {
   const [text, setText] = useState('');

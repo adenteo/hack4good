@@ -1,22 +1,19 @@
 'use client';
-import React, { Suspense } from 'react';
+import React from 'react';
 import { ForYouScroll } from '@/components/ui/for-you-scroll';
 import { FeaturedScroll } from '@/components/ui/featured-scroll';
 import { getAllActivitiesPagination } from '@/lib/actions/get-all-activities-pagination';
 import { ExtendedActivityType } from '@/models/Activity';
 import { getUserUpcomingActivities } from '@/lib/actions/get-user-upcoming';
 import { useSession } from 'next-auth/react';
-import {
-  generateAndSaveDummyActivityData,
-  addDummyDataToAttendeeList,
-} from '@/lib/actions/dummyactivity';
-import { generateAndSaveDummyData } from '@/lib/actions/dummydata';
-import {
-  saveActivitiesToCSV,
-  fetchCompletedActivitiesWithVolunteers,
-} from '@/lib/actions/get-reports';
-import { Button } from 'antd';
-import googleForm from '@/lib/actions/google-form';
+import { getAllFeaturedActivitiesPagination } from '@/lib/actions/get-all-featured-activities-pagination';
+
+/**
+ * Represents the home page component.
+ *
+ * This component displays featured activities, activities for the user, and upcoming activities.
+ * It fetches the activities data from the server and renders the appropriate UI components.
+ */
 
 export default function Home() {
   const [featuredActivities, setFeaturedActivities] = React.useState<
@@ -35,8 +32,9 @@ export default function Home() {
 
   React.useEffect(() => {
     const fetchActivities = async () => {
-      const activities = await getAllActivitiesPagination(featuredPage);
+      const activities = await getAllFeaturedActivitiesPagination(featuredPage);
       const activitiesJson = JSON.parse(activities);
+      console.log(activitiesJson);
       setFeaturedActivities((prev) => [...prev, ...activitiesJson]);
     };
     fetchActivities();
@@ -61,37 +59,8 @@ export default function Home() {
     fetchUpcoming();
   }, [userId]);
 
-  const data = {
-    name: 'teo jun yong aden',
-    email: 'adenteo@gmail.com',
-    phone: '96190255',
-    message: 'hello there',
-  };
-
   return (
     <div className="min-h-screen">
-      {/* <Button
-        onClick={() => {
-          generateAndSaveDummyData();
-        }}
-      >
-        users
-      </Button>
-      <Button
-        onClick={async () => {
-          await generateAndSaveDummyActivityData();
-          await addDummyDataToAttendeeList();
-        }}
-      >
-        activities
-      </Button> */}
-      {/* <Button
-        onClick={async () => {
-          saveActivitiesToCSV(await fetchCompletedActivitiesWithVolunteers(new Date(2022, 0, 1), new Date(2024, 1, 1)), './activity.csv');
-        }}
-      > get
-      </Button> */}
-
       <div className="rounded-b-3xl bg-[#FC7869] text-white relative items-center lg:justify-center p-0 m-0">
         <div className="flex justify-between px-6 pb-4">
           <div>
@@ -103,13 +72,6 @@ export default function Home() {
             </p>
           </div>
         </div>
-        {/* <div>
-          <TextInput
-            className="bg-[#FC7869] mx-2 w-auto border-none text-white shadow-none"
-            icon={SearchIcon}
-            placeholder="Search..."
-          />
-        </div> */}
       </div>
       <div className="p-6">
         <div className="pb-1 pt-4">

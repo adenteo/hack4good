@@ -3,6 +3,12 @@ import Activity from '@/models/Activity';
 import { connectToDB } from '../mongoose';
 import { ObjectId } from 'mongodb';
 
+/**
+ * Links a form to an activity.
+ * @param activityId - The ID of the activity.
+ * @param formId - The ID of the form to link.
+ * @returns An object indicating the success or error status of the operation.
+ */
 export default async function linkFormToActivity(
   activityId: string,
   formId: string,

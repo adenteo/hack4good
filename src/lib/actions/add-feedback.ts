@@ -1,3 +1,8 @@
+/**
+ * Adds feedback to the database.
+ * @param feedbackData - The data for the feedback.
+ * @returns An object containing the ID of the newly created feedback.
+ */
 'use server';
 import { feedbackFormSchema } from '@/components/feedback-form';
 import { connectToDB } from '../mongoose';

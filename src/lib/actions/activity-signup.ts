@@ -3,6 +3,15 @@ import Activity from '@/models/Activity';
 import User from '@/models/User';
 import { AttendanceStatus } from '@/models/types';
 
+/**
+ * Signs up a user for an activity.
+ * @param {string} activityId - The ID of the activity.
+ * @param {string} userId - The ID of the user.
+ * @param {object} formDetails - The form details for the user's sign-up.
+ * @returns {Promise<object>} - A promise that resolves to an object containing the success message, activity ID, and user ID.
+ * @throws {Error} - If the activity does not exist, the activity is full, the user is already signed up for the activity, the user does not exist, or the user is banned or inactive.
+ */
+
 export async function signUpForActivity(
   activityId: string,
   userId: string,

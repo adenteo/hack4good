@@ -19,19 +19,38 @@ import {
 } from 'date-fns';
 import getDemographicsLambda from '@/lib/actions/get-demographics';
 import { cn } from '@/lib/utils';
+import { LucideSmile } from 'lucide-react';
 
 interface OverviewTabProps {
   date: Date;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
 }
 
-function calculatePercentageIncrease(oldValue: number, newValue: number) {
-  if (oldValue === 0 || newValue === 0) return 0;
-  const difference = newValue - oldValue;
-  if (difference === 0) return 0;
-  const percentageIncrease = (difference / oldValue) * 100;
-  return Number(percentageIncrease.toFixed(2));
+function calculatePercentageIncrease(a: number, b: number) {
+  let percent;
+  if (b !== 0) {
+    if (a !== 0) {
+      percent = ((b - a) / a) * 100;
+    } else {
+      percent = b * 100;
+    }
+  } else {
+    percent = -a * 100;
+  }
+  console.log(percent);
+  console.log(a, b);
+  return Math.floor(percent);
 }
+
+/**
+ * Renders the overview tab of the dashboard.
+ *
+ * @component
+ * @param {OverviewTabProps} props - The props for the OverviewTab component.
+ * @param {Date} props.date - The selected date.
+ * @param {React.Dispatch<React.SetStateAction<Date>>} props.setDate - The function to set the selected date.
+ * @returns {JSX.Element} The rendered OverviewTab component.
+ */
 
 const OverviewTab: React.FC<OverviewTabProps> = ({
   date,
@@ -40,7 +59,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [totalEvents, setTotalEvents] = useState<number>(0);
   const [totalVolunteers, setTotalVolunteers] = useState<number>(0);
-  const [newVolunteers, setNewVolunteers] = useState<number>(0);
+  const [sentiment, setSentiment] = useState<number>(0);
   const [hoursVolunteered, setHoursVolunteered] = useState<number>(0);
   const [totalEventsPercentageIncrease, setTotalEventsPercentageIncrease] =
     useState<number>(0);
@@ -48,12 +67,12 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
     totalVolunteersPercentageIncrease,
     setTotalVolunteersPercentageIncrease,
   ] = useState<number>(0);
-  const [newVolunteersPercentageIncrease, setNewVolunteersPercentageIncrease] =
-    useState<number>(0);
   const [
     hoursVolunteeredPercentageIncrease,
     setHoursVolunteeredPercentageIncrease,
   ] = useState<number>(0);
+  const [sentimentPercentageIncrease, setSentimentPercentageIncrease] =
+    useState<number>(0);
   const [demographicsData, setDemographicsData] = useState<any[]>([]);
   useEffect(() => {
     setLoading(true);
@@ -84,9 +103,20 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         lastMonthData.map((activity) => activity.title),
       );
       const lastMonthUniqueTitleCount = lastMonthUniqueTitles.size;
+      const overallSentiment =
+        data.reduce((sum, activity) => sum + activity.averageSentiment, 0) /
+        data.length;
+      const lastMonthOverallSentiment =
+        lastMonthData.reduce(
+          (sum, activity) => sum + activity.averageSentiment,
+          0,
+        ) / lastMonthData.length;
+
       setHoursVolunteered(totalHours);
       setTotalVolunteers(data.length);
       setTotalEvents(uniqueTitleCount);
+
+      setSentiment(Number(overallSentiment.toFixed(2)));
       setHoursVolunteeredPercentageIncrease(
         calculatePercentageIncrease(lastMonthTotalHours, totalHours),
       );
@@ -97,6 +127,12 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         calculatePercentageIncrease(
           lastMonthUniqueTitleCount,
           uniqueTitleCount,
+        ),
+      );
+      setSentimentPercentageIncrease(
+        calculatePercentageIncrease(
+          lastMonthOverallSentiment,
+          overallSentiment,
         ),
       );
       try {
@@ -204,32 +240,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
             )}
           </CardContent>
         </Card>
-        {/* <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-bold">New Volunteers</CardTitle>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-user-plus"
-            >
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <line x1="19" x2="19" y1="8" y2="14" />
-              <line x1="22" x2="16" y1="11" y2="11" />
-            </svg>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <p className="text-xs text-green-600">+19% from last month</p>
-          </CardContent>
-        </Card> */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-bold">
@@ -266,6 +276,24 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
                 {hoursVolunteeredPercentageIncrease}% from last month
               </p>
             )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-bold">
+              Overall Sentiment
+            </CardTitle>
+            <LucideSmile size={15} />
+          </CardHeader>
+          <CardContent>
+            <div
+              className={cn('text-2xl font-bold text-center mt-2 underline', {
+                'text-green-500': sentiment > 0,
+                'text-red-500': sentiment < 0,
+              })}
+            >
+              {sentiment}
+            </div>
           </CardContent>
         </Card>
       </div>

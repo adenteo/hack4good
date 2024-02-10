@@ -3,6 +3,13 @@ import Activity, { ExtendedActivityType } from '@/models/Activity';
 import mongoose from 'mongoose';
 import { connectToDB } from '../mongoose';
 
+/**
+ * Retrieves upcoming activities for a given user.
+ *
+ * @param userId - The ID of the user.
+ * @returns A JSON string representation of the activities.
+ * @throws Error if the user ID is invalid or if there is an error retrieving the activities.
+ */
 export async function getUserUpcomingActivities(userId: string) {
   // Connect to the database if not already connected
   await connectToDB();

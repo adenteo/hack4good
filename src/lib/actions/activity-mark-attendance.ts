@@ -3,6 +3,14 @@ import Activity from '@/models/Activity';
 import { AttendanceStatus } from '@/models/types';
 import { connectToDB } from '../mongoose';
 
+/**
+ * Marks an attendee as present for a specific activity.
+ * @param {string} activityId - The ID of the activity.
+ * @param {string} userId - The ID of the user.
+ * @returns {Promise<{ message: string, activityId: string, userId: string }>} - A promise that resolves to an object containing a success message, activity ID, and user ID.
+ * @throws {Error} - If the activity does not exist or if the user has not signed up for the activity.
+ */
+
 export async function markAttendeePresent(activityId: string, userId: string) {
   await connectToDB();
   try {

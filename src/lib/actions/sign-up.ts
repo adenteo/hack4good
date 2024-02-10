@@ -7,6 +7,11 @@ import User from '@/models/User';
 import bcrypt from 'bcrypt';
 import Role from '@/models/Role';
 
+/**
+ * Handles the sign-up process for a user.
+ * @param values - The sign-up form values.
+ * @returns An object containing either the created user or an error message.
+ */
 export default async function onSignUp(values: z.infer<typeof signUpSchema>) {
   await connectToDB();
   const user = await User.findOne({ email: values.email });

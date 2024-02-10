@@ -2,7 +2,13 @@
 import { connectToDB } from '../mongoose';
 import Activity from '@/models/Activity';
 
-// Define a function to fetch and aggregate the data
+/**
+ * Fetches completed activities with volunteers within a specified date range.
+ * @param startDate The start date of the range.
+ * @param endDate The end date of the range.
+ * @returns A promise that resolves to an array of activities with volunteer details.
+ * @throws If there is an error fetching the activities with volunteers.
+ */
 export async function fetchCompletedActivitiesWithVolunteers(
   startDate: Date,
   endDate: Date,
@@ -107,7 +113,3 @@ export async function saveActivitiesToCSV(
     throw error;
   }
 }
-
-// fetchCompletedActivitiesWithVolunteers(new Date(2023, 0, 1), new Date(2024,0,1)).then(data => {
-//   // Handle the aggregated data, e.g., saving it to a file or further processing
-// }).catch(error => console.error(error));

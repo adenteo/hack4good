@@ -26,13 +26,14 @@ export async function generateAndSaveDummyActivityData() {
   await connectToDB(); // Replace with your connection string
   const dateRangeStart = new Date(2022, 0, 1); // Jan 1, 2022
   const dateRangeEnd = new Date(2024, 1, 30); // Jan 1, 2024
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 50; i++) {
     const date = new Date(
       dateRangeStart.getTime() +
         Math.random() * (dateRangeEnd.getTime() - dateRangeStart.getTime()),
     );
     const activityData = {
       title: faker.word.words(3),
+      featured: true,
       address: faker.location.streetAddress(),
       description: faker.lorem.sentences(2),
       additionalDetails: faker.lorem.sentences(5),
