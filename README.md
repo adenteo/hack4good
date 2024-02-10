@@ -81,8 +81,8 @@ You can access our live web app directly <a href="https://hack4good-alpha.vercel
 
 You will require an admin account to access some of the following features. Here is the credentials to log in to a pre-created admin account.
 
-**Email:** `admin@m.com`  
-**Password:** ``
+**Email:** `admin@gmail.com`  
+**Password:** `12345678`
 
 ### Dashboard
 
