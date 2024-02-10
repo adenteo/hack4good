@@ -155,10 +155,10 @@ https://github.com/adenteo/hack4good/assets/88359484/92b8aba3-6408-4ced-92a1-48b
 ### New Activity
 
 - **Create**: Allows activity to be created and published
-<br />
+  <br />
 
   ![Volunteers 1 Screenshot](src/assets/activitycreation.png)
-  
+
 <br />
 
 - **Auto Tagging**: Generates automated tags to catergorize activities based on activity description given
@@ -171,7 +171,6 @@ https://github.com/adenteo/hack4good/assets/88359484/272eb0ee-f805-4dde-a10b-d51
 
 <br />
 <br />
-
 
 ### Volunteers
 
@@ -227,6 +226,9 @@ https://github.com/adenteo/hack4good/assets/88359484/272eb0ee-f805-4dde-a10b-d51
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/signup.png" alt="Login Screenshot" width="300">
     <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
+    <img src="src/assets/onboardingform.png" alt="Onboarding Screenshot" width="300">
+    <img src="src/assets/registerautotagging.png" alt="Auto Tagging Screenshot" width="300">
+    <img src="src/assets/verifiedvolunteer.png" alt="Verified Screenshot" width="300">
 </div>
 
 ### Explore Page
