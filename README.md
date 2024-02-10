@@ -226,10 +226,11 @@ https://github.com/adenteo/hack4good/assets/88359484/272eb0ee-f805-4dde-a10b-d51
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/signup.png" alt="Login Screenshot" width="300">
     <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
-    <img src="src/assets/onboardingform.png" alt="Onboarding Screenshot" width="300">
-    <img src="src/assets/registerautotagging.png" alt="Auto Tagging Screenshot" width="300">
     <img src="src/assets/verifiedvolunteer.png" alt="Verified Screenshot" width="300">
 </div>
+
+![Onboarding](src/assets/onboardingform.png)
+![Auto Tagging](src/assets/registerautotagging.png)
 
 ### Explore Page
 
