@@ -155,10 +155,10 @@ https://github.com/adenteo/hack4good/assets/88359484/92b8aba3-6408-4ced-92a1-48b
 ### New Activity
 
 - **Create**: Allows activity to be created and published
-<br />
+  <br />
 
   ![Volunteers 1 Screenshot](src/assets/activitycreation.png)
-  
+
 <br />
 
 - **Auto Tagging**: Generates automated tags to catergorize activities based on activity description given
@@ -171,7 +171,6 @@ https://github.com/adenteo/hack4good/assets/88359484/272eb0ee-f805-4dde-a10b-d51
 
 <br />
 <br />
-
 
 ### Volunteers
 
@@ -227,7 +226,11 @@ https://github.com/adenteo/hack4good/assets/88359484/272eb0ee-f805-4dde-a10b-d51
 <div style="display: flex; justify-content: space-between;">
     <img src="src/assets/signup.png" alt="Login Screenshot" width="300">
     <img src="src/assets/unverified.png" alt="Unverified Screenshot" width="300">
+    <img src="src/assets/verifiedvolunteer.png" alt="Verified Screenshot" width="300">
 </div>
+
+![Onboarding](src/assets/onboardingform.png)
+![Auto Tagging](src/assets/registerautotagging.png)
 
 ### Explore Page
 
@@ -235,7 +238,7 @@ https://github.com/adenteo/hack4good/assets/88359484/272eb0ee-f805-4dde-a10b-d51
 - **For You Section**: Tailors activity recommendations based on volunteers' specified interests during the verified volunteer registration process.
 - **Featured Section**: Displays a comprehensive list of upcoming events for which volunteers have successfully registered.
 
-![Explore Page Screenshot](src/assets/explorePage.png)
+![Explore Page Screenshot](src/assets/explorepage2.png)
 
 ### Individual Activity Listing
 
