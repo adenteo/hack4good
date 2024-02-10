@@ -71,7 +71,7 @@ const SignIn = () => {
   }
 
   return (
-    <div className="flex h-screen justify-center items-center my-6 p-6">
+    <div className="flex flex-col h-screen justify-center items-center my-6 p-6">
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Sign up</CardTitle>
@@ -211,6 +211,14 @@ const SignIn = () => {
           </span>
         </CardFooter>
       </Card>
+      <div className="mt-8 text-base flex flex-col justify-center items-center p-4 border-2 border-dotted rounded-md">
+        <p className="text-gray-500">
+          As part of the demo, you can sign in to the admin account to access
+          all admin features with the following credentials:
+        </p>
+        <p className="text-gray-500 font-bold">Email: admin@gmail.com</p>
+        <p className="text-gray-500 font-bold">Password: 12345678</p>
+      </div>
     </div>
   );
 };
