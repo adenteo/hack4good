@@ -2,6 +2,8 @@
 
 import User from '@/models/User';
 import Volunteer from '@/models/Volunteer';
+import { connectToDB } from '../mongoose';
+import Activity from '@/models/Activity';
 
 /**
  * Retrieves a volunteer report based on the provided parameters.
@@ -41,4 +43,89 @@ export default async function getVolunteerReport(
   }
   const res = await response.json();
   return res;
+}
+
+export async function fetchVolunteersActivityHistory(
+  startDate: Date,
+  endDate: Date,
+) {
+  await connectToDB();
+  try {
+    const volunteerAndActivities = await Activity.aggregate([
+      {
+        $match: {
+          startTime: { $gte: startDate, $lte: endDate },
+          status: 'Completed',
+        },
+      },
+      {
+        $unwind: {
+          path: '$attendees',
+          includeArrayIndex: 'string',
+          preserveNullAndEmptyArrays: false,
+        },
+      },
+      {
+        $lookup: {
+          from: 'volunteers',
+          localField: 'attendees.user',
+          foreignField: 'user',
+          as: 'attendeeDetails',
+        },
+      },
+      {
+        $unwind: {
+          path: '$attendeeDetails',
+          includeArrayIndex: 'string',
+          preserveNullAndEmptyArrays: false,
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          activityId: { $toString: '$_id' },
+          title: 1,
+          //   numHours: 1,
+          startTime: {
+            $dateToString: {
+              format: '%Y-%m-%dT%H:%M:%S.%LZ',
+              date: '$startTime',
+            },
+          },
+          endTime: {
+            $dateToString: {
+              format: '%Y-%m-%dT%H:%M:%S.%LZ',
+              date: '$endTime',
+            },
+          },
+          tags: 1,
+          attendanceStatus: '$attendees.attendanceStatus',
+          userId: { $toString: '$attendees.user' },
+          volunteerStatus: '$attendeeDetails.volunteerStatus',
+          citizenshipType: '$attendeeDetails.citizenshipType',
+          lastFourDigitsOfNric: '$attendeeDetails.lastFourDigitsOfNric',
+          dateOfBirth: '$attendeeDetails.dateOfBirth',
+          address: '$attendeeDetails.address',
+          drivingLicence: '$attendeeDetails.drivingLicence',
+          pwdTrained: '$attendeeDetails.pwdTrained',
+          skills: '$attendeeDetails.skills',
+          declarations: '$attendeeDetails.declarations',
+          fullName: '$attendeeDetails.fullName',
+          employmentStatus: '$attendeeDetails.employmentStatus',
+          updatedAt: '$attendeeDetails.updatedAt',
+          profilePictureUrl: '$attendeeDetails.profilePictureUrl',
+          contactNumber: '$attendeeDetails.contactNumber',
+          postalCode: '$attendeeDetails.postalCode',
+          gender: '$attendeeDetails.gender',
+          occupation: '$attendeeDetails.occupation',
+          averageSentiment: 1,
+        },
+      },
+    ]).exec();
+
+    return volunteerAndActivities;
+  } catch (error) {
+    console.error('Error fetching activities with volunteers:', error);
+    throw error;
+  }
 }
