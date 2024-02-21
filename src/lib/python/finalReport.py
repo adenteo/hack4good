@@ -2,7 +2,7 @@ import pandas as pd
 import json
 from numpy import int64
 
-def get_demographics_report(event, _):
+def get_final_report(event, _):
     body = json.loads(event['body'])
     # Access the 'data' and 'timeframe' from the parsed body
     data = body['data'] 
