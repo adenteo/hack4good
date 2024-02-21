@@ -5,6 +5,9 @@ const feedbackSchema = new Schema({
   title: { type: String, required: true },
   description:  { type: String, required: true },
   image: { type: String, required: false },
+  rating: { type: Number, required: true },
+  email: {type: String, required: true},
+  name: {type: String, required: true}
 });
 
 type FeedbackType = InferSchemaType<typeof feedbackSchema>;
