@@ -26,6 +26,8 @@ import {
 import getDemographicsLambda from '@/lib/actions/get-demographics';
 import { cn } from '@/lib/utils';
 import { LucideSmile } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { unparse } from 'papaparse';
 
 interface OverviewTabProps {
   date: Date;
@@ -407,6 +409,22 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
 
   return (
     <TabsContent value="overview" className="space-y-4">
+      <Button
+        onClick={async () => {
+          const csvData = unparse(demographicsData);
+          const blob = new Blob([csvData], { type: 'text/csv' });
+          const downloadUrl = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = `dashboard_report_month_${date.getMonth() + 1}.csv`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(downloadUrl);
+        }}
+      >
+        Download Dashboard Report
+      </Button>
       <DragDropContext
         onDragEnd={(result) => {
           if (!result.destination) {

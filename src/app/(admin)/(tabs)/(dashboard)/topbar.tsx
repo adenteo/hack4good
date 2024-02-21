@@ -17,6 +17,7 @@ const Topbar: React.FC<TopbarProps> = ({ date, setDate }: TopbarProps) => {
   const router = useRouter();
   const year = searchParams.get('year');
   const month = searchParams.get('month');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (year && month) {
@@ -94,11 +95,14 @@ const Topbar: React.FC<TopbarProps> = ({ date, setDate }: TopbarProps) => {
             </Button>
           </div>
           <Button
+            disabled={loading}
             onClick={async () => {
+              setLoading(true);
               const data = await fetchCompletedActivitiesWithVolunteers(
                 startOfMonth(date),
                 endOfMonth(date),
               );
+              setLoading(false);
               const csvData = unparse(data);
 
               const blob = new Blob([csvData], { type: 'text/csv' });
@@ -114,7 +118,11 @@ const Topbar: React.FC<TopbarProps> = ({ date, setDate }: TopbarProps) => {
               window.URL.revokeObjectURL(downloadUrl);
             }}
           >
-            Download Monthly Report
+            {loading ? (
+              <span className="loading loading-dots loading-xs"></span>
+            ) : (
+              'Download Raw Monthly Report'
+            )}
           </Button>
         </div>
       </div>
