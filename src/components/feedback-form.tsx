@@ -41,8 +41,9 @@ export const feedbackFormSchema = z.object({
 
 // Define the component
 export function FeedbackForm() {
-  const session = useSession();
-  const user = session.data?.user;
+  // const session = useSession();
+  // const user = session.data?.user;
+
   // Set up React Hook Form with Zod validation
   const form = useForm<z.infer<typeof feedbackFormSchema>>({
     resolver: zodResolver(feedbackFormSchema),
@@ -53,18 +54,23 @@ export function FeedbackForm() {
     },
   });
 
-  if (user?.email) {
-    form.setValue('email', user.email);
-  }
+  const { data: session } = useSession();
+  const user = session?.user;
 
-  if (user?.username) {
-    form.setValue('name', user.username);
-  }
+  useEffect(() => {
+    if (user?.email) {
+      form.setValue('email', user.email);
+    }
+
+    if (user?.username) {
+      form.setValue('name', user.username);
+    }
+  }, [user]);
 
   // State to manage the selected image file
   const [imageFile, setImageFile] = useState<File>();
   const [uploadedImage, setUploadedImage] = useState<string | undefined>(
-    undefined,
+    undefined
   );
   const [isLabelVisible, setIsLabelVisible] = useState(true);
   const [text, setText] = useState('');

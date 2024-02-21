@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DataTableViewOptions } from './data-table-view-options';
 
-import { genders, priorities, statuses } from '../data/data';
+import { ratings, priorities, statuses } from '../data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import Link from 'next/link';
 import { ArrowDownToLine, FolderPlus, ScrollText } from 'lucide-react';
@@ -34,7 +34,6 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0;
   const selectedIndexes = table.getState().rowSelection;
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const [generateCertificate, setGenerateCertificate] = useState(false);
 
   useEffect(() => {
     if (!table) return;
@@ -49,27 +48,20 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter names..."
+          placeholder="Filter authors..."
           value={
-            (table.getColumn('fullName')?.getFilterValue() as string) ?? ''
+            (table.getColumn('name')?.getFilterValue() as string) ?? ''
           }
           onChange={(event) =>
-            table.getColumn('fullName')?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn('volunteerStatus') && (
+        {table.getColumn('rating') && (
           <DataTableFacetedFilter
-            column={table.getColumn('volunteerStatus')}
-            title="Status"
-            options={statuses}
-          />
-        )}
-        {table.getColumn('gender') && (
-          <DataTableFacetedFilter
-            column={table.getColumn('gender')}
-            title="Gender"
-            options={genders}
+            column={table.getColumn('rating')}
+            title="Ratings"
+            options={ratings}
           />
         )}
         {isFiltered && (
@@ -83,24 +75,6 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      {selectedRows.length > 0 && (
-        <Button
-          disabled={generateCertificate}
-          variant="outline"
-          className="h-8 px-2 lg:px-3 mr-2"
-          onClick={async () => {
-            setGenerateCertificate(true);
-            await googleForm(selectedRows);
-            setGenerateCertificate(false);
-          }}
-        >
-          <ScrollText className="mr-2 h-4 w-4" />
-          Generate Certificate(s)
-          {generateCertificate && (
-            <span className="loading loading-spinner loading-xs ml-1"></span>
-          )}
-        </Button>
-      )}
       <DataTableViewOptions table={table} />
     </div>
   );

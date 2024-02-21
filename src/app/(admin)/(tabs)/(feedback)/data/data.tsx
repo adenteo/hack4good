@@ -43,18 +43,26 @@ export const statuses = [
   },
 ];
 
-export const genders = [
+export const ratings = [
   {
-    value: 'Male',
-    label: 'Male',
+    value: '1/5',
+    label: '1/5',
   },
   {
-    value: 'Female',
-    label: 'Female',
+    value: '2/5',
+    label: '2/5',
   },
   {
-    value: 'Other',
-    label: 'Other',
+    value: '3/5',
+    label: '3/5',
+  },
+  {
+    value: '4/5',
+    label: '4/5',
+  },
+  {
+    value: '5/5',
+    label: '5/5',
   },
 ];
 

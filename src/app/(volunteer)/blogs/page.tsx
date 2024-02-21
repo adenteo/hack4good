@@ -13,7 +13,7 @@ export default function Blogs() {
     const fetchActivities = async () => {
       const feedbacks = await getAllFeedback();
       const feedbacksJson = JSON.parse(feedbacks);
-      setFeedbackList((prev) => [...prev, ...feedbacksJson]);
+      setFeedbackList(feedbacksJson);
     };
     fetchActivities();
   }, []);
