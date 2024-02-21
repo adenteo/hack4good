@@ -1,7 +1,7 @@
 // Import necessary libraries
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { PlusCircle, Trash2 } from 'lucide-react';
+import { PlusCircle, Star, Trash2 } from 'lucide-react';
 import { z, ZodError } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getSignedURL } from '@/lib/actions/s3-actions';
@@ -70,7 +70,7 @@ export function FeedbackForm() {
   // State to manage the selected image file
   const [imageFile, setImageFile] = useState<File>();
   const [uploadedImage, setUploadedImage] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [isLabelVisible, setIsLabelVisible] = useState(true);
   const [text, setText] = useState('');
@@ -88,7 +88,6 @@ export function FeedbackForm() {
 
   useEffect(() => {
     const makePostRequest = async () => {
-      if (text.length < 30) return;
       try {
         setLoading(true);
         const response = await fetch('/api/sentiment', {
@@ -198,7 +197,7 @@ export function FeedbackForm() {
             </FormItem>
           )}
         />
-
+        {renderRating(form.getValues().rating)}
         {/* Image upload field */}
         <FormField
           control={form.control}
@@ -270,3 +269,27 @@ export function FeedbackForm() {
     </Form>
   );
 }
+
+const renderRating = (rating: number) => {
+  return (
+    <div className="relative">
+      <div className="flex">
+        {Array.from({ length: 5 }).map((item, index) => (
+          <div key={`heart-${index}`}>
+            <Star size={18} fill="gray" color="gray" opacity={0.2} />
+          </div>
+        ))}
+        <div className="flex">
+          <div className="flex absolute top-0 left-0">
+            {Array.from({ length: rating }).map((item, index) => (
+              <div key={`pink-heart-${index}`}>
+                <Star size={18} fill="#FC7869" color="#FC7869" />
+              </div>
+            ))}
+          </div>
+          {/* <p className="text-gray-500 text-xs lg:text-sm"> (46200 reviews)</p> */}
+        </div>
+      </div>
+    </div>
+  );
+};
