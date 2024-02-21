@@ -9,6 +9,7 @@ import FormBuilder from './(tabs)/(form-builder)/form-builder-tab';
 import FormTabPage from './(tabs)/(forms)/forms-tab';
 import Calendar from './(tabs)/(calendar)/calendar-tab';
 import { Suspense } from 'react';
+import Feedback from './(tabs)/(feedback)/feedback-tab';
 
 export default function Content() {
   const searchParams = useSearchParams();
@@ -30,6 +31,8 @@ export default function Content() {
         return <FormTabPage />;
       case 'form builder':
         return <FormBuilder />;
+      case 'feedback':
+        return <Feedback />
       default:
         return <Dashboard />;
     }

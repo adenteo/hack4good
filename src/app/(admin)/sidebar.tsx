@@ -8,6 +8,7 @@ import {
   Blocks,
   FileText,
   Ticket,
+  MessageSquareHeart
 } from 'lucide-react';
 import { Nav } from './nav';
 import { Suspense, useState } from 'react';
@@ -61,6 +62,11 @@ export default function Sidebar() {
           {
             title: 'Forms',
             icon: FileText,
+            variant: 'ghost',
+          },
+          {
+            title: 'Feedback',
+            icon: MessageSquareHeart,
             variant: 'ghost',
           },
           {
