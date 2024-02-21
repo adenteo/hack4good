@@ -4,8 +4,8 @@ import { pipeline } from '@xenova/transformers';
 // NOTE: We wrap the class in a function to prevent code duplication (see below).
 const P = () =>
   class PipelineSingleton {
-    static task = 'zero-shot-classification';
-    static model = 'Xenova/mobilebert-uncased-mnli';
+    static task = 'text-classification';
+    static model = 'Xenova/bert-base-multilingual-uncased-sentiment';
     static instance = null;
 
     static async getInstance(progress_callback = null) {

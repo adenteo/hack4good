@@ -1,5 +1,5 @@
 // Import necessary libraries
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { z, ZodError } from 'zod';
@@ -22,6 +22,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { addFeedback } from '@/lib/actions/add-feedback';
 import { toast } from './ui/use-toast';
+import { debounce } from 'lodash';
+import { useSession } from 'next-auth/react';
 
 // Define the Zod schema
 export const feedbackFormSchema = z.object({
@@ -32,10 +34,15 @@ export const feedbackFormSchema = z.object({
     message: 'Description must be at least 30 characters.',
   }),
   image: z.string().optional(),
+  rating: z.number(),
+  email: z.string().email(),
+  name: z.string(),
 });
 
 // Define the component
 export function FeedbackForm() {
+  const session = useSession();
+  const user = session.data?.user;
   // Set up React Hook Form with Zod validation
   const form = useForm<z.infer<typeof feedbackFormSchema>>({
     resolver: zodResolver(feedbackFormSchema),
@@ -46,16 +53,60 @@ export function FeedbackForm() {
     },
   });
 
+  if (user?.email) {
+    form.setValue('email', user.email);
+  }
+
+  if (user?.username) {
+    form.setValue('name', user.username);
+  }
+
   // State to manage the selected image file
   const [imageFile, setImageFile] = useState<File>();
   const [uploadedImage, setUploadedImage] = useState<string | undefined>(
     undefined,
   );
   const [isLabelVisible, setIsLabelVisible] = useState(true);
+  const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   // Form submission handler
 
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(event.target.value);
+    form.setValue('description', event.target.value);
+  };
+
+  const debouncedHandleChange = useCallback(debounce(handleChange, 500), []);
+
+  useEffect(() => {
+    const makePostRequest = async () => {
+      if (text.length < 30) return;
+      try {
+        setLoading(true);
+        const response = await fetch('/api/sentiment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: text }),
+        });
+        const data = await response.json();
+        form.setValue('rating', data.rating);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error posting data:', error);
+      }
+    };
+
+    if (text) {
+      makePostRequest();
+    }
+  }, [text]);
+
   const onSubmit = async (values: z.infer<typeof feedbackFormSchema>) => {
+    console.log(values);
     if (imageFile) {
       let awsUrl = await handleImageUpload(imageFile);
       values.image = awsUrl;
@@ -134,7 +185,7 @@ export function FeedbackForm() {
                 <Textarea
                   placeholder="Share with us your thoughts on how the activity process was like"
                   className="resize-none"
-                  {...field}
+                  onChange={debouncedHandleChange}
                 />
               </FormControl>
               <FormMessage />
