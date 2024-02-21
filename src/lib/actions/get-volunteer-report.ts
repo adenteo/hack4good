@@ -48,7 +48,7 @@ export default async function getVolunteerReport(
 export async function fetchVolunteersActivityHistory() {
   await connectToDB();
   try {
-    const volunteerAndActivities = await Activity.aggregate([
+    const volunteerLifetimeData = await Activity.aggregate([
       {
         $unwind: "$attendees" // Deconstructs the attendees array field to output a document for each element
       },
@@ -288,7 +288,7 @@ export async function fetchVolunteersActivityHistory() {
       }
     ]).exec();
 
-    return volunteerAndActivities;
+    return volunteerLifetimeData;
   } catch (error) {
     console.error('Error fetching activities with volunteers:', error);
     throw error;
