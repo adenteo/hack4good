@@ -42,11 +42,7 @@ export function DataTableRowActions<TData>({
       <DropdownMenuContent align="end" className="w-[160px]">
       <DropdownMenuItem>
         <a href={`mailto:${row.getValue('email')}`}>
-          {/* <Button
-                className="border-none text-black bg-transparent hover:bg-transparent text-left"
-              > */}
                 Contact
-              {/* </Button> */}
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem>
