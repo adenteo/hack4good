@@ -3,9 +3,22 @@ import { pipeline } from '@xenova/transformers';
 
 // import PipelineSingleton from './pipeline.js';
 
+// class PipelineSentiment {
+//   static task = 'text-classification';
+//   static model = 'Xenova/bert-base-multilingual-uncased-sentiment';
+//   static instance = null;
+
+//   static async getInstance(progress_callback = null) {
+//     if (this.instance === null) {
+//       this.instance = pipeline(this.task, this.model, { progress_callback });
+//     }
+//     return this.instance;
+//   }
+// }
+
 class PipelineSentiment {
-  static task = 'text-classification';
-  static model = 'Xenova/bert-base-multilingual-uncased-sentiment';
+  static task = 'zero-shot-classification';
+  static model = 'Xenova/mobilebert-uncased-mnli';
   static instance = null;
 
   static async getInstance(progress_callback = null) {
