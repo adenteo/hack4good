@@ -1,4 +1,4 @@
-// Import necessary libraries
+'use client';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { PlusCircle, Star, Trash2 } from 'lucide-react';
