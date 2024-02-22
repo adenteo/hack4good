@@ -18,7 +18,6 @@ class PipelineSentiment {
 
 export async function POST(request) {
   const requestBody = await request.json();
-  return NextResponse.json({ rating: 1 });
   const text = requestBody.text;
   if (!text) {
     return NextResponse.json(
@@ -29,6 +28,8 @@ export async function POST(request) {
     );
   }
   const classifier = await PipelineSentiment.getInstance();
+  return NextResponse.json({ rating: 3 });
+
   const output = await classifier(text);
   console.log(output);
   const rating =
