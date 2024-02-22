@@ -25,9 +25,23 @@ import {
 } from 'date-fns';
 import getDemographicsLambda from '@/lib/actions/get-demographics';
 import { cn } from '@/lib/utils';
-import { LucideSmile } from 'lucide-react';
+import { BookHeart, LucideSmile, PlusCircle, PlusSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { unparse } from 'papaparse';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Label } from '@radix-ui/react-label';
+import { Input } from 'antd';
+import LineChartHero from './linechart';
+import ScatterChartHero from './scatterchart';
 
 interface OverviewTabProps {
   date: Date;
@@ -93,6 +107,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         startOfCurrentMonth,
         endOfCurrentMonth,
       );
+      console.log(data);
       const totalHours = data.reduce(
         (sum, activity) =>
           sum + differenceInHours(activity.endTime, activity.startTime),
@@ -148,6 +163,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
       try {
         const res = await getDemographicsLambda(data, 'monthly');
         setDemographicsData(res);
+        console.log(res);
       } catch (error) {
         console.error('Error posting data:', error);
       }
@@ -404,89 +420,109 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
             </CardContent>
           </Card>
         );
+      case 4:
+        return (
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-bold">
+                Most Popular Category
+              </CardTitle>
+              <BookHeart />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">Elderly</div>
+            </CardContent>
+          </Card>
+        );
     }
   };
 
   return (
-    <TabsContent value="overview" className="space-y-4">
-      <Button
-        onClick={async () => {
-          const csvData = unparse(demographicsData);
-          const blob = new Blob([csvData], { type: 'text/csv' });
-          const downloadUrl = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = downloadUrl;
-          a.download = `dashboard_report_month_${date.getMonth() + 1}.csv`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(downloadUrl);
-        }}
-      >
-        Download Dashboard Report
-      </Button>
-      <DragDropContext
-        onDragEnd={(result) => {
-          if (!result.destination) {
-            return;
-          }
-          const items = Array.from(topCards);
-          const [reorderedItem] = items.splice(result.source.index, 1);
-          items.splice(result.destination.index, 0, reorderedItem);
-          setTopCards(items);
-        }}
-      >
-        <Droppable droppableId="ROOT" direction="horizontal">
-          {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="space-y-6"
-            >
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {topCards.map((card, index) => (
-                  <Draggable
-                    key={card}
-                    draggableId={card.toString()}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <div
-                        {...provided.dragHandleProps}
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                      >
-                        {renderTopCards(card)}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-              </div>
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-      {demographicsData?.[0] && (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <DragDropContext
-            onDragEnd={(result) => {
-              if (!result.destination) {
-                return;
-              }
-              const items = Array.from(bottomCards);
-              const [reorderedItem] = items.splice(result.source.index, 1);
-              items.splice(result.destination.index, 0, reorderedItem);
-              setBottomCards(items);
+    <Dialog>
+      <DialogContent className="sm:max-w-[425px] max-h-[500px] overflow-auto">
+        <DialogHeader>
+          <DialogTitle>Add Widget</DialogTitle>
+          <DialogDescription>
+            Add additional widgets to your dashboard.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="p-2 border rounded-md flex">
+            <LineChartHero />
+            <PlusSquare className="cursor-pointer" />
+          </div>
+          <div className="p-2 border rounded-md flex">
+            <ScatterChartHero />
+            <PlusSquare className="cursor-pointer" />
+          </div>
+          <div className="p-2 border rounded-md flex">
+            <Card className="w-full m-2">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-bold">
+                  Most Popular Category
+                </CardTitle>
+                <BookHeart />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">Elderly</div>
+              </CardContent>
+            </Card>
+            <DialogClose>
+              <PlusSquare
+                className="cursor-pointer"
+                onClick={() => {
+                  setTopCards([0, 1, 2, 3, 4]);
+                }}
+              />
+            </DialogClose>
+          </div>
+        </div>
+      </DialogContent>
+      <TabsContent value="overview" className="space-y-4">
+        <div className="flex justify-between items-center">
+          <Button
+            onClick={async () => {
+              const csvData = unparse(demographicsData);
+              const blob = new Blob([csvData], { type: 'text/csv' });
+              const downloadUrl = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = downloadUrl;
+              a.download = `dashboard_report_month_${date.getMonth() + 1}.csv`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              window.URL.revokeObjectURL(downloadUrl);
             }}
           >
-            <Droppable droppableId="ROOT2">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  className="space-y-6 col-span-4"
-                >
-                  {bottomCards.map((card, index) => (
+            Download Dashboard Report
+          </Button>
+          <DialogTrigger>
+            <div className="flex justify-center items-center border rounded-md p-2 cursor-pointer hover:bg-gray-200">
+              <PlusCircle className="mr-3" />
+              <span className="font-semibold">Add Widget</span>
+            </div>
+          </DialogTrigger>
+        </div>
+        <DragDropContext
+          onDragEnd={(result) => {
+            if (!result.destination) {
+              return;
+            }
+            const items = Array.from(topCards);
+            const [reorderedItem] = items.splice(result.source.index, 1);
+            items.splice(result.destination.index, 0, reorderedItem);
+            setTopCards(items);
+          }}
+        >
+          <Droppable droppableId="ROOT" direction="horizontal">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="space-y-6"
+              >
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                  {topCards.map((card, index) => (
                     <Draggable
                       key={card}
                       draggableId={card.toString()}
@@ -498,30 +534,73 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
                           {...provided.draggableProps}
                           ref={provided.innerRef}
                         >
-                          {renderBottomCards(card)}
+                          {renderTopCards(card)}
                         </div>
                       )}
                     </Draggable>
                   ))}
                 </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-          <Card className="col-span-3">
-            <CardHeader>
-              <CardTitle>Demographics Distribution</CardTitle>
-              <CardDescription>
-                This graph illustrates the origins of volunteers across
-                Singapore.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Leaderboard demographics={demographicsData} />
-            </CardContent>
-          </Card>
-        </div>
-      )}
-    </TabsContent>
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        {demographicsData?.[0] && (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <DragDropContext
+              onDragEnd={(result) => {
+                if (!result.destination) {
+                  return;
+                }
+                const items = Array.from(bottomCards);
+                const [reorderedItem] = items.splice(result.source.index, 1);
+                items.splice(result.destination.index, 0, reorderedItem);
+                setBottomCards(items);
+              }}
+            >
+              <Droppable droppableId="ROOT2">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="space-y-6 col-span-4"
+                  >
+                    {bottomCards.map((card, index) => (
+                      <Draggable
+                        key={card}
+                        draggableId={card.toString()}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            {...provided.dragHandleProps}
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                          >
+                            {renderBottomCards(card)}
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+            <Card className="col-span-3">
+              <CardHeader>
+                <CardTitle>Demographics Distribution</CardTitle>
+                <CardDescription>
+                  This graph illustrates the origins of volunteers across
+                  Singapore.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Leaderboard demographics={demographicsData} />
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </TabsContent>
+    </Dialog>
   );
 };
 
