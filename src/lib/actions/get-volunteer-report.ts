@@ -53,6 +53,18 @@ export async function fetchVolunteersActivityHistory() {
         '$unwind': {
           'path': '$attendees'
         }
+      },
+      {
+        '$addFields': {
+          'numHours': {
+            '$floor': {
+              '$divide': [
+                { '$subtract': ["$endTime", "$startTime"] },
+                3_600_000
+              ]
+            }
+          }
+        }
       }, {
         '$group': {
           '_id': '$attendees.user', 
@@ -424,6 +436,16 @@ export async function fetchVolunteersActivityHistory() {
         }
       }, {
         '$project': {
+          'fullName': {
+            '$arrayElemAt': [
+              '$volunteerDetails.fullName', 0
+            ]
+          },
+          'email': {
+            '$arrayElemAt': [
+              '$volunteerDetails.email', 0
+            ]
+          }, 
           '_id': 0, 
           'userId': '$_id', 
           'totalHours': 1, 
@@ -460,16 +482,8 @@ export async function fetchVolunteersActivityHistory() {
           'attendancePresent': 1, 
           'attendanceAbsent': 1, 
           'attendanceUnconfirmed': 1, 
-          'fullName': {
-            '$arrayElemAt': [
-              '$volunteerDetails.fullName', 0
-            ]
-          }, 
-          'email': {
-            '$arrayElemAt': [
-              '$volunteerDetails.email', 0
-            ]
-          }, 
+           
+          
           'volunteerStatus': {
             '$arrayElemAt': [
               '$volunteerDetails.volunteerStatus', 0
