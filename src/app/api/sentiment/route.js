@@ -28,8 +28,6 @@ export async function POST(request) {
     );
   }
   const classifier = await PipelineSentiment.getInstance();
-  return NextResponse.json({ rating: 3 });
-
   const output = await classifier(text);
   console.log(output);
   const rating =
