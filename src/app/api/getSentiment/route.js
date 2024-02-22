@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import PipelineSingleton from './pipeline.js';
 
 export async function POST(request) {
+  console.log(rating);
+  return NextResponse.json({ rating: 1 });
+
   const requestBody = await request.json();
   const text = requestBody.text;
   if (!text) {
