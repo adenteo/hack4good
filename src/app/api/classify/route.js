@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import PipelineSingleton from './pipeline.js';
+import PipelineSingleton from './pipelineClassify.js';
 
 export async function POST(request) {
   const requestBody = await request.json();
@@ -45,19 +45,22 @@ export async function POST(request) {
     'Charity',
     'Overseas',
   ];
-  const output = await classifier(text, volunteer_themes, { multi_label: true });
+  console.log('here');
+  const output = await classifier(text, volunteer_themes, {
+    multi_label: true,
+  });
+  console.log(output);
   const scores = output.scores;
   const labels = output.labels;
   const scoredLabels = scores
-  .map((score, index) => ({ score, label: labels[index] }))
-  .filter(pair => pair.score > 0.6)
-  .sort((a, b) => b.score - a.score);
+    .map((score, index) => ({ score, label: labels[index] }))
+    .filter((pair) => pair.score > 0.6)
+    .sort((a, b) => b.score - a.score);
 
-// Separate the scores and labels after filtering and sorting
-const highScores = scoredLabels.map(pair => pair.score);
-const highLabels = scoredLabels.map(pair => pair.label);
+  // Separate the scores and labels after filtering and sorting
+  const highScores = scoredLabels.map((pair) => pair.score);
+  const highLabels = scoredLabels.map((pair) => pair.label);
 
-return NextResponse.json({ scores: highScores, tags: highLabels });
-//   return NextResponse.json({scores: scores.slice(0, 5), tags: tags.slice(0, 5)});
+  return NextResponse.json({ scores: highScores, tags: highLabels });
+  //   return NextResponse.json({scores: scores.slice(0, 5), tags: tags.slice(0, 5)});
 }
-
