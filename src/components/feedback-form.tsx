@@ -98,6 +98,7 @@ export function FeedbackForm() {
           body: JSON.stringify({ text: text }),
         });
         const data = await response.json();
+        console.log(data);
         form.setValue('rating', data.rating);
         setLoading(false);
       } catch (error) {
