@@ -90,7 +90,7 @@ export function FeedbackForm() {
     const makePostRequest = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/sentiment', {
+        const response = await fetch('/api/classify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
