@@ -42,6 +42,7 @@ import { Label } from '@radix-ui/react-label';
 import { Input } from 'antd';
 import LineChartHero from './linechart';
 import ScatterChartHero from './scatterchart';
+import updateSentiment from '@/lib/actions/update-sentiment';
 
 interface OverviewTabProps {
   date: Date;
@@ -409,14 +410,22 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
               <LucideSmile size={15} />
             </CardHeader>
             <CardContent>
-              <div
-                className={cn('text-2xl font-bold text-center mt-2 underline', {
-                  'text-green-500': sentiment > 0,
-                  'text-red-500': sentiment < 0,
-                })}
-              >
-                {sentiment}
-              </div>
+              <div className="text-2xl font-bold">{sentiment} / 5 </div>
+              {sentimentPercentageIncrease !== 0 && (
+                <p
+                  className={cn(
+                    'text-xs',
+                    {
+                      'text-green-600': sentimentPercentageIncrease > 0,
+                    },
+                    {
+                      'text-red-600': sentimentPercentageIncrease < 0,
+                    },
+                  )}
+                >
+                  {sentimentPercentageIncrease}% from last month
+                </p>
+              )}
             </CardContent>
           </Card>
         );
@@ -480,6 +489,13 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
       </DialogContent>
       <TabsContent value="overview" className="space-y-4">
         <div className="flex justify-between items-center">
+          {/* <Button
+            onClick={async () => {
+              await updateSentiment();
+            }}
+          >
+            Update sentiment
+          </Button> */}
           <Button
             onClick={async () => {
               const csvData = unparse(demographicsData);
