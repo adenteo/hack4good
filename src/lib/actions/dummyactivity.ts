@@ -21,6 +21,25 @@ function getRandomActivityStatus() {
   const index = Math.floor((rand - 70) / 10);
   return remainingStatuses[index];
 }
+function getRandomAttendance() {
+  const rand = Math.random() * 100;
+  if (rand < 60) {
+    return 'Present';
+  }
+  const remainingStatuses = ['Absent', 'Unconfirmed'];
+  const index = Math.floor((rand - 60) / 10);
+  return remainingStatuses[index];
+}
+
+
+function generateActivityName() {
+  const adjective = faker.commerce.productAdjective();
+  const action = faker.hacker.verb();
+  const noun = faker.hacker.noun();
+
+  // Combine them to create an activity name
+  return `${adjective} ${action} ${noun}`;
+}
 
 export async function generateAndSaveDummyActivityData() {
   await connectToDB(); // Replace with your connection string
@@ -32,7 +51,7 @@ export async function generateAndSaveDummyActivityData() {
         Math.random() * (dateRangeEnd.getTime() - dateRangeStart.getTime()),
     );
     const activityData = {
-      title: faker.word.words(3),
+      title: generateActivityName(),
       featured: true,
       address: faker.location.streetAddress(),
       description: faker.lorem.sentences(2),
@@ -82,9 +101,7 @@ export async function addDummyDataToAttendeeList() {
         'Coordinator',
       ]),
       signUpFormDetails: {}, // Assuming details are not required for dummy data
-      attendanceStatus: faker.helpers.arrayElement(
-        Object.values(AttendanceStatus),
-      ),
+      attendanceStatus: getRandomAttendance(),
     }));
     activity.attendees.push(...attendees);
     await activity.save();

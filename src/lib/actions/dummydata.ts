@@ -31,7 +31,7 @@ type VolunteerData = {
   lastName: string;
   fullName: string;
   volunteerStatus: VolunteerStatus;
-  gender: Gender;
+  gender: string;
   updatedAt: Date;
   citizenshipType: CitizenshipType;
   profilePictureUrl: string;
@@ -90,6 +90,16 @@ function generateSGPostalCode(): string {
   return postalCode;
 }
 
+function getRandomGender() {
+  const rand = Math.random() * 100;
+  if (rand < 10) {
+    return 'Other';
+  }
+  const rem = ['Male', 'Female'];
+  const index = Math.floor((rand - 10) / 10);
+  return rem[index];
+}
+
 // Function to generate random volunteer data
 function generateRandomVolunteerData(
   userId: mongoose.Types.ObjectId,
@@ -97,13 +107,14 @@ function generateRandomVolunteerData(
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
   const postalCode = generateSGPostalCode();
+  const gender = getRandomGender();
   return {
     user: userId,
     firstName: firstName,
     lastName: lastName,
     fullName: firstName + ' ' + lastName,
     volunteerStatus: VolunteerStatus.Active,
-    gender: faker.helpers.arrayElement(Object.values(Gender)),
+    gender: gender,
     updatedAt: faker.date.past(),
     citizenshipType: faker.helpers.arrayElement(Object.values(CitizenshipType)),
     profilePictureUrl: faker.image.avatar(),
